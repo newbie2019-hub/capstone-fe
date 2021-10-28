@@ -1,0 +1,6 @@
+{
+	"appId": "com.touchless.management.lnu",
+	"appName": "Touchless Information Kiosk Management",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}
