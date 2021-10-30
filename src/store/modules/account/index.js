@@ -135,7 +135,7 @@ export default {
      return res;
     },
     async approvedOrgAccounts({commit}, page){
-     const res = await API.get('/admin/approved/org_accounts?page=' + page).then(res => {
+     const res = await API.get(`/admin/approved/org_accounts?page=${page}`).then(res => {
        commit('SET_ORG_ACCOUNTS', res.data)
        return res;
      }).catch(err => {

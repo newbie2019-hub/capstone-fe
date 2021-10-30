@@ -5,6 +5,8 @@ export default {
   state: {
     user: {
       userinfo: {
+        first_name: '',
+        last_name: '',
         role: {
           role: ''
         }
@@ -12,6 +14,10 @@ export default {
       organization: {
         name: '',
         abbreviation: '',
+      },
+      admininfo: {
+        first_name: '',
+        last_name: '',
       },
       department: {
         name: '',

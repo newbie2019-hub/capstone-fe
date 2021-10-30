@@ -97,7 +97,7 @@
         </template>
     </b-modal>
 
-      <!--- APPROVE MODAL -->
+    <!--- APPROVE MODAL -->
    <b-modal id="approvePostModal" centered title="Confirm Approve">
     <p class="">Are you sure you want to approve this post?</p>
     <template #modal-footer="{cancel}">

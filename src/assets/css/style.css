@@ -263,59 +263,6 @@ h1, h2, h3, h4, h5, h6, p {
  padding: .5rem 0.75rem !important;
 }
 
-/** DARK MODE **/
-/* .dark  {
-  background-color: rgb(27, 27, 27) !important;
-  color: #fff;
-}
-
-.dark .navbar {
-  background-color: rgb(27, 27, 27) !important;
-}
-
-.dark .main-content {
-  background-color: rgb(27, 27, 27) !important;
-
-}
-
-.dark .admin {
-  background-color: rgb(27,27,27) !important;
-  color: white !important;
-}
-
-.dark .navbar-scrolled {
-  background-color: rgb(27,27,27) !important;
-  box-shadow: 0px 0px 10px rgba(82, 82, 82, 0.534) !important;
-  color: white !important;
-}
-
-.dark .card {
-  background-color: rgb(30, 30, 30) !important;
-  border: 1px solid rgb(37, 37, 37) !important;
-}
-
-.dark .sidenav {
-  background-image: linear-gradient(to bottom, #605BFF, #6959CB);
-
-}
-
-.dark .table {
-  color: white !important; 
-}
-
-.dark .table-hover > tbody > tr:hover {
-  color: white !important;
-  background-color: #1b1b1b !important;
-}
-
-.dark .form-floating > label {
-  color: white !important;
-}
-
-.dark p, h1, h2, h3, h4, h5, h6 {
-  color: white;
-} */
-
 /** DATE AND TIME CARD **/
 .date {
   font-size: 1.5rem;
@@ -652,7 +599,7 @@ span.sr-only{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 3rem;
+    width: 4rem;
     height: 100%;
     cursor: pointer;
     z-index: 9999;
@@ -663,7 +610,7 @@ span.sr-only{
   .nav-btn i{
      display: block;
      width: 1.2rem;
-     height: 2px;
+     height: 3px;
      background: #605BFF;
      border-radius: 2px;
      margin-left: 25%;
@@ -689,6 +636,8 @@ span.sr-only{
   .navbar {
     width: 100%;
     padding: 25px 2rem;
+    position: fixed;
+    top: 0 !important;
   }
 
   .sidenav-active {
