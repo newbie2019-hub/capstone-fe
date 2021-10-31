@@ -34,11 +34,10 @@
                 <caption>Showing {{posts.from}} to {{posts.to}} out of {{posts.total}} posts.</caption>
                 <thead>
                   <tr>
-                    <th scope="col" class="text-nowrap">ID</th>
                     <th scope="col" class="text-nowrap">Image</th>
                     <th scope="col" class="text-nowrap">Title</th>
                     <th scope="col" class="text-nowrap">Post Excerpt</th>
-                    <th scope="col" class="text-nowrap">Views</th>
+                    <!-- <th scope="col" class="text-nowrap">Views</th> -->
                     <th scope="col" class="text-nowrap">Status</th>
                     <th scope="col" class="text-nowrap">Date Posted</th>
                     <th scope="col">Actions</th>
@@ -46,14 +45,13 @@
                 </thead>
                 <tbody>
                   <tr v-for="(post, i) in posts.data" :key="i">
-                    <td>{{posts.from + i}}</td>
                     <td>
                       <img v-if="post.postcontent.image" :src="'http://127.0.0.1:8000/uploads/' + post.postcontent.image" alt="" class="" width="100"/>
                       <p class="text-muted" v-else>No Image</p>
                     </td>
                     <td class="text-nowrap">{{post.postcontent.title}}</td>
                     <td>{{post.postcontent.post_excerpt}}</td>
-                    <td>{{post.views}}</td>
+                    <!-- <td>{{post.views}}</td> -->
                     <td>
                       <b-badge :variant="post.status == 'Approved' ? 'success':'info'">{{post.status}}</b-badge>
                       

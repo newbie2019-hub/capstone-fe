@@ -580,12 +580,25 @@ span.sr-only{
     color: white;
   }
 
+
+  .nav-email-mobile {
+    display: block !important;
+  }
+
   .mobile-login a {
     color: white;
+  }
+
+  .flex-md-row {
+    flex-direction: row !important;
   }
 }
 
 @media only screen and (max-width: 640px){
+
+  .flex-md-row {
+    flex-direction: row !important;
+  }
 
   .mobile-logout {
     display: flex  !important;
@@ -640,11 +653,19 @@ span.sr-only{
     top: 0 !important;
   }
 
+  .nav-email-mobile {
+    display: block !important;
+  }
+
   .sidenav-active {
     width: 100% !important;
     height: 100% !important;
     z-index: 999 !important;
     opacity: 1 !important;
+  }
+
+  .dark-mode-margin {
+    margin-right: 2rem;
   }
 
   .sidenav {
@@ -655,7 +676,7 @@ span.sr-only{
     height: 100%;
     width: 0px;
     display: flex;
-    padding: 2rem .9rem;
+    padding: 2rem 2rem;
     z-index: 3;
     opacity: 0;
     transition: all 250ms ease-in-out;
@@ -708,9 +729,10 @@ span.sr-only{
   }
 
   .close-nav{
-    right: 30px;
+    right: 40px;
     color: white;
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 1.2rem !important;
     display: block;
   }
 
@@ -795,17 +817,34 @@ span.sr-only{
   background-color: #007bff !important;
 }
 
-
 @media only screen and (max-width: 505px){
   .nav-btn {
     margin-top: -7px;
   }
 }
 
+@media only screen and (max-width: 580px){
+  .row-reverse {
+    flex-direction: row-reverse !important;
+  }
+  .nav-btn {
+    margin-top: -7px;
+  }
+
+  h6.nav-email-mobile {
+    display: none !important;
+  }
+
+  .flex-sm-row-reverse {
+    flex-direction: row-reverse !important;
+  }
+}
+
 @media only screen and (max-height: 570px){
   .sidenav {
-    overflow-y: scroll;
-    z-index: 9999;
+    overflow-y: auto;
+    height: 100% !important;
+    z-index: 10;
   }
 }
 

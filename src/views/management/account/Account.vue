@@ -17,17 +17,19 @@
         </h5>
         <p class="mb-4"><small>Listed below are accounts under organization</small></p>
        </div>
-       <div class="d-flex align-items-center mb-3 me-2">
-        <p class="me-2">Status</p>
-        <select v-model="orgStatus" @change="getOrgAccounts" class="form-select">
-         <option value="All Accounts">All Accounts</option>
-         <option value="Approved">Approved</option>
-         <option value="Pending">Pending</option>
-        </select>
-       </div>
       </div>
-      <div class="d-flex justify-content-end mt-2">
-       <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
+      <div class="row justify-content-between row-reverse flex-md-row mt-2">
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
+          <div class="d-flex align-items-center justify-content-center">
+            <p class="pe-2">Status</p>
+            <select v-model="orgStatus" @change="getOrgAccounts" class="form-select">
+            <option value="All Accounts">All Accounts</option>
+            <option value="Approved">Approved</option>
+            <option value="Pending">Pending</option>
+          </select>
+         </div>
+       </div>
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-4 mt-2">
         <div class="input-group form-floating mb-3">
          <input
           type="text"
@@ -70,14 +72,14 @@
         </thead>
         <tbody v-if="org_accounts.data">
          <tr v-for="(acc, i) in org_accounts.data" :key="i">
-          <th scope="row" class="justify-content-center">
+          <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
            <avatar
             :size="40"
             :src="'http://127.0.0.1:8000/uploads/' + acc.user.userinfo.image"
             :username="acc.user.userinfo.first_name + ' ' + acc.user.userinfo.last_name"
            ></avatar>
           </th>
-          <td class="text-nowrap">{{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}</td>
+          <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}</td>
           <td>{{ acc.organization.name }}</td>
           <td>{{ acc.user.userinfo.role.role }}</td>
           <td>
@@ -88,15 +90,6 @@
           <td>{{ acc.created_at | moment }}</td>
           <td>
            <div class="d-flex">
-            <button
-             href=""
-             :disabled="isLoading && current_id == acc.user.id"
-             v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')"
-             v-b-tooltip.hover
-             title="View Details"
-             class="btn btn-sm btn-purple rounded-pill me-2">
-            <i v-if="current_id != acc.user.id" class="bi bi-arrows-angle-expand"></i>
-            </button>
             <button
              v-on:click.prevent="setUpdateAccount(acc, 'Organization')"
              href=""
@@ -149,18 +142,20 @@
         </h5>
         <p class="mb-4"><small>Listed below are accounts under a department</small></p>
        </div>
-       <div class="d-flex align-items-center mb-3 me-2">
-        <p class="me-2">Status</p>
-        <select @change="getUniAccounts" v-model="unitStatus" class="form-select">
-         <option value="All Accounts">All Accounts</option>
-         <option value="Approved">Approved</option>
-         <option value="Pending">Pending</option>
-        </select>
-       </div>
       </div>
-      <div class="d-flex justify-content-end mt-2">
-       <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-        <div class="input-group form-floating mb-3">
+      <div class="row justify-content-between row-reverse flex-md-row mt-2">
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
+         <div class="d-flex align-items-center justify-content-center">
+           <p class="pe-2">Status</p>
+            <select @change="getUniAccounts" v-model="unitStatus" class="form-select">
+            <option value="All Accounts">All Accounts</option>
+            <option value="Approved">Approved</option>
+            <option value="Pending">Pending</option>
+            </select>
+         </div>
+       </div>
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-4 mt-2">
+        <div class="input-group form-floating">
          <input
           type="text"
           v-model="search_department"
@@ -199,14 +194,14 @@
         </thead>
         <tbody v-if="unit_accounts.data != 0">
          <tr v-for="(acc, i) in unit_accounts.data" :key="i">
-          <th scope="row" class="justify-content-center" v-if="unit_accounts.data != 0">
+          <th scope="row" class="justify-content-center cursor-pointer" v-if="unit_accounts.data != 0" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
            <avatar
             :size="40"
             :src="'http://127.0.0.1:8000/uploads/' + acc.user.userinfo.image"
             :username="acc.user.userinfo.first_name + ' ' + acc.user.userinfo.last_name"
            ></avatar>
           </th>
-          <td class="text-nowrap">
+          <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
            {{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}
           </td>
           <td class="text-nowrap">{{ acc.department.name }}</td>
@@ -220,18 +215,9 @@
           <td>
            <div class="d-flex">
             <button
-             href=""
-             :disabled="isLoading && current_id == acc.user.id"
-             v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')"
-             v-b-tooltip.hover
-             title="View Details"
-             class="btn btn-sm btn-purple rounded-pill me-2">
-             <i v-if="current_id != acc.user.id" class="bi bi-arrows-angle-expand"></i>
-            </button>
-            <button
              v-on:click.prevent="setUpdateAccount(acc, 'Department')"
              href=""
-             v-if="acc.status == 'Approved'"
+             v-if="acc.user.status == 'Approved'"
              v-b-tooltip.hover
              title="Update Account"
              class="btn btn-sm btn-success rounded-pill me-2">

@@ -42,7 +42,7 @@ export default {
   },
   watch: {
     getRoute(){
-       let sidebar = document.getElementById('admin-sidenav')
+       let sidebar = document.getElementById('user-sidenav')
        sidebar.classList.remove('sidenav-active')
     }
   }

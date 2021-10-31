@@ -10,12 +10,13 @@
                 <p class="mb-4"><small>Manage your departments below</small></p>
               </div>
               <div class="d-flex flex-column mt-2">
-                <button v-on:click.prevent="$bvModal.show('newDepartmentModal')" class="btn btn-purple"><i class="bi bi-diagram-2"></i> New Department</button>
+               
               </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-              <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-                <div class="input-group form-floating mb-3">
+               <button v-on:click.prevent="$bvModal.show('newDepartmentModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> Department</button>
+              <div class="col-7 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                <div class="input-group form-floating">
                   <input type="text" v-model="search_department" class="form-control" id="floatingSearchDep" placeholder="Search here">
                   <label  for="floatingSearchDep" class="">Search</label>
                   <button @click.prevent="departmentSearch" class="btn btn-purple"><i class="bi bi-search"></i></button>
@@ -82,13 +83,11 @@
                 <h5 class="text-violet">Department Roles</h5>
                 <p class="mb-4"><small>Manage your roles for departments below</small></p>
               </div>
-              <div class="d-flex flex-column mt-2">
-                <button v-on:click.prevent="$bvModal.show('newRoleModal')" class="btn btn-purple"><i class="bi bi-diagram-2"></i> New Role</button>
-              </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-              <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-                <div class="input-group form-floating mb-3">
+              <button v-on:click.prevent="$bvModal.show('newRoleModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> New Role</button>
+              <div class="col-7 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                <div class="input-group form-floating">
                   <input type="text" v-model="search_role" class="form-control" id="floatingSearchDep" placeholder="Search here">
                   <button @click.prevent="departmentRoleSearch" class="btn btn-purple"><i class="bi bi-search"></i></button>
                   <label for="floatingSearchDep" class="">Search</label>

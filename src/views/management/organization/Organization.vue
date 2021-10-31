@@ -9,13 +9,11 @@
                 <h5 class="text-violet">Organizations</h5>
                 <p class="mb-4"><small>Manage your organizations below</small></p>
               </div>
-              <div class="d-flex flex-column mt-2">
-                <button v-on:click.prevent="$bvModal.show('newOrganizationModal')" class="btn btn-purple"><i class="bi bi-diagram-2"></i> New Org</button>
-              </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-              <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-                <div class="input-group form-floating mb-3">
+              <button v-on:click.prevent="$bvModal.show('newOrganizationModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> Organization</button>
+              <div class="col-7 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                <div class="input-group form-floating">
                   <input type="text" v-model="search_organization" class="form-control" id="floatingSearchOrg" placeholder="Search here">
                   <label  for="floatingSearchOrg" class="">Search</label>
                   <button @click.prevent="organizationSearch" class="btn btn-purple"><i class="bi bi-search"></i></button>
@@ -83,13 +81,11 @@
                 <h5 class="text-violet">Organization Roles</h5>
                 <p class="mb-4"><small>Manage your roles for organizations below</small></p>
               </div>
-              <div class="d-flex flex-column mt-2">
-                <button v-on:click.prevent="$bvModal.show('newRoleModal')" class="btn btn-purple"><i class="bi bi-diagram-2"></i> New Role</button>
-              </div>
             </div>
              <div class="d-flex justify-content-end mt-2">
+              <button v-on:click.prevent="$bvModal.show('newRoleModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> Add Role</button>
               <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-                <div class="input-group form-floating mb-3">
+                <div class="input-group form-floating">
                   <input type="text" v-model="search_role" class="form-control" id="floatingSearchOrganization" placeholder="Search here">
                   <button @click.prevent="organizationRoleSearch" class="btn btn-purple"><i class="bi bi-search"></i></button>
                   <label for="floatingSearchOrganization" class="">Search</label>
@@ -333,7 +329,7 @@ export default {
   },
   filters: {
     moment: function (date) {
-      return moment(date).format('MMMM D, YYYY, h:mm a');
+      return moment(date).format('MMM D, YYYY - h:mm a');
     }
   },
  data(){

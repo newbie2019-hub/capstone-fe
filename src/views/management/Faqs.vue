@@ -9,13 +9,11 @@
                 <h5 class="text-violet">FAQs</h5>
                 <p class="mb-4"><small>Manage FAQs below</small></p>
               </div>
-              <div class="d-flex flex-column mt-2">
-                <button v-on:click.prevent="$bvModal.show('newFaqModal')" class="btn btn-purple"><i class="bi bi-diagram-2"></i> New FAQ</button>
-              </div>
             </div>
-            <div class="d-flex justify-content-end mt-2">
-              <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-                <div class="input-group form-floating mb-3">
+            <div class="d-flex justify-content-end mt-2 mb-2">
+              <button v-on:click.prevent="$bvModal.show('newFaqModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> Add FAQ</button>
+              <div class="col-7 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                <div class="input-group form-floating">
                   <input v-model="search_faq" type="text"  class="form-control" id="floatingSearchOrg" placeholder="Search here">
                   <label  for="floatingSearchOrg" class="">Search here</label>
                   <button class="btn btn-purple"><i class="bi bi-search"></i></button>

@@ -8,11 +8,13 @@ export default {
       const bearer_token = localStorage.getItem('auth') || ''
       API.defaults.headers.common['Authorization'] = `Bearer ${bearer_token}`
 
-      API.get('/auth/user/permission').then(response => {
-        this.$ability.update([
-          {subject: 'all', action: response.data}
-        ])
-      })
+      if(localStorage.getItem('isUser')){
+        API.get('/auth/user/permission').then(response => {
+          this.$ability.update([
+            {subject: 'all', action: response.data}
+          ])
+        })
+      }
 
     }
   }

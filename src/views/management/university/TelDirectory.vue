@@ -9,13 +9,11 @@
                 <h5 class="text-violet">Telephone Directory</h5>
                 <p class="mb-4"><small>Manage telephone directory below</small></p>
               </div>
-              <div class="d-flex flex-column mt-2">
-                <button v-on:click.prevent="$bvModal.show('newTelModal')" class="btn btn-purple"><i class="bi bi-telephone"></i> New Telephone</button>
-              </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
+              <button v-on:click.prevent="$bvModal.show('newTelModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> Telephone</button>
               <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-                <div class="input-group form-floating mb-3">
+                <div class="input-group form-floating">
                   <input type="text" v-model="search_tel" class="form-control" id="floatingSearchOrg" placeholder="Search here">
                   <label  for="floatingSearchOrg" class="">Search here</label>
                   <button class="btn btn-purple"><i class="bi bi-search"></i></button>

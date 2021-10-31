@@ -8,15 +8,17 @@
       <i></i>
     </label> 
     <div class="d-flex me-auto" v-if="user.length != 0">
-     <avatar :username="user.admininfo.first_name + ' ' + user.admininfo.last_name" :src="'http://127.0.0.1:8000/uploads/' + user.admininfo.image"></avatar>
+     <a href="/home/settings" class="text-decoration-none">
+       <avatar :username="user.admininfo.first_name + ' ' + user.admininfo.last_name" :src="'http://127.0.0.1:8000/uploads/' + user.admininfo.image"></avatar>
+     </a>
      <div class="d-flex flex-column justify-content-center ms-3">
       <h6 v-if="user.length != 0">{{user.admininfo.first_name}} {{user.admininfo.last_name}}</h6>
-      <h6 class="text-muted" v-if="user.length != 0"><small>{{user.email}}</small></h6>
+      <h6 class="text-muted nav-email-mobile" v-if="user.length != 0"><small>{{user.email}}</small></h6>
       <h6 class="text-muted" v-if="user.length != 0"><small>Administrator</small></h6>
      </div>
     </div>
     <div class="d-flex">
-     <i v-b-tooltip.hover title="Dark Mode" class="bi bi-lightbulb c-primary bi-3x me-3"></i>
+     <i v-b-tooltip.hover title="Dark Mode" class="bi bi-lightbulb c-primary bi-3x dark-mode-margin"></i>
     </div>
     <a href="" v-on:click.prevent="$bvModal.show('logoutModal')" class=" text-decoration-none ms-2 logout-btn">
     <div class="d-flex btn-logout ms-3 justify-content-center flex-row align-items-center c-primary ">

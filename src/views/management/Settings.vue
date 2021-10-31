@@ -88,7 +88,7 @@
   <!-- CHANGE PASSWORD MODAL --->
   <b-modal id="changePasswordModal" hide-footer centered title="Change Password">
     <b-form @submit.prevent="changePassword">
-      <div class="p-3">
+      <div class="pe-3 ps-3 pb-4">
       <p class="">Enter current password</p>
       <input v-model="password_data.current_password" type="password" class="form-control">
       <p class="">Enter new password</p>

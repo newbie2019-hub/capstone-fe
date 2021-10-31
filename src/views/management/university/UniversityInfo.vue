@@ -1,9 +1,9 @@
 <template>
  <div>
-  <div class="container">
+  <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
    <div class="row justify-content-center m-0">
-   <div class="col-12 col-md-11 col-lg-7 col-xl-6">
-     <div class="card  pe-5 ps-5 pt-5 pb-4 br-20 mb-2">
+   <div class="col-11 col-sm-12 col-md-12 col-lg-7 col-xl-6">
+     <div class="card pe-5 ps-5 pt-5 pb-4 br-20 mb-2">
        <div class="d-flex ">
          <div class="d-flex flex-column me-auto">
            <h4 v-if="user.length != 0">{{msg}}, {{user.admininfo.last_name}}</h4>
@@ -15,19 +15,9 @@
        </div>
       </div>
     </div>
-    <div class="col-12 col-md-11 col-lg-5 col-xl-6">
-      <div class="row justify-content-center mb-4">
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-10">
-          <div class="card p-3">
-            <div class="d-flex align-items-center">
-              <div class="d-flex me-auto">
-                <p class="fw-bold"><small>THE UNIVERSITY</small></p>
-              </div>
-              <div class="d-flex">
-
-              </div>
-            </div>
-          </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-6">
+      <div class="row justify-content-center m-0 mb-4">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-10">
           <div class="card mt-2 sys-primary text-white br-20 ps-4 p-3" :class="msg == 'Good Morning' ? 'bg-morning' : '' || msg == 'Good Afternoon' ? 'bg-afternoon' : '' || msg == 'Good Evening' ? 'bg-evening' : ''">
            <b-skeleton-wrapper v-if="initialLoading">
               <b-skeleton width="85%"></b-skeleton>
@@ -44,7 +34,7 @@
   </div>
 
   <div class="row  mt-5 mb-3 m-0 ps-lg-1 ps-xl-1 ps-md-4 pe-0 pe-md-4 pe-lg-2 pe-xl-5">
-    <div class="col-12 col-md-11 col-lg-6 col-xl-6">
+    <div class="col-12 col-md-12 col-lg-6 col-xl-6">
       <h5 class="text-center fw-bold">THE UNIVERSITY</h5>
       <p class="text-muted text-center mb-3"><small>MISSION/VISION</small></p>
       <carousel id="carousel" :perPage="1" :scrollPerPage="true" :autoPlayTimeout="1000">
@@ -93,25 +83,17 @@
    
   <!---SCHOOL OFFICIALS --->
   <div class="row m-0 mb-4">
-   <div class="col-12 col-md-11 col-lg-12 col-xl-12 pe-xl-5 mt-3">
+   <div class="col-12 col-md-12 col-lg-12 col-xl-12 pe-xl-5 mt-3">
     <div class="card p-5">
     <h5 class="text-violet fw-bold">SCHOOL OFFICIALS</h5>
     <p class="text-muted fw-bold lh-r"><small>ADMINISTRATION</small></p>
-    <div class="d-flex justify-content-end">
-      <router-link to="/home/official/new" class="btn btn-purple">
-        <i class="bi bi-person-circle"></i> Add Official
-      </router-link>
-    </div>
     <div class="d-flex justify-content-end mt-4">
+      <router-link to="/home/official/new" class="btn btn-purple btn-sm d-flex align-items-center me-2">
+        <i class="bi bi-plus-circle me-2"></i> Add Official
+      </router-link>
       <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-        <div class="input-group form-floating mb-3">
-          <input
-          type="text"
-          v-model="search"
-          class="form-control"
-          id="floatingSearchDep"
-          placeholder="Search here"
-          />
+        <div class="input-group form-floating">
+          <input type="text" v-model="search" class="form-control" id="floatingSearchDep" placeholder="Search here"/>
           <label for="floatingSearchDep" class="">Search</label>
           <button @click.prevent="officialSearch" class="btn btn-purple"><i class="bi bi-search"></i></button>
         </div>

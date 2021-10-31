@@ -9,13 +9,11 @@
                 <h5 class="text-violet">College and Basic Education</h5>
                 <p class="mb-4"><small>Manage colleges below</small></p>
               </div>
-              <div class="d-flex flex-column mt-2">
-                <button v-on:click.prevent="$bvModal.show('newCollegeModal')" class="btn btn-purple"><i class="bi bi-book"></i> Add Entry</button>
-              </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-              <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-                <div class="input-group form-floating mb-3">
+              <button v-on:click.prevent="$bvModal.show('newCollegeModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> Add Entry</button>
+              <div class="col-7 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                <div class="input-group form-floating">
                   <input type="text" v-model="search_college" class="form-control" id="floatingSearchCollege" placeholder="Search here">
                   <label  for="floatingSearchCollege" class="">Search here</label>
                   <button class="btn btn-purple"><i class="bi bi-search"></i></button>
@@ -78,13 +76,11 @@
                 <h5 class="text-violet">Goals</h5>
                 <p class="mb-4"><small>Manage goals below</small></p>
               </div>
-              <div class="d-flex flex-column mt-2">
-                <button v-on:click.prevent="$bvModal.show('newGoalModal')" class="btn btn-purple"><i class="bi bi-trophy"></i> New Goal</button>
-              </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
+              <button v-on:click.prevent="$bvModal.show('newGoalModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> New Goal</button>
               <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-                <div class="input-group form-floating mb-3">
+                <div class="input-group form-floating">
                   <input type="text" v-model="search_goal" class="form-control" id="floatingSearchGoal" placeholder="Search here">
                   <label  for="floatingSearchGoal" class="">Search here</label>
                   <button class="btn btn-purple"><i class="bi bi-search"></i></button>
@@ -251,7 +247,7 @@
 
     <!-- DELETE MODAL --->
     <b-modal id="deleteModal" centered title="Confirm Delete">
-        <p class="">Are you sure to delete this?</p>
+        <p class="">Are you sure you want to delete this?</p>
         <template #modal-footer = {cancel} >
         <b-button variant="primary" @click="cancel()"> Cancel </b-button>
         <b-button variant="danger" v-on:click.prevent="destroyCollege" :disabled="isLoading">
@@ -261,7 +257,7 @@
     </b-modal>
 
     <b-modal id="deleteGoalModal" centered title="Confirm Delete">
-        <p class="">Are you sure to delete this goal?</p>
+        <p class="">Are you sure you want to delete this goal?</p>
         <template #modal-footer = {cancel} >
         <b-button variant="primary" @click="cancel()"> Cancel </b-button>
         <b-button variant="danger" v-on:click.prevent="destroyGoal" :disabled="isLoading">
