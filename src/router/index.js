@@ -19,9 +19,12 @@ const NewSchoolOfficial = () => import('../views/management/university/NewUniver
 const UpdateSchoolOfficial = () => import('../views/management/university/UpdateUniversityOfficial.vue')
 const TelDirectory = () => import('../views/management/university/TelDirectory.vue')
 const GoalsandObjectives = () => import('../views/management/university/GoalsandObjectives.vue')
-const Courses = () => import('../views/management/university/Courses.vue')
-const Faqs = () => import('../views/management/Faqs.vue')
 
+const Courses = () => import('../views/management/university/course/Courses.vue')
+const NewCourse = () => import('../views/management/university/course/NewCourse.vue')
+const UpdateCourse = () => import('../views/management/university/course/UpdateCourse.vue')
+
+const Faqs = () => import('../views/management/Faqs.vue')
 const User = () => import('../views/user/Index.vue')
 const Post = () => import('../views/user/Post.vue')
 const DepartmentOrganization = () => import('../views/user/organization/Organization.vue')
@@ -167,6 +170,20 @@ const routes = [
         name: 'courses',
         components: {
           courses: Courses
+        }
+      },
+      {
+        path: 'courses/new',
+        name: 'newcourse',
+        components: {
+          newcourse: NewCourse
+        }
+      },
+      {
+        path: 'courses/update',
+        name: 'updatecourse',
+        components: {
+          updatecourse: UpdateCourse 
         }
       },
       {

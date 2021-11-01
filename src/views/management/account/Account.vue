@@ -80,7 +80,7 @@
            ></avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}</td>
-          <td>{{ acc.organization.name }}</td>
+          <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.organization.name }}</td>
           <td>{{ acc.user.userinfo.role.role }}</td>
           <td>
            <b-badge class="rounded-pill" :class="acc.user.status == 'Approved' ? 'bg-success' : 'bg-danger'">{{
@@ -204,7 +204,7 @@
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
            {{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}
           </td>
-          <td class="text-nowrap">{{ acc.department.name }}</td>
+          <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">{{ acc.department.name }}</td>
           <td class="text-nowrap">{{ acc.user.userinfo.role.role }}</td>
           <td>
            <b-badge class="rounded-pill" :class="acc.user.status == 'Approved' ? 'bg-success' : 'bg-danger'">{{

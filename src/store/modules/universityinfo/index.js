@@ -9,14 +9,17 @@ export default {
     contacts: [],
     colleges: [],
     courses: [],
-    course_objectives: [],
     goals: [],
     objectives: [],
-    update_official: ''
+    update_official: '',
+    updateCourse: '',
   },
   getters: {
   },
   mutations: {
+    SET_UPDATE_COURSE(state, data){
+      state.updateCourse = data
+    },
     SET_SCHOOL_OFFICIALS(state, data) {
       state.officials = data
     },
@@ -59,17 +62,6 @@ export default {
         return courses.id !== id;
       });
     },
-    SET_COURSE_OBJECTIVE(state, data){
-     state.course_objectives = data
-    },
-    PUSH_NEW_COURSE_OBJECTIVE(state, data){
-      state.course_objectives.data.push(data)
-    },
-    DELETE_COURSE_OBJECTIVE(state, id){
-      state.course_objectives.data = state.course_objectives.data.filter(course_objectives => {
-        return course_objectives.id !== id;
-      });
-    },
     SET_GOAL(state, data){
      state.goals = data
     },
@@ -80,12 +72,6 @@ export default {
       state.goals.data = state.goals.data.filter(goals => {
         return goals.id !== id;
       });
-    },
-    SET_OBJECTIVE(state, data){
-     state.objectives = data
-    },
-    PUSH_NEW_OBJECTIVE(state, data){
-      state.objectives.data.push(data)
     },
     SET_UPDATE_ACCOUNT(state, {data}){
       state.update_official = data
@@ -310,60 +296,6 @@ export default {
     async searchCourse({commit}, {page, data}){
       const res = await API.post(`/admin/search/course?page=${page}`, data).then(res => {
         commit('SET_COURSE', res.data)
-
-        return res;
-      }).catch(err => {
-       return err.response;
-      })
-
-      return res;
-    },
-    async getCourseObjective({commit}, page){
-      const res = await API.get(`/admin/courseobjective?page=${page}`).then(res => {
-       commit('SET_COURSE_OBJECTIVE', res.data)
- 
-        return res;
-      }).catch(err => {
-       return err.response;
-      })
- 
-      return res;
-     },
-    async saveCourseObjective({commit}, data){
-      const res = await API.post(`/admin/new_course_objective`, data).then(res => {
-        commit('PUSH_NEW_COURSE_OBJECTIVE', res.data)
-
-        return res;
-      }).catch(err => {
-       return err.response;
-      })
-
-      return res;
-    },
-    async updateCourseObjective({commit}, data){
-      const res = await API.put(`/admin/courseobjective/${data.id}`, data).then(res => {
-
-        return res;
-      }).catch(err => {
-       return err.response;
-      })
-
-      return res;
-    },
-    async deleteCourseObjective({commit}, id){
-      const res = await API.delete(`/admin/courseobjective/destroy/${id}`).then(res => {
-        commit('DELETE_COURSE_OBJECTIVE', id)
-
-        return res;
-      }).catch(err => {
-       return err.response;
-      })
-
-      return res;
-    },
-    async searchCourseObjective({commit}, {page, data}){
-      const res = await API.post(`/admin/search/courseobjective?page=${page}`, data).then(res => {
-        commit('SET_COURSE_OBJECTIVE', res.data)
 
         return res;
       }).catch(err => {

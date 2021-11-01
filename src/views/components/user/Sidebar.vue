@@ -8,6 +8,7 @@
      <router-link to="/user/members"><i class="bi bi-person me-2 bi-3x"></i> <span class="sidenav-sr">Members</span></router-link>
      <router-link v-if="$can('access_organization')"  to="/user/department/organization"><i class="bi bi-people me-2 bi-3x"></i> <span class="sidenav-sr">Organization</span></router-link>
      <router-link to="/user/settings"><i class="bi bi-tools me-2 bi-3x"></i> <span class="sidenav-sr">Settings</span></router-link>
+     <a class="text-white mobile-logout" to="" v-on:click.prevent="$bvModal.show('logoutModal')"><i class="bi bi-x-circle me-2 "></i> <span class="sidenav-sr">Logout</span></a>
    </div>
   </div>
 </template>
