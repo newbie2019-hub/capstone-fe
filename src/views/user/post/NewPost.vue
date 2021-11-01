@@ -4,7 +4,7 @@
    <div class="row justify-content-center">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
       <div class="card mb-3 pe-5 ps-5 pb-4 pt-4">
-       <h5 class="mt-3">Update Post</h5>
+       <h5 class="mt-3">Create Post</h5>
        <p class="text-muted">All fields are required</p>
         <form @submit.prevent="savePost">
          <div class="col-10 col-sm-10 col-md-7 col-lg-6">

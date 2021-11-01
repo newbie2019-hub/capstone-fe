@@ -7,15 +7,13 @@
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
                 <h5 class="text-violet">POSTS</h5>
-                <p class="mb-4"><small>Manage posts below</small></p>
-              </div>
-              <div class="d-flex flex-column mt-2">
-                <router-link to="/user/post/create" class="btn btn-purple"><i class="bi bi-diagram-2"></i> New Post</router-link>
+                <p class="mb-4"><small>Manage your posts below</small></p>
               </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
+              <router-link to="/user/post/create" class="btn btn-purple btn-sm me-2 d-flex align-items-center"><i class="bi bi-diagram-2"></i> New Post</router-link>
               <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-                <div class="input-group form-floating mb-3">
+                <div class="input-group form-floating">
                   <input v-model="search_post" type="text"  class="form-control" id="floatingSearchOrg" placeholder="Search here">
                   <label  for="floatingSearchOrg" class="">Search here</label>
                   <button class="btn btn-purple"><i class="bi bi-search"></i></button>
@@ -45,16 +43,15 @@
                 </thead>
                 <tbody>
                   <tr v-for="(post, i) in posts.data" :key="i">
-                    <td>
+                    <td v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">
                       <img v-if="post.postcontent.image" :src="'http://127.0.0.1:8000/uploads/' + post.postcontent.image" alt="" class="" width="100"/>
                       <p class="text-muted" v-else>No Image</p>
                     </td>
-                    <td class="text-nowrap">{{post.postcontent.title}}</td>
-                    <td>{{post.postcontent.post_excerpt}}</td>
+                    <td class="text-nowrap cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">{{post.postcontent.title}}</td>
+                    <td class="cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">{{post.postcontent.post_excerpt}}</td>
                     <!-- <td>{{post.views}}</td> -->
-                    <td>
-                      <b-badge :variant="post.status == 'Approved' ? 'success':'info'">{{post.status}}</b-badge>
-                      
+                    <td class="cursor-pointer">
+                      <b-badge :variant="post.status == 'Approved' ? 'success rounded-pill':'info rounded-pill'">{{post.status}}</b-badge>
                     </td>
                     <td class="text-nowrap">{{post.created_at | moment}}</td>
                     <td>
@@ -95,6 +92,16 @@
         </template>
     </b-modal>
 
+    <b-modal id="viewPostModal" size="lg" scrollable centered :title="viewPost.postcontent.title">
+        <div v-html="viewPost.postcontent.content"></div>
+        <p class="text-muted mt-3">Date Posted: {{viewPost.created_at | moment}}</p>
+        <p class="text-muted mb-2">Views: {{viewPost.views}}</p>
+        <template #modal-footer = {cancel} >
+        <b-button variant="primary" @click="cancel()"> Close </b-button>
+
+        </template>
+    </b-modal>
+
     <!--- APPROVE MODAL -->
    <b-modal id="approvePostModal" centered title="Confirm Approve">
     <p class="">Are you sure you want to approve this post?</p>
@@ -114,6 +121,12 @@ import moment from 'moment'
 export default {
     data(){
     return {
+       viewPost: {
+         postcontent: {
+           title: '',
+           content: ''
+         },
+       },
        initialLoading: false,
        isLoading: false,
        isSearching: false,

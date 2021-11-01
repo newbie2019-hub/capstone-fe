@@ -51,8 +51,8 @@
            ></avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}</td>
-          <td>{{ acc.user.userinfo.role.role }}</td>
-          <td>
+          <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.user.userinfo.role.role }}</td>
+          <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
            <b-badge class="rounded-pill" :class="acc.user.status == 'Approved' ? 'bg-success' : 'bg-danger'">{{
             acc.user.status
            }}</b-badge>
