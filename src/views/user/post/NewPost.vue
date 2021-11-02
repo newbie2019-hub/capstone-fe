@@ -42,7 +42,7 @@
           />
           <div class="d-flex mt-3">
            <button type="submit" class="btn btn-success btn-sm me-1">Save Post</button>
-           <a href="/user/post" class="btn btn-secondary btn-sm">Cancel</a>
+           <a @click.prevent="$router.back()" href="" class="btn btn-secondary btn-sm">Cancel</a>
           </div>
         </form>
       </div>
@@ -153,7 +153,7 @@ export default {
    if(res.status == 200 ){
      this.$toast.success('Post added successfully!')
      this.data = {title: '', content: ''}
-     this.$router.push('/user/post')
+     this.$router.back()
    }
    this.isLoading = false
   }

@@ -42,7 +42,7 @@
           />
           <div class="d-flex mt-3">
            <button type="submit" class="btn btn-success btn-sm me-1">Update Post</button>
-           <a href="/user/post" class="btn btn-secondary btn-sm">Cancel</a>
+           <a @click.prevent="$router.back()" href="" class="btn btn-secondary btn-sm">Cancel</a>
           </div>
         </form>
       </div>

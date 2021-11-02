@@ -48,7 +48,6 @@
                     </td>
                     <td class="text-nowrap cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">
                       {{post.postcontent.title}} <br/>
-                      <span class="text-muted"><small>Added by: {{post.useraccount.userinfo.first_name}} {{post.useraccount.userinfo.last_name}}</small></span>
                     </td>
                     <td class="cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">{{post.postcontent.post_excerpt}}</td>
                     <td class="text-nowrap">{{post.created_at | moment}}</td>
@@ -92,9 +91,8 @@
 
     <b-modal id="viewPostModal" size="lg" scrollable centered :title="viewPost.postcontent.title">
         <div v-html="viewPost.postcontent.content"></div>
-        <p class=" mt-3" v-if="viewPost.useraccount"><small>Added by: <strong>{{viewPost.useraccount.userinfo.first_name}} {{viewPost.useraccount.userinfo.last_name}}</strong></small></p>
-        <p class=""><small>Views: {{viewPost.views}}</small></p>
-        <p class="text-muted mb-2"><small>Date Posted: {{viewPost.created_at | moment}}</small></p>
+        <p class="mt-2"><small>Date Posted: {{viewPost.created_at | moment}}</small></p>
+        <p class="mb-3"><small>Views: {{viewPost.views}}</small></p>
         <template #modal-footer = {cancel} >
           <b-button variant="primary" @click="cancel()"> Close </b-button>
         </template>

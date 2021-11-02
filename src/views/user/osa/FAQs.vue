@@ -70,14 +70,10 @@
 
     <!-- NEW FAQS MODAL --->
     <b-modal id="newFaqModal" centered title="New FAQ">
-        <div class="form-floating mb-2 mt-3 ">
-        <input v-model="faq.question" type="text" class="form-control" id="newFaqQuestion" placeholder="name@example.com" autocomplete="off">
-        <label for="newFaqQuestion">Type a new question</label>
-        </div>
-        <div class="form-floating mb-2 mt-4">
-        <input v-model="faq.answer" type="text" class="form-control" id="newFaqAnswer" placeholder="name@example.com" autocomplete="off">
-        <label for="newFaqAnswer">Answer</label>
-        </div>
+        <label for="newFaqQuestion">Type a question</label>
+        <textarea v-model="faq.question" type="text" class="form-control" id="newFaqQuestion" placeholder="" autocomplete="off"></textarea>
+        <label for="newFaqAnswer" class="mt-3">Answer</label>
+        <textarea v-model="faq.answer" type="text" class="form-control" id="newFaqAnswer" placeholder="" autocomplete="off"></textarea>
         <template #modal-footer = {cancel} >
         <b-button variant="primary" @click="cancel()"> Cancel </b-button>
         <b-button variant="success" v-on:click.prevent="saveFAQ" :disabled="isLoading">
@@ -88,14 +84,10 @@
 
     <!-- UPDATE FAQS MODAL --->
     <b-modal id="updateFaqModal" centered title="Update FAQ">
-        <div class="form-floating mb-2 mt-3 ">
-        <input v-model="update.question" type="text" class="form-control" id="updateFaqQuestion" placeholder="name@example.com" autocomplete="off">
         <label for="updateFaqQuestion">Question</label>
-        </div>
-        <div class="form-floating mb-2 mt-4 ">
-        <input v-model="update.answer" type="text" class="form-control" id="updateFaqAnswer" placeholder="name@example.com" autocomplete="off">
-        <label for="updateFaqAnswer">Answer</label>
-        </div>
+        <textarea v-model="update.question" type="text" class="form-control" id="updateFaqQuestion" placeholder="" autocomplete="off"></textarea>
+        <label class="mt-3" for="updateFaqAnswer">Answer</label>
+        <textarea v-model="update.answer" type="text" class="form-control" id="updateFaqAnswer" placeholder="" autocomplete="off"></textarea>
         <template #modal-footer = {cancel} >
         <b-button variant="primary" @click="cancel()"> Cancel </b-button>
         <b-button variant="success" v-on:click.prevent="updateFAQ" :disabled="isLoading">

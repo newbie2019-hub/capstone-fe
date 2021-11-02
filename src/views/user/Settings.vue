@@ -194,8 +194,8 @@ export default {
     this.data.confirm_password = ''
     if(res.status == 422) {
       await this.$store.dispatch('auth/checkAuthUser')
-     this.$bvModal.hide('saveChangesModal')
-     this.$toast.error(res.data.msg)
+      this.$bvModal.hide('saveChangesModal')
+      this.$toast.error(res.data.msg)
     }
     if(res.status == 200){
       await this.$store.dispatch('auth/checkAuthUser')
@@ -209,7 +209,7 @@ export default {
      if(this.password_data.current_password.trim() == '') return this.$toast.error('Current password is required');
      if(this.password_data.new_password.trim() == '') return this.$toast.error('New password is required');
      if(this.password_data.confirm_password.trim() == '') return this.$toast.error('Confirm password is required');
-
+     if(this.password_data.new_password !== this.password_data.confirm_password) return this.$toast.error('New Password doesn\'t match');
      this.isLoading = true
 
      const res = await this.$store.dispatch('auth/changeUserPassword', this.password_data)

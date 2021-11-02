@@ -13,7 +13,10 @@
          </div>
        </div>
       </div>
-       <div class="card mt-5 mb-4 p-4 br-20">
+      <div v-if="$can('osa_permissions')" class="card mt-5 p-4 mb-4 br-20">
+
+      </div>
+       <div v-else class="card mt-5 mb-4 p-4 br-20">
           <div class="d-flex">
             <div class="d-flex flex-column me-auto">
               <h5>{{user.type == 'Organization' ? 'Organization' : 'Department'}} Members</h5>
@@ -71,7 +74,7 @@
               </div>
               <div class="summary-container">
                 <p class="summary-text">
-                  <!-- {{summary.organizations}} -->
+                  {{summary.org}}
                 </p>
               </div>
             </div>
@@ -84,7 +87,7 @@
               </div>
               <div class="summary-container">
                 <p class="summary-text">
-                   <!-- {{summary.post}} -->
+                   {{summary.post}}
                 </p>
               </div>
             </div>
@@ -97,7 +100,7 @@
               </div>
               <div class="summary-container">
                 <p class="summary-text">
-                   <!-- {{summary.post}} -->
+                   {{summary.faqs}}
                 </p>
               </div>
             </div>
@@ -110,7 +113,7 @@
               </div>
               <div class="summary-container">
                 <p class="summary-text">
-                   <!-- {{summary.post}} -->
+                   {{summary.tel}}
                 </p>
               </div>
             </div>
