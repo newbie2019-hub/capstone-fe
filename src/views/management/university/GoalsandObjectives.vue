@@ -2,7 +2,7 @@
  <div>
     <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
      <div class="row justify-content-center mt-3">
-        <div class="col-12 col-sm-11 col-md-12 col-lg-12 col-xl-12">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
           <div class="card p-4 mb-4">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
@@ -69,7 +69,7 @@
     </div>
     <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4 mt-3">
      <div class="row justify-content-center mt-3">
-        <div class="col-12 col-sm-11 col-md-12 col-lg-12 col-xl-12">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
           <div class="card p-4 mb-4">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">

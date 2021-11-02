@@ -4,7 +4,7 @@ body {
 }
 
 html {
- background-color: #f9f8ff;
+ background-color: #ffffff;
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .main-content {
- margin-left: 310px;
+ margin-left: 270px;
  margin-top: 150px;
 }
 
@@ -156,7 +156,7 @@ h1, h2, h3, h4, h5, h6, p {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 260px;
+  width: 240px;
   display: flex;
   flex-direction: column;
   padding: 5rem .9rem;
@@ -219,7 +219,7 @@ h1, h2, h3, h4, h5, h6, p {
  position: absolute !important;
  top: 0;
  right: 0;
- width: calc(100% - 260px);
+ width: calc(100% - 240px);
  height: 120px;
  padding: 25px 4rem;
  justify-content: space-evenly !important;
@@ -502,7 +502,7 @@ span.sr-only{
 @media only screen and (max-width: 1050px){
 
   html {
-    font-size: .9rem;
+    font-size: .95rem;
   }
   .sidenav {
     width: 200px;
@@ -520,11 +520,11 @@ span.sr-only{
 @media only screen and (max-width: 800px){
 
   html {
-    font-size: .9rem;
+    font-size: 1rem;
   }
 
   .sidenav {
-    width: 110px;
+    width: 100px;
     padding: 3.5rem .9rem;
   }
 
@@ -541,7 +541,7 @@ span.sr-only{
   }
 
   .sidenav h6 {
-    font-size: .85rem !important;
+    font-size: .65rem !important;
   }
 
   .sidenav h6.ms-2 {
@@ -555,11 +555,11 @@ span.sr-only{
   }
 
   .main-content {
-    margin-left: 115px;
+    margin-left: 110px;
   }
 
   .navbar {
-    width: calc(100% - 110px);
+    width: calc(100% - 100px);
   }
 
 }

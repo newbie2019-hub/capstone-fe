@@ -1,7 +1,7 @@
 <template>
  <div>
     <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
-     <div class="row justify-content-center mt-3">
+     <div class="row me-0 ms-0 justify-content-center mt-3">
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
           <div class="card p-4 mb-4">
             <div class="d-flex align-items-center">
@@ -146,7 +146,7 @@ export default {
   },
   computed: {
      ...mapState('auth', ['user']),
-    ...mapState('universityinfo', ['contacts']),
+    ...mapState('osa', ['contacts']),
   },
   watch: {
     search_tel(before, after){
@@ -160,15 +160,16 @@ export default {
   },
   async mounted(){
     this.initialLoading = true
-    await this.$store.dispatch('universityinfo/getTel', 1);
+    document.title = 'Telephone Directory Management'
+    await this.$store.dispatch('osa/getTel', 1);
     this.initialLoading = false
   },
   methods: {
     async saveTel(){
       this.isLoading = true
-      const res = await this.$store.dispatch('universityinfo/saveTel', this.tel)
+      const res = await this.$store.dispatch('osa/saveTel', this.tel)
       if(res.status == 200 ){
-        await this.$store.dispatch('universityinfo/getTel', 1);
+        await this.$store.dispatch('osa/getTel', 1);
         this.$toast.success('Telephone added successfully!')
         this.$bvModal.hide('newTelModal')
         this.tel = {name: '', tel_num: ''}
@@ -177,9 +178,9 @@ export default {
     },
     async updateTel(){
       this.isLoading = true
-      const res = await this.$store.dispatch('universityinfo/updateTel', this.update)
+      const res = await this.$store.dispatch('osa/updateTel', this.update)
       if(res.status == 200 ){
-        await this.$store.dispatch('universityinfo/getTel', 1);
+        await this.$store.dispatch('osa/getTel', 1);
         this.$toast.success('Telephone updated successfully!')
         this.$bvModal.hide('updateTelModal')
         this.update = {name: '', tel_num: ''}
@@ -188,9 +189,9 @@ export default {
     },
     async destroyTel(){
         this.isLoading = true
-        const res = await this.$store.dispatch('universityinfo/deleteTel', this.deleteTel)
+        const res = await this.$store.dispatch('osa/deleteTel', this.deleteTel)
         if(res.status == 200){
-            await this.$store.dispatch('universityinfo/getTel', 1);
+            await this.$store.dispatch('osa/getTel', 1);
             this.$toast.success('Telephone deleted successfully!')
             this.$bvModal.hide('deleteModal')
         } else {
@@ -199,14 +200,14 @@ export default {
         this.isLoading = false
     },
     async getTel(page){
-       await this.$store.dispatch('universityinfo/getTel', page);
+       await this.$store.dispatch('osa/getTel', page);
     },
     async searchContact(page){
       this.isSearching = true
       let data = {
         search: this.search_tel
       }
-      await this.$store.dispatch('universityinfo/searchTel', {page: page, data: data})
+      await this.$store.dispatch('osa/searchTel', {page: page, data: data})
       this.isSearching = false
     },
     contactSearch(page = 1){

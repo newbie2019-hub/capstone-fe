@@ -62,7 +62,61 @@
           </div>
         </div>
       </div>
-       <div class="row justify-content-center">
+       <div v-if="$can('osa_permissions')" class="row justify-content-center">
+          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+            <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
+              <div class="d-flex flex-column justify-content-center align-items-center mb-3">
+                <i class="bi bi-person-circle me-2 bi-5x"></i>
+                <h6 class="mt-2">ORGANIZATIONS</h6>
+              </div>
+              <div class="summary-container">
+                <p class="summary-text">
+                  <!-- {{summary.organizations}} -->
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+            <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
+              <div class="d-flex mb-3 flex-column justify-content-center align-items-center">
+                <i class="bi bi-receipt me-2 bi-5x"></i>
+                <h6 class="mt-2">POSTS</h6>
+              </div>
+              <div class="summary-container">
+                <p class="summary-text">
+                   <!-- {{summary.post}} -->
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+            <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
+              <div class="d-flex mb-3 flex-column justify-content-center align-items-center">
+                <i class="bi bi-receipt me-2 bi-5x"></i>
+                <h6 class="mt-2">FAQs</h6>
+              </div>
+              <div class="summary-container">
+                <p class="summary-text">
+                   <!-- {{summary.post}} -->
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+            <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
+              <div class="d-flex mb-3 flex-column justify-content-center align-items-center">
+                <i class="bi bi-receipt me-2 bi-5x"></i>
+                <h6 class="mt-2">Telephone</h6>
+              </div>
+              <div class="summary-container">
+                <p class="summary-text">
+                   <!-- {{summary.post}} -->
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+       <div v-else class="row justify-content-center">
           <div class="col-6 col-md-6 col-lg-6 col-xl-5">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex flex-column justify-content-center align-items-center mb-3">

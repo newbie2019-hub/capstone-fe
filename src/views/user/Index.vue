@@ -10,6 +10,10 @@
      <router-view name="updatepost"/>
      <router-view name="deporganization"/>
      <router-view name="usersettings"/>
+     <router-view name="osafaqs"/>
+     <router-view name="directory"/>
+     <router-view name="osapost"/>
+
    </div>
  </div>
 </template>

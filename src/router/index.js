@@ -34,6 +34,11 @@ const UserDashboard = () => import('../views/user/Dashboard.vue')
 const Members = () => import('../views/user/Members.vue')
 const UserSettings = () => import('../views/user/Settings.vue')
 
+//OSA - ROUTES
+const OSAFAQs = () => import('../views/user/osa/FAQs.vue')
+const OSATelDirectory = () => import('../views/user/osa/TelDirectory.vue')
+const OSAPost = () => import('../views/user/osa/Posts.vue')
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -267,7 +272,28 @@ const routes = [
         components: {
           usersettings: UserSettings
         }
-      }
+      },
+      {
+        path: 'faqs',
+        name: 'faqs',
+        components: {
+          osafaqs: OSAFAQs
+        }
+      },
+      {
+        path: 'directory',
+        name: 'directory',
+        components: {
+          directory: OSATelDirectory
+        }
+      },
+      {
+        path: 'osa/post',
+        name: 'osa/post',
+        components: {
+          osapost: OSAPost
+        }
+      },
     ]
   }
 
