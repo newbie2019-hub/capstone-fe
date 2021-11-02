@@ -69,13 +69,6 @@
                 class="btn btn-sm btn-success rounded-pill me-2">
                 <i v-if="current_id != acc.id" class="bi bi-check"></i>
             </button>
-            <!-- <button
-             href="" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')"
-             v-b-tooltip.hover
-             title="View Details"
-             class="btn btn-sm btn-purple rounded-pill me-2">
-            <i v-if="current_id != acc.user.id" class="bi bi-arrows-angle-expand"></i>
-            </button> -->
             <button
               v-if="$can('view_org_member_post') || adviser_id == user.id"
               v-on:click.prevent="posts = acc.user.posts; viewPost = true"
@@ -131,7 +124,6 @@
                 <th scope="col" class="text-nowrap">Image</th>
                 <th scope="col" class="text-nowrap">Title</th>
                 <th scope="col" class="text-nowrap">Post Excerpt</th>
-                <th scope="col" class="text-nowrap">Views</th>
                 <th scope="col" class="text-nowrap">Status</th>
                 <th scope="col" class="text-nowrap">Date Posted</th>
                 <th scope="col">Actions</th>
@@ -139,22 +131,20 @@
             </thead>
             <tbody>
               <tr v-for="(post, i) in posts" :key="i">
-                <td>{{i + 1}}</td>
-                <td>
+                <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">{{i + 1}}</td>
+                <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">
                   <img v-if="post.postcontent.image" :src="'http://127.0.0.1:8000/uploads/' + post.postcontent.image" alt="" class="" width="100"/>
                   <p class="text-muted" v-else>No Image</p>
                 </td>
-                <td class="text-nowrap">{{post.postcontent.title}}</td>
-                <td>{{post.postcontent.post_excerpt}}</td>
-                <td>{{post.views}}</td>
+                <td class="cursor-pointer text-nowrap" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')" >{{post.postcontent.title}}</td>
+                <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">{{post.postcontent.post_excerpt}}</td>
                 <td>
-                  <b-badge :variant="post.status == 'Approved' ? 'success':'info'">{{post.status}}</b-badge>
-                  
+                  <b-badge class="rounded-pill" :variant="post.status == 'Approved' ? 'success':'info'">{{post.status}}</b-badge>
                 </td>
                 <td class="text-nowrap">{{post.created_at | moment}}</td>
                 <td>
                   <div class="d-flex">
-                    <button v-if="$can('approve_post') && post.status != 'Approved' || adviser_id == user.id" v-on:click.prevent="approve_post.id = post.id; $bvModal.show('approvePostModal')" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
+                    <button v-if="($can('approve_post') || adviser_id == user.id) && post.status != 'Approved' " v-on:click.prevent="approve_post.id = post.id; $bvModal.show('approvePostModal')" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
                         <i class="bi bi-check"></i>
                     </button>
                     <button v-if="$can('delete_post') || post.user_account_id == user.id || adviser_id == user.id" @click="deletePost = post.id; $bvModal.show('deletePostModal')" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
@@ -172,6 +162,15 @@
     </div>
    </div>
   </div>
+
+  <b-modal id="viewPostModal" size="lg" scrollable centered :title="postContent.postcontent.title">
+      <div v-html="postContent.postcontent.content"></div>
+      <p class="mt-4"><small>Views: {{postContent.views}}</small></p>
+      <p class=" mb-2"><small>Date Posted: {{postContent.created_at | moment}}</small></p>
+      <template #modal-footer = {cancel} >
+        <b-button variant="primary" @click="cancel()"> Close </b-button>
+      </template>
+  </b-modal>
 
    <!-- VIEW INFO MODAL --->
    <b-modal id="viewInfoModal" centered title="Account Info">
@@ -282,6 +281,12 @@ export default {
      initialLoading: false,
      isLoading: false,
      isSearching: false,
+     postContent: {
+        postcontent: {
+          title: '',
+          content: ''
+        },
+     },
      viewPost: false,
      posts: [],
      current_id: '',
@@ -337,6 +342,22 @@ export default {
        this.adviser_data.organization_id = this.orgmembers.data[0].organization.id
        this.adviser_id = this.orgmembers.data[0].organization.adviser.userinfo.id
      }
+   },
+   async approvePost(){
+      const res = await this.$store.dispatch('post/approveMemberPost', this.approve_post)
+      if(res.status == 200){
+        this.$toast.success('Post has been approved')
+        this.posts.forEach((post, i) => {
+          console.log(post)
+          if(post.id == this.approve_post.id){
+            this.$set(this.posts[i], 'status', 'Approved')
+          }
+        });
+      }
+      else {
+        this.$toast.error('Something went wrong')
+      }
+      this.$bvModal.hide('approvePostModal')
    },
    async approveAccount(){
       const { status, data } = await this.$store.dispatch('members/approveOrgMember', this.approve_data)

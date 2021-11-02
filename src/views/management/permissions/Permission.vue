@@ -43,23 +43,14 @@
         </thead>
         <tbody >
          <tr v-for="(role, i) in permissions.data" :key="i">
-          <th scope="row" >{{permissions.from + i}}</th>
-          <td class="text-nowrap">{{role.role}}</td>
-          <td> 
+          <th scope="row" class="cursor-pointer" v-on:click.prevent="viewdata = role; $bvModal.show('viewModal')">{{permissions.from + i}}</th>
+          <td class="text-nowrap cursor-pointer"  v-on:click.prevent="viewdata = role; $bvModal.show('viewModal')">{{role.role}}</td>
+          <td class="cursor-pointer" v-on:click.prevent="viewdata = role; $bvModal.show('viewModal')"> 
             <p v-if="role.permission.length == 0">No permissions found for this role</p>
            <b-badge v-for="(p, i) in role.permission" :key="i" pill variant="primary" class="me-2 font-weight-400">{{p.permission}}</b-badge>
           </td>
           <td>
            <div class="d-flex">
-            <button
-             href=""
-             :disabled="isLoading"
-             v-on:click.prevent="viewdata = role; $bvModal.show('viewModal')"
-             v-b-tooltip.hover
-             title="View Details"
-             class="btn btn-sm btn-purple rounded-pill me-2">
-             <i class="bi bi-arrows-angle-expand"></i>
-            </button>
             <button
              v-on:click.prevent="data = JSON.parse(JSON.stringify(role)); $bvModal.show('updateModal')"
              href=""

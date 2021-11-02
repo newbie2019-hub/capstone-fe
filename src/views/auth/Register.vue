@@ -11,6 +11,8 @@
         <div class="col-12 col-md-6 col-lg-5 col-xl-5">
           <div class="row h-100 justify-content-center ">
             <div class="col-9 col-md-7 col-lg-8 col-xl-7">
+                <h6 class="fw-600 text-end mb-5"><a v-on:click.prevent="$router.push('/')" href="" class="btn-reg text-decoration-none">Login</a></h6>
+              
                 <h5 class="fw-600">Register</h5>
                 <p class="lh-r mt-4" v-if="currentStep != 3">Welcome, We need some of your informations.</p>
                 <div v-if="currentStep == 0">

@@ -265,7 +265,7 @@
    </b-modal>
 
    <!-- VIEW INFO MODAL --->
-   <b-modal id="viewInfoModal" centered title="Account Info">
+   <b-modal id="viewInfoModal" hide-footer centered title="Account Info">
       <div class="row justify-content-center text-center">
         <avatar
             :size="100"
@@ -279,13 +279,13 @@
         <p class="mt-4">Organization: {{accDisplayed.organization.name}} {{ accDisplayed.organization.abbreviation ? ' - ' + accDisplayed.organization.abbreviation :'' }}</p>
         <p class="">Role: {{accDisplayed.user.userinfo.role.role}}</p>
       </div>
-    <template #modal-footer="{cancel}">
-     <b-button variant="primary" @click="cancel()"> Close </b-button>
-    </template>
+     <div class="d-flex justify-content-center mt-5">
+        <b-button variant="primary" @click="$bvModal.hide('viewInfoModal')"> Close </b-button>
+      </div>
    </b-modal>
 
    <!-- VIEW INFO MODAL --->
-   <b-modal id="viewDepInfoModal" centered title="Account Info">
+   <b-modal id="viewDepInfoModal" hide-footer centered title="Account Info">
       <div class="row justify-content-center text-center">
         <avatar
             :size="100"
@@ -299,9 +299,9 @@
         <p class="mt-4">Unit: {{accUnitDisplayed.department.name}}</p>
         <p class="">Role: {{accUnitDisplayed.user.userinfo.role.role}}</p>
       </div>
-    <template #modal-footer="{cancel}">
-     <b-button variant="primary" @click="cancel()"> Close </b-button>
-    </template>
+      <div class="d-flex justify-content-center mt-5">
+        <b-button variant="primary" @click="$bvModal.hide('viewDepInfoModal')"> Close </b-button>
+      </div>
    </b-modal>
 
    <!--- APPROVE MODAL -->

@@ -66,6 +66,16 @@ export default {
 
       return res;
     },
+    async approveMemberPost({commit}, data){
+      const res = await API.put(`/user/post/approve/${data.id}`).then(res => {
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
     async savePost({commit}, data){
       const res = await API.post(`/user/post`, data).then(res => {
         commit('PUSH_NEW_POST', res.data)

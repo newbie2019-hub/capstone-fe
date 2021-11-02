@@ -11,7 +11,7 @@
               </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-              <router-link to="/user/post/create" class="btn btn-purple btn-sm me-2 d-flex align-items-center"><i class="bi bi-diagram-2"></i> New Post</router-link>
+              <router-link to="/user/post/create" class="btn btn-purple btn-sm me-2 d-flex align-items-center"><i class="bi bi-plus-circle me-2"></i> New Post</router-link>
               <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
                 <div class="input-group form-floating">
                   <input v-model="search_post" type="text"  class="form-control" id="floatingSearchOrg" placeholder="Search here">
@@ -47,7 +47,10 @@
                       <img v-if="post.postcontent.image" :src="'http://127.0.0.1:8000/uploads/' + post.postcontent.image" alt="" class="" width="100"/>
                       <p class="text-muted" v-else>No Image</p>
                     </td>
-                    <td class="text-nowrap cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">{{post.postcontent.title}}</td>
+                    <td class="text-nowrap cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">
+                      {{post.postcontent.title}} <br/>
+                      <span class="text-muted"><small>Added by: {{post.useraccount.userinfo.first_name}} {{post.useraccount.userinfo.last_name}}</small></span>
+                    </td>
                     <td class="cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">{{post.postcontent.post_excerpt}}</td>
                     <!-- <td>{{post.views}}</td> -->
                     <td class="cursor-pointer">
@@ -94,11 +97,11 @@
 
     <b-modal id="viewPostModal" size="lg" scrollable centered :title="viewPost.postcontent.title">
         <div v-html="viewPost.postcontent.content"></div>
-        <p class="text-muted mt-3">Date Posted: {{viewPost.created_at | moment}}</p>
-        <p class="text-muted mb-2">Views: {{viewPost.views}}</p>
+        <p class=" mt-3" v-if="viewPost.useraccount"><small>Added by: <strong>{{viewPost.useraccount.userinfo.first_name}} {{viewPost.useraccount.userinfo.last_name}}</strong></small></p>
+        <p class=""><small>Views: {{viewPost.views}}</small></p>
+        <p class="text-muted mb-2"><small>Date Posted: {{viewPost.created_at | moment}}</small></p>
         <template #modal-footer = {cancel} >
-        <b-button variant="primary" @click="cancel()"> Close </b-button>
-
+          <b-button variant="primary" @click="cancel()"> Close </b-button>
         </template>
     </b-modal>
 

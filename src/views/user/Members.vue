@@ -19,7 +19,7 @@
                 </div>
               </div>
             </div>
-            <div class="table-responsive mt-3">
+            <div class="table-responsive mt-3" v-if="!viewPost">
               <b-skeleton-table
                   :rows="4"
                   :columns="3"
@@ -79,8 +79,7 @@
                           <i v-if="current_id != acc.id" class="bi bi-arrows-angle-expand"></i>
                         </button> -->
                         <button
-                          :disabled="isLoading && current_id == acc.id"
-                          v-on:click.prevent="accPostsDisplayed = acc; $bvModal.show('viewPostModal')"
+                          v-on:click.prevent="userPosts = acc.user.posts; viewPost = true"
                           v-b-tooltip.hover
                           title="View Posts"
                           class="btn btn-sm btn-success rounded-pill me-2"
@@ -108,10 +107,71 @@
                 <span slot="next-nav">&raquo;</span>
               </pagination>
             </div>
+
+            <!---POSTS OF USER---->
+            <div class="mt-2" v-if="viewPost">
+              <button v-on:click.prevent="viewPost = false; posts = []" class="btn btn-purple"><i class="bi bi-arrow-left me-2"></i>Return</button>
+            </div>
+            <div class="table-responsive mt-3" v-if="viewPost">
+                <b-skeleton-table
+                    :rows="4"
+                    :columns="7"
+                    :table-props="{ bordered: false, striped: true }"
+                    v-if="isLoading"
+                  ></b-skeleton-table>
+                <table class="table table-hover" v-if="!isLoading">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="text-nowrap">ID</th>
+                      <th scope="col" class="text-nowrap">Image</th>
+                      <th scope="col" class="text-nowrap">Title</th>
+                      <th scope="col" class="text-nowrap">Post Excerpt</th>
+                      <th scope="col" class="text-nowrap">Status</th>
+                      <th scope="col" class="text-nowrap">Date Posted</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(post, i) in userPosts" :key="i">
+                      <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">{{i + 1}}</td>
+                      <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">
+                        <img v-if="post.postcontent.image" :src="'http://127.0.0.1:8000/uploads/' + post.postcontent.image" alt="" class="" width="100"/>
+                        <p class="text-muted" v-else>No Image</p>
+                      </td>
+                      <td class="cursor-pointer text-nowrap" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')" >{{post.postcontent.title}}</td>
+                      <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">{{post.postcontent.post_excerpt}}</td>
+                      <td>
+                        <b-badge :variant="post.status == 'Approved' ? 'success':'info'">{{post.status}}</b-badge>
+                      </td>
+                      <td class="text-nowrap">{{post.created_at | moment}}</td>
+                      <td>
+                        <div class="d-flex">
+                          <button v-if="$can('approve_post') && post.status != 'Approved' || adviser_id == user.id" v-on:click.prevent="approve_post.id = post.id; $bvModal.show('approvePostModal')" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
+                              <i class="bi bi-check"></i>
+                          </button>
+                          <button v-if="$can('delete_post') || post.user_account_id == user.id || adviser_id == user.id" @click="deletePost = post.id; $bvModal.show('deletePostModal')" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
           </div>
         </div>
       </div>
     </div>
+    
+    <b-modal id="viewPostModal" size="lg" scrollable centered :title="postContent.postcontent.title">
+        <div v-html="postContent.postcontent.content"></div>
+        <p class="mt-4"><small>Views: {{postContent.views}}</small></p>
+        <p class=" mb-2"><small>Date Posted: {{postContent.created_at | moment}}</small></p>
+        <template #modal-footer = {cancel} >
+          <b-button variant="primary" @click="cancel()"> Close </b-button>
+        </template>
+    </b-modal>
 
     <b-modal id="viewInfoModal" centered title="Account Info">
       <div class="row justify-content-center text-center">
@@ -174,9 +234,17 @@ export default {
       initialLoading: false,
       current_id: '',
       isLoading: false,
+      userPosts: [],
       search_member: '',
+      viewPost: false,
       approve_data: {
         id: '',
+      },
+      postContent: {
+        postcontent: {
+          title: '',
+          content: ''
+        },
       },
       isSearching: '',
       accDisplayed: {

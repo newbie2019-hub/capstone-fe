@@ -18,6 +18,9 @@ import Navbar from '../components/user/Navbar.vue'
 import Sidebar from '../components/user/Sidebar.vue'
 export default {
   components: { Navbar, Sidebar },
+  created(){
+    this.sideBarMobile()
+  },
   mounted() {
     this.sideBarMobile()
   },
