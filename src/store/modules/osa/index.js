@@ -5,10 +5,14 @@ export default {
   state: {
     faqs: [],
     contacts: [],
+    organizations: [],
   },
   getters: {
   },
   mutations: {
+    SET_ORGANIZATIONS(state, data) {
+      state.organizations = data
+    },
     SET_FAQS(state, data) {
       state.faqs = data
     },
@@ -143,5 +147,18 @@ export default {
 
       return res;
     },
+
+    /** ORGANIZATION */
+    async getOrganizations({commit}, page){
+      const res = await API.get(`/user/osa/organizations?page=${page}`).then(res => {
+       commit('SET_ORGANIZATIONS', res.data)
+ 
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+ 
+      return res;
+     },
   }
 }

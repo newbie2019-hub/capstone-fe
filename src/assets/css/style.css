@@ -687,6 +687,10 @@ span.sr-only{
     display: block;
   }
 
+  .sidenav h6 {
+    font-size: 1rem !important;
+  }
+
   .sidenav h6.ms-2 {
     margin-left: .5rem !important;
   }

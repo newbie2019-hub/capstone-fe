@@ -38,6 +38,7 @@ const UserSettings = () => import('../views/user/Settings.vue')
 const OSAFAQs = () => import('../views/user/osa/FAQs.vue')
 const OSATelDirectory = () => import('../views/user/osa/TelDirectory.vue')
 const OSAPost = () => import('../views/user/osa/Posts.vue')
+const OSAOrganization = () => import('../views/user/osa/Organization.vue')
 
 Vue.use(VueRouter)
 
@@ -292,6 +293,13 @@ const routes = [
         name: 'osa/post',
         components: {
           osapost: OSAPost
+        }
+      },
+      {
+        path: 'osa/organizations',
+        name: 'osa/organizations',
+        components: {
+          osaorganizations: OSAOrganization
         }
       },
     ]

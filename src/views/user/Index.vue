@@ -13,7 +13,7 @@
      <router-view name="osafaqs"/>
      <router-view name="directory"/>
      <router-view name="osapost"/>
-
+     <router-view name="osaorganizations"/>
    </div>
  </div>
 </template>
@@ -30,16 +30,18 @@ export default {
   },
   methods: {
    sideBarMobile(){
-     let sidebar = document.getElementById('user-sidenav')
-     let sidebarBtn = document.getElementById('navbtn')
-     let closeNavBtn = document.getElementById('close-nav')
-     sidebarBtn.addEventListener('click', function(){
-       sidebar.classList.add('sidenav-active')
-     })
-
-     closeNavBtn.addEventListener('click', function(){
-      sidebar.classList.remove('sidenav-active')
-     })
+     setTimeout(() => {
+       let sidebar = document.getElementById('user-sidenav')
+       let sidebarBtn = document.getElementById('navbtn')
+       let closeNavBtn = document.getElementById('close-nav')
+       sidebarBtn.addEventListener('click', function(){
+         sidebar.classList.add('sidenav-active')
+       })
+  
+       closeNavBtn.addEventListener('click', function(){
+        sidebar.classList.remove('sidenav-active')
+       })
+     }, 1500)
    }
   },
   computed: {
