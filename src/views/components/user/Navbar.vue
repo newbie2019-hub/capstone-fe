@@ -8,7 +8,7 @@
       <i></i>
     </label> 
     <div class="d-flex me-auto" v-if="user.length != 0">
-     <avatar :username="user.userinfo.first_name + ' ' + user.userinfo.last_name" :src="'http://127.0.0.1:8000/uploads/' + user.userinfo.image"></avatar>
+     <avatar :username="user.userinfo.first_name + ' ' + user.userinfo.last_name" :src="'https://be.lnukiosk.live/uploads/' + user.userinfo.image"></avatar>
      <div class="d-flex flex-column justify-content-center ms-3">
       <h6 v-if="user.length != 0">{{user.userinfo.first_name}} {{user.userinfo.last_name}}</h6>
       <h6 v-if="user.length != 0 && user.userinfo.organization"><small class="font-weight-400" >{{user.userinfo.organization.abbreviation ? user.userinfo.organization.abbreviation : user.userinfo.organization.name}} - {{user.userinfo.role.role}}</small></h6>
