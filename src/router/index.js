@@ -39,6 +39,7 @@ const OSAFAQs = () => import('../views/user/osa/FAQs.vue')
 const OSATelDirectory = () => import('../views/user/osa/TelDirectory.vue')
 const OSAPost = () => import('../views/user/osa/Posts.vue')
 const OSAOrganization = () => import('../views/user/osa/Organization.vue')
+const OSAArchived = () => import('../views/user/osa/ArchivedPost.vue')
 
 Vue.use(VueRouter)
 
@@ -300,6 +301,13 @@ const routes = [
         name: 'osa/organizations',
         components: {
           osaorganizations: OSAOrganization
+        }
+      },
+      {
+        path: 'osa/archived',
+        name: 'osa/archived',
+        components: {
+          osaarchived: OSAArchived
         }
       },
     ]

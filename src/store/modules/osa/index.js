@@ -6,10 +6,14 @@ export default {
     faqs: [],
     contacts: [],
     organizations: [],
+    posts: [],
   },
   getters: {
   },
   mutations: {
+    SET_ARCHIVED(state, data) {
+      state.posts = data
+    },
     SET_ORGANIZATIONS(state, data) {
       state.organizations = data
     },
@@ -152,6 +156,19 @@ export default {
     async getOrganizations({commit}, page){
       const res = await API.get(`/user/osa/organizations?page=${page}`).then(res => {
        commit('SET_ORGANIZATIONS', res.data)
+ 
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+ 
+      return res;
+     },
+
+    /** ARCHIVED */
+    async getArchived({commit}, page){
+      const res = await API.get(`/user/osa/archived?page=${page}`).then(res => {
+       commit('SET_ARCHIVED', res.data)
  
         return res;
       }).catch(err => {

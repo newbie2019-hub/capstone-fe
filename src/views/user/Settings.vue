@@ -6,9 +6,9 @@
     <div class="col-11 col-md-12 col-lg-12 col-xl-12">
        <h5>User Profile Image</h5>
        <hr class="mt-2 mb-2"/>   
-     </div>
-     <div class="col-11 col-md-6 col-lg-6 col-xl-6">
-       <label>Upload Image</label>
+    </div>
+     <div class="col-11 col-md-6 col-lg-5 col-xl-5">
+      <label>Upload Image</label>
       <VueFileAgent
           ref="vueFileAgent"
           @select="filesSelected($event)"
@@ -26,7 +26,7 @@
           v-model="fileRecords"
         ></VueFileAgent>
      </div>
-     <div class="col-11 col-md-6 col-lg-6 col-xl-6"></div>
+     <div class="col-11 col-md-6 col-lg-7 col-xl-7"></div>
      <div class="col-11 col-md-12 col-lg-12 col-xl-12 mt-4">
        <h5>Basic Information</h5>
        <hr class="mt-2 mb-4"/>   
@@ -182,7 +182,7 @@ export default {
 
     if(this.fileRecordsForUpload.length > 0) {
         const img = await this.$refs.vueFileAgent.upload(
-          `http://127.0.0.1:8000/api/auth/user/uploadUserImage?token=` + localStorage.getItem("auth"), 
+          `https://be.lnukiosk.live/api/auth/user/uploadUserImage?token=` + localStorage.getItem("auth"), 
           {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
         );
 
