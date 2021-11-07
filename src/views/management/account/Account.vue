@@ -1,6 +1,6 @@
 <template>
  <div>
-  <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
+  <div class="container pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
    <div class="row justify-content-center">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
      <div class="d-flex justify-content-end mb-3">
@@ -8,7 +8,7 @@
         <i class="bi bi-person-circle"></i> New User
       </a>
      </div>
-     <div class="card pe-5 ps-5 pb-4 pt-4">
+     <div class="card pe-5 ps-5 pb-4 pt-5">
       <div class="d-flex align-items-center">
        <div class="d-flex flex-column me-auto mt-2">
         <h5>
@@ -73,11 +73,7 @@
         <tbody v-if="org_accounts.data">
          <tr v-for="(acc, i) in org_accounts.data" :key="i">
           <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
-           <avatar
-            :size="40"
-            :src="'http://127.0.0.1:8000/uploads/' + acc.user.userinfo.image"
-            :username="acc.user.userinfo.first_name + ' ' + acc.user.userinfo.last_name"
-           ></avatar>
+           <b-avatar variant="dark" :src="'http://127.0.0.1:8000/uploads/' + acc.user.userinfo.image"></b-avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}</td>
           <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.organization.name }}</td>
@@ -133,7 +129,7 @@
    <!--- DEPARTMENT ACCOUNT -->
    <div class="row justify-content-center mt-3">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-     <div class="card pe-5 ps-5 pb-4 pt-4 mb-4">
+     <div class="card pe-5 ps-5 pb-4 pt-5 mb-4">
       <div class="d-flex align-items-center">
        <div class="d-flex flex-column me-auto mt-3">
         <h5>
@@ -195,11 +191,7 @@
         <tbody v-if="unit_accounts.data != 0">
          <tr v-for="(acc, i) in unit_accounts.data" :key="i">
           <th scope="row" class="justify-content-center cursor-pointer" v-if="unit_accounts.data != 0" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
-           <avatar
-            :size="40"
-            :src="'http://127.0.0.1:8000/uploads/' + acc.user.userinfo.image"
-            :username="acc.user.userinfo.first_name + ' ' + acc.user.userinfo.last_name"
-           ></avatar>
+           <b-avatar variant="dark" :src="'http://127.0.0.1:8000/uploads/' + acc.user.userinfo.image"></b-avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
            {{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}
@@ -229,7 +221,7 @@
              class="btn btn-sm btn-success rounded-pill me-2">
              <i class="bi bi-pencil-square"></i>
             </button>
-            <button href="" v-on:click.prevent="$bvModal.show('deleteModal');delete_data.id = acc.user.id; delete_data.type = acc.type;"
+            <button href="" v-on:click.prevent="$bvModal.show('deleteModal');delete_data.id = acc.user.id; delete_data.type = acc.user.type;"
              v-b-tooltip.hover title="Delete Account" class="btn btn-sm btn-danger rounded-pill">
              <i v-if="current_id != acc.user.id" class="bi bi-trash"></i>
              <div
@@ -273,11 +265,7 @@
    <!-- VIEW INFO MODAL --->
    <b-modal id="viewInfoModal" hide-footer centered title="Account Info">
       <div class="row justify-content-center text-center">
-        <avatar
-            :size="100"
-            :src="'http://127.0.0.1:8000/uploads/' + accDisplayed.user.userinfo.image"
-            :username="accDisplayed.user.userinfo.first_name + ' ' + accDisplayed.user.userinfo.last_name"
-        ></avatar>
+        <b-avatar size="6rem" variant="dark" :src="'http://127.0.0.1:8000/uploads/' + accDisplayed.user.userinfo.image"></b-avatar>
         <h5 class="mt-3 ">{{accDisplayed.user.userinfo.first_name}} {{accDisplayed.user.userinfo.last_name}}</h5>
         <p class="">{{accDisplayed.user.email}}</p>
         <p class="">Contact: {{accDisplayed.user.userinfo.contact_number}}</p>
@@ -293,11 +281,7 @@
    <!-- VIEW INFO MODAL --->
    <b-modal id="viewDepInfoModal" hide-footer centered title="Account Info">
       <div class="row justify-content-center text-center">
-        <avatar
-            :size="100"
-            :src="'http://127.0.0.1:8000/uploads/' + accUnitDisplayed.user.userinfo.image"
-            :username="accUnitDisplayed.user.userinfo.first_name + ' ' + accUnitDisplayed.user.userinfo.last_name"
-        ></avatar>
+        <b-avatar size="6rem" variant="dark"  :src="'http://127.0.0.1:8000/uploads/' + accUnitDisplayed.user.userinfo.image"></b-avatar>
         <h5 class="mt-3 ">{{accUnitDisplayed.user.userinfo.first_name}} {{accUnitDisplayed.user.userinfo.last_name}}</h5>
         <p class="">{{accUnitDisplayed.user.email}}</p>
         <p class="">Contact: {{accUnitDisplayed.user.userinfo.contact_number}}</p>
@@ -324,7 +308,6 @@
  </div>
 </template>
 <script>
- import Avatar from 'vue-avatar';
  import moment from 'moment';
  import { mapState, mapActions } from 'vuex';
  const _ = require('lodash');
@@ -415,9 +398,6 @@
   },
   computed: {
    ...mapState('account', ['accounts', 'unit_accounts', 'org_accounts']),
-  },
-  components: {
-   Avatar,
   },
   methods: {
    ...mapActions('account', ['approveAccountType', 'deleteAccount']),

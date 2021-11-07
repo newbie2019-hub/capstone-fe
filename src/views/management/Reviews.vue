@@ -1,6 +1,6 @@
 <template>
  <div>
-    <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
+    <div class="container pe-sm-0 ps-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
      <div class="row justify-content-center mt-3">
       <div class="col-12 col-sm-11 col-md-12 col-lg-12 col-xl-12">
         <div class="card p-4 ps-5 pe-5 pt-5 mb-3">

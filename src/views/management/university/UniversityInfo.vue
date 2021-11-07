@@ -117,7 +117,7 @@
           <tbody>
             <tr v-for="(official, i) in officials.data" :key="i">
               <th scope="row" class="justify-content-center" v-if="officials.data != 0">
-                <avatar :size="40" :src="'http://127.0.0.1:8000/uploads/' + official.image" :username="official.first_name + ' ' + official.last_name"></avatar>
+                <b-avatar variant="dark" :src="'http://127.0.0.1:8000/uploads/' + official.image"></b-avatar>
               </th>
               <td>{{official.title}}</td>
               <td>{{official.first_name}}</td>
@@ -210,10 +210,8 @@
 </template>
 <script>
 import { Carousel, Slide } from 'vue-carousel';
-
 import {mapState, mapActions} from 'vuex'
 import moment from 'moment'
-import Avatar from 'vue-avatar'
 const _ = require('lodash');
 
 export default {
@@ -239,7 +237,7 @@ export default {
     isOfficialTableLoading: false,
    }
   },
-  components: { Avatar, Carousel, Slide},
+  components: {Carousel, Slide},
   watch: {
    search: function(after, before) {
     this.debouncedOfficialSearch()

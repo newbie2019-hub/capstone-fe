@@ -39,6 +39,7 @@ h1, h2, h3, h4, h5, h6, p {
 .main-content {
  margin-left: 270px;
  margin-top: 150px;
+ overflow-x: hidden;
 }
 
 .card {
@@ -754,6 +755,10 @@ span.sr-only{
 }
 
 /** BADGE */
+.badge-dark {
+  color: #fff;
+  background-color: #343a40;
+}
 
 .badge-primary {
   color: #fff;

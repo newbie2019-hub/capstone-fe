@@ -71,7 +71,9 @@
               </thead>
               <tbody>
                 <tr v-for="(acc, i) in accounts" :key="i">
-                  <th scope="row" class="d-flex justify-content-center" v-if="acc.length != 0"> <avatar :size="40" :username="acc.user.userinfo.first_name + ' ' + acc.user.userinfo.last_name "></avatar></th>
+                  <th scope="row" class="d-flex justify-content-center" v-if="acc.length != 0"> 
+                    <b-avatar variant="dark" :src="`http://127.0.0.1:8000/uploads/${acc.user.userinfo.image}`" ></b-avatar>
+                  </th>
                   <td v-if="acc.length != 0" class="text-nowrap">{{acc.user.userinfo.first_name}} {{acc.user.userinfo.last_name}}</td>
                   <td v-if="acc.length != 0">{{acc.user.userinfo.role.role}}</td>
                   <td v-if="acc.length != 0">{{acc.user.email}}</td>
@@ -189,7 +191,6 @@
 </template>
 <script>
 import {mapState, mapActions} from 'vuex'
-import Avatar from 'vue-avatar'
 import moment from 'moment'
 export default {
   data(){
@@ -208,7 +209,6 @@ export default {
     current_id: '',
    }
   },
-  components: { Avatar },
   filters: {
     moment: function (date) {
       return moment(date).format('MMM D, YYYY, h:mm a');

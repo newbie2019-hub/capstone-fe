@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
+    <div class="container pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
      <div class="row justify-content-center mt-3">
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-          <div class="card p-4">
+          <div class="card p-5">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
                 <h5 class="text-violet">Organizations</h5>
@@ -20,7 +20,7 @@
                 </div>
               </div>
             </div>
-            <div class="table-responsive mt-3">
+            <div class="table-responsive mt-5">
               <div v-if="organizations.data == 0">No accounts under organizations</div>
               <b-skeleton-table
                   :rows="4"
@@ -32,7 +32,7 @@
                 <caption>Showing {{organizations.from}} to {{organizations.to}} out of {{organizations.total}} organizations</caption>
                 <thead>
                   <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col">Logo</th>
                     <th scope="col" class="text-nowrap text-center">Organization</th>
                     <th scope="col" class="text-nowrap">Abbreviation</th>
                     <th scope="col" class="text-nowrap">Department</th>
@@ -42,8 +42,8 @@
                 </thead>
                 <tbody>
                   <tr v-for="(org, i) in organizations.data" :key="i">
-                    <th scope="row" class="justify-content-center">
-                      {{organizations.from + i}}
+                    <th>
+                      <b-avatar variant="dark" icon="star-fill" :src="`http://127.0.0.1:8000/uploads/${org.image}`"></b-avatar>
                     </th>
                     <td class="">{{org.name}}</td>
                     <td :class="org.abbreviation ? '':'text-muted'">{{org.abbreviation ? org.abbreviation : 'N/A'}}</td>
@@ -75,7 +75,7 @@
           </div>
         </div>
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3 mb-3">
-          <div class="card p-4">
+          <div class="card p-5">
            <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
                 <h5 class="text-violet">Organization Roles</h5>
@@ -92,7 +92,7 @@
                 </div>
               </div>
             </div>
-            <div class="table-responsive mt-3">
+            <div class="table-responsive mt-5">
               <div v-if="org_roles.data == 0">No roles for department added</div>
               <b-skeleton-table
                   :rows="4"
@@ -103,7 +103,6 @@
               <table class="table table-hover" v-else>
                 <thead>
                   <tr>
-                    <th scope="col">ID</th>
                     <th scope="col" class="text-nowrap">Organization Role</th>
                     <th scope="col" class="text-nowrap">Added on</th>
                     <th scope="col">Actions</th>
@@ -111,7 +110,6 @@
                 </thead>
                 <tbody>
                   <tr v-for="(role, i) in org_roles.data" :key="i">
-                    <th>{{org_roles.from + i}}</th>
                     <td>{{role.role}}</td>
                     <td>{{role.created_at | moment}}</td>
                     <td>
@@ -244,14 +242,8 @@
     <p class="mb-3">If there are accounts under this organization, you can transfer them to a new organization so that those accounts will not be deleted.</p>
     <label for="organizationModal"><small>New Organization</small></label>
     <select v-model="new_organization" class="form-select" id="organizationModal" aria-label="Select Organization modal">
-      <option :value="org.id" v-for="(org, i) in organizations.data" :key="i" :disabled="delete_id == org.id">{{org.organization}}</option>
+      <option :value="org.id" v-for="(org, i) in allorganizations" :key="i" :disabled="delete_id == org.id">{{org.name}}</option>
     </select>
-    <div class="mt-4" v-if="organizations.data">
-      <pagination :showDisabled="true" :align="'right'" :data="organizations" @pagination-change-page="getOrganizations">
-        <span slot="prev-nav">&laquo;</span>
-        <span slot="next-nav">&raquo;</span>
-      </pagination>
-    </div>
     <template #modal-footer = {cancel} >
       <b-button variant="success" @click="cancel()">
         Save
@@ -322,11 +314,7 @@ import { mapState, mapActions } from 'vuex';
 import moment from 'moment'
 const _ = require('lodash');
 
-// import Avatar from 'vue-avatar';
 export default {
-  components: {
-    // Avatar
-  },
   filters: {
     moment: function (date) {
       return moment(date).format('MMM D, YYYY - h:mm a');
@@ -386,6 +374,7 @@ export default {
     document.title = "Organization and Organization Roles Management"
     this.initialLoading = true
     await this.$store.dispatch('depandorg/getOrganizations', 1)
+    await this.$store.dispatch('depandorg/getAllOrganizations')
     await this.$store.dispatch('depandorg/getRoleOrganizations')
     await this.getSignUpInfo();
     this.initialLoading = false
@@ -545,7 +534,7 @@ export default {
     
   },
   computed: {
-    ...mapState('depandorg', ['organizations', 'org_roles']),
+    ...mapState('depandorg', ['organizations', 'org_roles', 'allorganizations']),
     ...mapState('auth', ['signup']),
     
   },

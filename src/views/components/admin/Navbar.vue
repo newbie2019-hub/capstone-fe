@@ -9,7 +9,7 @@
     </label> 
     <div class="d-flex me-auto" v-if="user.length != 0">
      <a href="/home/settings" class="text-decoration-none">
-       <avatar :username="user.admininfo.first_name + ' ' + user.admininfo.last_name" :src="'http://127.0.0.1:8000/uploads/' + user.admininfo.image"></avatar>
+       <b-avatar variant="dark" :src="`http://127.0.0.1:8000/uploads/${user.admininfo.image}`" size="3rem"></b-avatar>
      </a>
      <div class="d-flex flex-column justify-content-center ms-3">
       <h6 v-if="user.length != 0">{{user.admininfo.first_name}} {{user.admininfo.last_name}}</h6>
@@ -41,11 +41,7 @@
 </template>
 <script>
 import {mapActions, mapState} from 'vuex'
-import Avatar from 'vue-avatar'
 export default {
- components: {
-    Avatar
-  },
   data(){
     return {
       scrollpx: 0,

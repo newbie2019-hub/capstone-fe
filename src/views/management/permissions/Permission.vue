@@ -1,9 +1,9 @@
 <template>
  <div>
-  <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
+  <div class="container pe-sm-0 ps-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
    <div class="row justify-content-center">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-     <div class="card pe-5 ps-5 pb-4 pt-4">
+     <div class="card pe-5 ps-5 pb-4 pt-5 mb-4">
        <div class="d-flex flex-column me-auto mt-2">
         <h5>Role Permission</h5>
         <p class="mb-4"><small>Listed below are the roles and its permission</small></p>

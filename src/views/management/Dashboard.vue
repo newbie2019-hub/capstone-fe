@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="row justify-content-center m-0">
-      <div class="col-11 col-md-11 col-lg-7 col-xl-6">
-        <div class="card  pe-5 ps-5 pt-5 pb-4 br-20">
+      <div class="col-12 col-md-11 col-lg-7 col-xl-6">
+        <div class="card pe-5 ps-5 pt-5 pb-4 br-20">
           <div class="d-flex ">
             <div class="d-flex flex-column me-auto">
               <h4 v-if="user.length != 0">{{msg}}, {{user.admininfo.last_name}}</h4>
@@ -13,7 +13,7 @@
             </div>
           </div>
         </div>
-        <div class="card mt-5 mb-4 p-4 br-20">
+        <div class="card mt-5 mb-4 p-5 br-20">
           <div class="d-flex">
             <div class="d-flex flex-column me-auto">
               <h5>Pending Accounts</h5>
@@ -41,7 +41,9 @@
               </thead>
               <tbody>
                 <tr v-for="(acc, i) in accounts" :key="i">
-                  <th scope="row" class="d-flex justify-content-center" v-if="acc.length != 0"> <avatar :size="40" :username="acc.userinfo.first_name + ' ' + acc.userinfo.last_name "></avatar></th>
+                  <th scope="row" class="d-flex justify-content-center" v-if="acc.length != 0">
+                    <b-avatar variant="dark" :src="`http://127.0.0.1:8000/uploads/${acc.userinfo.image}`" ></b-avatar>
+                  </th>
                   <td v-if="acc.length != 0" class="text-nowrap">{{acc.userinfo.first_name}} {{acc.userinfo.last_name}}</td>
                   <td v-if="acc.length != 0">{{acc.email}}</td>
                   <td>
@@ -164,7 +166,6 @@
 </template>
 <script>
 import {mapActions, mapState} from 'vuex'
-import Avatar from 'vue-avatar'
 import moment from 'moment'
 export default {
   data(){
@@ -177,9 +178,6 @@ export default {
       isLoading: false,
       initialLoading: false,
     }
-  },
-  components: {
-   Avatar
   },
   async mounted(){
    this.initialLoading = true

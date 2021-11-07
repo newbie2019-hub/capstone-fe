@@ -26,7 +26,6 @@
     "quill-image-resize-vue": "^1.0.4",
     "serve-static": "^1.14.1",
     "vue": "^2.6.11",
-    "vue-avatar": "^2.3.3",
     "vue-carousel": "^0.18.0",
     "vue-file-agent": "^1.7.3",
     "vue-router": "^3.2.0",

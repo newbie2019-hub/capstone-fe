@@ -5,6 +5,8 @@ export default {
   state: {
     organizations: {},
     departments: {},
+    allorganizations: {},
+    alldepartments: {},
     org_roles: {},
     dep_roles: {},
   },
@@ -17,6 +19,12 @@ export default {
     },
     SET_DEPARTMENTS(state, data) {
       state.departments = data
+    },
+    SET_ALL_ORGANIZATIONS(state, data) {
+      state.allorganizations = data
+    },
+    SET_ALL_DEPARTMENTS(state, data) {
+      state.alldepartments = data
     },
     SET_DEPARTMENTS_ROLE(state, data) {
       state.dep_roles = data
@@ -88,6 +96,17 @@ export default {
     
   },
   actions: {
+    async getAllOrganizations({commit}){
+      const res = await API.get(`/admin/organization/all`).then(res => {
+        commit('SET_ALL_ORGANIZATIONS', res.data)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
     async getOrganizations({commit}, page){
       const res = await API.get(`/admin/organizations?page=${page}`).then(res => {
         commit('SET_ORGANIZATIONS', res.data)
@@ -102,6 +121,17 @@ export default {
     async getDepartments({commit}, page){
       const res = await API.get(`/admin/departments?page=${page}`).then(res => {
         commit('SET_DEPARTMENTS', res.data)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
+    async getAllDepartments({commit}){
+      const res = await API.get(`/admin/department/all`).then(res => {
+        commit('SET_ALL_DEPARTMENTS', res.data)
 
         return res;
       }).catch(err => {

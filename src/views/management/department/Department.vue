@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
+    <div class="container pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
      <div class="row me-0 ms-0 justify-content-center mt-3">
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-          <div class="card p-4">
+          <div class="card p-5">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
                 <h5 class="text-violet">Departments</h5>
@@ -35,7 +35,7 @@
                 <caption>Showing {{departments.from}} to {{departments.to}} out of {{departments.total}} departments</caption>
                 <thead>
                   <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col">Logo</th>
                     <th scope="col" class="text-nowrap">Department</th>
                     <th scope="col" class="text-nowrap">Added on</th>
                     <th scope="col">Actions</th>
@@ -43,8 +43,8 @@
                 </thead>
                 <tbody>
                   <tr v-for="(dep, i) in departments.data" :key="i">
-                    <th scope="row" class="justify-content-center">
-                      {{departments.from + i}}
+                    <th>
+                      <b-avatar variant="dark" :src="`http://127.0.0.1:8000/uploads/${dep.image}`"></b-avatar>
                     </th>
                     <td>{{dep.name}}</td>
                     <td class="text-nowrap">{{dep.created_at | moment}}</td>
@@ -77,7 +77,7 @@
           </div>
         </div>
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3 mb-3">
-          <div class="card p-4">
+          <div class="card p-5">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
                 <h5 class="text-violet">Department Roles</h5>
@@ -106,7 +106,6 @@
                 <caption>Showing {{dep_roles.from}} to {{dep_roles.to}} out of {{dep_roles.total}} department roles</caption>
                 <thead>
                   <tr>
-                    <th scope="col" class="text-nowrap">ID</th>
                     <th scope="col" class="text-nowrap">Role</th>
                     <th scope="col" class="text-nowrap">Added on</th>
                     <th scope="col">Actions</th>
@@ -114,7 +113,6 @@
                 </thead>
                 <tbody>
                   <tr v-for="(role, i) in dep_roles.data" :key="i">
-                    <th class="">{{dep_roles.from + i}}</th>
                     <td class="text-nowrap">{{role.role}}</td>
                     <td>{{role.created_at | moment}}</td>
                     <td>
@@ -196,6 +194,10 @@
       <input v-model="department.department" type="text" class="form-control" id="newDepartment" placeholder="name@example.com">
       <label for="newDepartmet">Type a new department</label>
     </div>
+    <div class="form-floating mb-2 mt-4">
+      <input v-model="department.abbreviation" type="text" class="form-control" id="newDepAbbrev" placeholder="">
+      <label for="newOrgAbbrev">Abbreviation</label>
+    </div>
     <template #modal-footer = {cancel} >
       <b-button variant="primary" @click="cancel()"> Cancel </b-button>
       <b-button variant="success" v-on:click.prevent="saveDepartment" :disabled="isLoading">
@@ -227,6 +229,10 @@
       <input v-model="update_department.name" type="text" class="form-control" id="updateDepartment" placeholder="name@example.com">
       <label for="newDepartmet">Type a new department</label>
     </div>
+    <div class="form-floating mb-2 mt-4">
+      <input v-model="update_department.abbreviation" type="text" class="form-control" id="newDepAbbrev" placeholder="">
+      <label for="newOrgAbbrev">Abbreviation</label>
+    </div>
     <template #modal-footer = {cancel} >
       <b-button variant="primary" @click="cancel()"> Cancel </b-button>
       <b-button variant="success" v-on:click.prevent="updateDepartment" :disabled="isLoading">
@@ -254,14 +260,8 @@
     <p class="mb-3">If there are accounts under this department, you can transfer them to a new department so that those accounts will not be deleted.</p>
     <label for="floatingSelect text-muted "><small>New Department</small></label>
     <select v-model="new_department" class="form-select" id="floatingSelect" aria-label="Select deparments modal">
-      <option :value="dep.id" v-for="(dep, i) in departments.data" :key="i" :disabled="delete_id == dep.id">{{dep.name}}</option>
+      <option :value="dep.id" v-for="(dep, i) in alldepartments" :key="i" :disabled="delete_id == dep.id">{{dep.name}}</option>
     </select>
-    <div class="mt-4">
-      <pagination :showDisabled="true" :align="'right'" :data="departments" @pagination-change-page="getDepartments">
-        <span slot="prev-nav">&laquo;</span>
-        <span slot="next-nav">&raquo;</span>
-      </pagination>
-    </div>
     <template #modal-footer = {cancel} >
       <b-button variant="success" @click="cancel()">
         Save
@@ -306,15 +306,11 @@
   </div>
 </template>
 <script>
-// import Avatar from 'vue-avatar';
 import { mapState } from 'vuex';
 import moment from 'moment'
 const _ = require('lodash');
 
 export default {
-  components: {
-    // Avatar
-  },
   filters: {
     moment: function (date) {
       return moment(date).format('MMMM D, YYYY, h:mm a');
@@ -364,6 +360,7 @@ export default {
     document.title = "Department and Department Roles Management"
     this.initialLoading = true
     await this.$store.dispatch('depandorg/getDepartments', 1)
+    await this.$store.dispatch('depandorg/getAllDepartments')
     await this.$store.dispatch('depandorg/getRoleDepartments', 1)
     this.initialLoading = false
   },
@@ -434,6 +431,7 @@ export default {
 
       const res = await this.$store.dispatch('depandorg/updateDepartment', this.update_department)
       if(res.status == 200 ){
+        this.getDepartments()
         this.$toast.success('Department updated successfully!')
         this.$bvModal.hide('updateDepartmentModal')
         this.update_department = {department: '', department_id: ''}
@@ -514,7 +512,7 @@ export default {
     
   },
   computed: {
-    ...mapState('depandorg', ['departments', 'dep_roles']),
+    ...mapState('depandorg', ['departments', 'dep_roles', 'alldepartments']),
 
   },
   

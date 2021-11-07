@@ -38,11 +38,7 @@
 
          <tr v-for="(acc, i) in currentOrganization" :key="i" >
           <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
-           <avatar
-            :size="40"
-            :src="'http://127.0.0.1:8000/uploads/' + acc.userinfo.image"
-            :username="acc.userinfo.first_name + ' ' + acc.userinfo.last_name"
-           ></avatar>
+            <b-avatar variant="dark" :src="'http://127.0.0.1:8000/uploads/' + acc.userinfo.image"></b-avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.userinfo.first_name }} {{ acc.userinfo.last_name }}</td>
           <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.userinfo.role.role }}</td>
@@ -130,11 +126,7 @@
    <!-- VIEW INFO MODAL --->
    <b-modal id="viewInfoModal" centered title="Account Info">
       <div class="row justify-content-center text-center">
-        <avatar
-            :size="100"
-            :src="'http://127.0.0.1:8000/uploads/' + accDisplayed.userinfo.image"
-            :username="accDisplayed.userinfo.first_name + ' ' + accDisplayed.userinfo.last_name"
-        ></avatar>
+        <b-avatar size="6rem" variant="dark" :src="'http://127.0.0.1:8000/uploads/' + accDisplayed.userinfo.image"></b-avatar>
         <h5 class="mt-3 ">{{accDisplayed.userinfo.first_name}} {{accDisplayed.userinfo.last_name}}</h5>
         <p class="">{{accDisplayed.email}}</p>
         <p class="">Contact: {{accDisplayed.userinfo.contact_number}}</p>
@@ -183,11 +175,9 @@
 <script>
 import { mapState } from 'vuex'
 import moment from 'moment'
-import Avatar from 'vue-avatar';
 const _ = require('lodash');
 
 export default {
- components: {Avatar},
  filters: {
    moment: function(date) {
     return moment(date).format('MMM Do YYYY, h:mm a');
