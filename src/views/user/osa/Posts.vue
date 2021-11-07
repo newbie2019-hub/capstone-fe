@@ -3,7 +3,7 @@
     <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
      <div class="row justify-content-center mt-3">
         <div class="col-12 col-sm-11 col-md-12 col-lg-12 col-xl-12">
-          <div class="card p-4 mb-4">
+          <div class="card p-5 mb-4">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
                 <h5 class="text-violet">POSTS</h5>
@@ -20,7 +20,7 @@
                 </div>
               </div>
             </div>
-            <div class="table-responsive mt-3">
+            <div class="table-responsive mt-4">
               <div v-if="posts == 0">No Posts found</div>
               <b-skeleton-table
                   :rows="4"
@@ -35,7 +35,6 @@
                     <th scope="col" class="text-nowrap">Image</th>
                     <th scope="col" class="text-nowrap">Title</th>
                     <th scope="col" class="text-nowrap">Post Excerpt</th>
-                    <!-- <th scope="col" class="text-nowrap">Views</th> -->
                     <th scope="col" class="text-nowrap">Date Posted</th>
                     <th scope="col">Actions</th>
                   </tr>
@@ -89,7 +88,7 @@
         </template>
     </b-modal>
 
-    <b-modal id="viewPostModal" size="lg" scrollable centered :title="viewPost.postcontent.title">
+    <b-modal id="viewPostModal" scrollable centered :title="viewPost.postcontent.title">
         <div v-html="viewPost.postcontent.content"></div>
         <p class="mt-2"><small>Date Posted: {{viewPost.created_at | moment}}</small></p>
         <p class="mb-3"><small>Views: {{viewPost.views}}</small></p>

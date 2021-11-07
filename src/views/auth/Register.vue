@@ -188,7 +188,7 @@ export default {
     ...mapState('auth', ['signup']),
     filteredRoles() {
       return this.signup.organization_roles.filter(role => {
-         return role.role != 'Organization Adviser'
+         return role.role != 'Organization Adviser' && role.role != 'OSA'
       })
     }
   },

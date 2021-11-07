@@ -214,6 +214,12 @@
           <td class="text-nowrap">{{ acc.created_at | moment }}</td>
           <td>
            <div class="d-flex">
+            <button href="" :disabled="isLoading && current_id == acc.id" v-if="acc.user.status != 'Approved'" v-on:click.prevent=" approve_data.id = acc.user.id; approve_data.type = acc.user.type; $bvModal.show('approveModal');" v-b-tooltip.hover title="Approve Account" class="btn btn-sm btn-success rounded-pill me-2">
+             <i v-if="current_id != acc.id" class="bi bi-check2"></i>
+             <div v-if="isLoading && current_id == acc.id" class="spinner-grow text-light spinner-grow-sm" role="status">
+              <span class="visually-hidden">Loading...</span>
+             </div>
+            </button>
             <button
              v-on:click.prevent="setUpdateAccount(acc, 'Department')"
              href=""
@@ -305,7 +311,7 @@
    </b-modal>
 
    <!--- APPROVE MODAL -->
-   <!-- <b-modal id="approveModal" centered title="Confirm Approve">
+   <b-modal id="approveModal" centered title="Confirm Approve">
     <p class="">An email of approval will be sent to the user. Are you sure you want to approve this account?</p>
     <template #modal-footer="{cancel}">
      <b-button :disabled="isLoading" variant="primary" @click="cancel()"> Cancel </b-button>
@@ -313,7 +319,7 @@
       Approve
      </b-button>
     </template>
-   </b-modal> -->
+   </b-modal>
   </div>
  </div>
 </template>

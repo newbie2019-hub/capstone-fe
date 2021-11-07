@@ -13,10 +13,37 @@
          </div>
        </div>
       </div>
-      <div v-if="$can('osa_permissions')" class="card mt-5 p-4 mb-4 br-20">
-
+      <div v-if="$can('osa_permissions')" class="card mt-4 pe-5 ps-5 pt-5 pb-4 mb-4 br-20">
+        <div class="d-flex flex-column me-auto">
+          <h5>Latest Post</h5>
+          <p class="mb-4"><small>Latest post of the organizations</small></p>
+        </div>
+        <div class="table-responsive">
+          <b-skeleton-table
+            :rows="4"
+            :columns="4"
+            :table-props="{ bordered: true, striped: false }"
+            v-if="initialLoading"
+          ></b-skeleton-table>
+          <table class="table table-hover" v-else>
+            <thead>
+              <tr>
+                <th scope="col" class="text-nowrap">Post</th>
+                <th scope="col" class="text-nowrap">User</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cursor-pointer" v-for="(post, i) in post_summary" :key="i" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">
+                <td >{{post.postcontent.title}}</td>
+                <td>{{post.useraccount.userinfo.first_name}} {{post.useraccount.userinfo.last_name}}</td>
+                <td><small><b-badge class="rounded-pill" :class="post.status == 'Approved' ? 'bg-success' : 'bg-danger'">{{post.status}}</b-badge></small></td>
+              </tr>
+            </tbody>
+          </table>
+        </div> 
       </div>
-       <div v-else class="card mt-5 mb-4 p-4 br-20">
+       <div v-else class="card mt-4 mb-4 p-5 br-20">
           <div class="d-flex">
             <div class="d-flex flex-column me-auto">
               <h5>{{user.type == 'Organization' ? 'Organization' : 'Department'}} Members</h5>
@@ -149,6 +176,15 @@
         </div>
      </div>
    </div>
+
+    <b-modal id="viewPostModal" scrollable centered :title="viewPost.postcontent.title">
+        <div v-html="viewPost.postcontent.content"></div>
+        <p class="mt-2"><small>Date Posted: {{viewPost.created_at | moment}}</small></p>
+        <p class="mb-3"><small>Views: {{viewPost.views}}</small></p>
+        <template #modal-footer = {cancel} >
+          <b-button variant="primary" @click="cancel()"> Close </b-button>
+        </template>
+    </b-modal>
  </div>
 </template>
 <script>
@@ -159,6 +195,12 @@ export default {
   data(){
    return {
     msg: 'Good Day',
+    viewPost: {
+      postcontent: {
+        title: '',
+        content: ''
+      },
+    },
     time: '',
     date: '',
     initialLoading: false,
@@ -167,10 +209,20 @@ export default {
    }
   },
   components: { Avatar },
+  filters: {
+    moment: function (date) {
+      return moment(date).format('MMM D, YYYY, h:mm a');
+    }
+  },
   async mounted() {
    this.initialLoading = true
    await this.checkAuthUser()
-   this.$store.dispatch('userdashboard/recentAccounts')
+   if(!this.$can('osa_permissions')){
+    this.$store.dispatch('userdashboard/recentAccounts')
+   }
+   else {
+     this.$store.dispatch('userdashboard/getOSAPostSummary')
+   }
    this.$store.dispatch('userdashboard/summary')
    setInterval(() =>{
       this.currentdate()
@@ -182,7 +234,7 @@ export default {
   },
   computed: {
     ...mapState('auth', ['user']),
-    ...mapState('userdashboard', ['accounts', 'summary']),
+    ...mapState('userdashboard', ['accounts', 'summary', 'post_summary']),
   },
   methods: {
     ...mapActions('auth', ['checkAuthUser']),

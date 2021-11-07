@@ -182,7 +182,7 @@ export default {
 
     if(this.fileRecordsForUpload.length > 0) {
         const img = await this.$refs.vueFileAgent.upload(
-          `https://be.lnukiosk.live/api/auth/user/uploadUserImage?token=` + localStorage.getItem("auth"), 
+          `http://127.0.0.1:8000/api/auth/user/uploadUserImage?token=` + localStorage.getItem("auth"), 
           {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
         );
 
@@ -193,7 +193,6 @@ export default {
     const res = await this.$store.dispatch('auth/updateAccount', this.data)
     this.data.confirm_password = ''
     if(res.status == 422) {
-      await this.$store.dispatch('auth/checkAuthUser')
       this.$bvModal.hide('saveChangesModal')
       this.$toast.error(res.data.msg)
     }

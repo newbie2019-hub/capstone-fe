@@ -5,6 +5,7 @@ export default {
   state: {
     user: {
       userinfo: {
+        image: '',
         first_name: '',
         last_name: '',
         role: {

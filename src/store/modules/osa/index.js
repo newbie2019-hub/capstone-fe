@@ -7,12 +7,16 @@ export default {
     contacts: [],
     organizations: [],
     posts: [],
+    schedule: '',
   },
   getters: {
   },
   mutations: {
     SET_ARCHIVED(state, data) {
       state.posts = data
+    },
+    SET_SCHEDULE(state, data) {
+      state.schedule = data
     },
     SET_ORGANIZATIONS(state, data) {
       state.organizations = data
@@ -177,5 +181,26 @@ export default {
  
       return res;
      },
+
+     /** SET DELETE SCHEDULE */
+    async saveSchedule({commit}, data){
+    const res = await API.post(`/user/setSchedule`, data).then(res => {  
+        return res;
+      }).catch(err => {
+      return err.response;
+      })
+
+      return res;
+    },
+    async getSchedule({commit}){
+    const res = await API.post(`/user/getSchedule`).then(res => {  
+        commit('SET_SCHEDULE', res.data)
+        return res;
+      }).catch(err => {
+      return err.response;
+      })
+
+      return res;
+    }
   }
 }

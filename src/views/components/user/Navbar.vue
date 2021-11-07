@@ -7,14 +7,13 @@
       <i></i>
       <i></i>
     </label> 
-    <div class="d-flex me-auto" v-if="user.length != 0">
-     <avatar :username="user.userinfo.first_name + ' ' + user.userinfo.last_name" :src="'https://be.lnukiosk.live/uploads/' + user.userinfo.image"></avatar>
+    <div v-on:click.prevent="$router.push('/user/settings')" class="d-flex me-auto cursor-pointer" v-if="user && user.length != 0">
+     <avatar :src="`http://127.0.0.1:8000/uploads/${user.userinfo.image}`" :username="user.userinfo.first_name + ' ' + user.userinfo.last_name"></avatar>
      <div class="d-flex flex-column justify-content-center ms-3">
       <h6 v-if="user.length != 0">{{user.userinfo.first_name}} {{user.userinfo.last_name}}</h6>
       <h6 v-if="user.length != 0 && user.userinfo.organization"><small class="font-weight-400" >{{user.userinfo.organization.abbreviation ? user.userinfo.organization.abbreviation : user.userinfo.organization.name}} - {{user.userinfo.role.role}}</small></h6>
       <h6 v-if="user.length != 0 && user.userinfo.department"><small class="font-weight-400" >{{user.userinfo.role.role}}</small></h6>
       <h6 v-if="user.length != 0 && user.userinfo.role.role == 'OSA'"><small class="font-weight-400" >{{user.userinfo.role.role}}</small></h6>
-      <!-- <h6 v-if="user.length != 0 && user.userinfo.department"><small class="font-weight-400" >{{user.userinfo.department.abbreviation ? user.userinfo.department.abbreviation : user.userinfo.department.name}} - {{user.userinfo.role.role}}</small></h6> -->
      </div>
     </div>
     <div class="d-flex">
@@ -32,7 +31,7 @@
     <p class="my-4">Are you sure you want to log-out?</p>
     <template #modal-footer = {cancel} >
       <b-button variant="primary" size="sm" @click="cancel()"> Cancel </b-button>
-      <b-button size="sm" variant="danger" v-on:click.prevent="logout">
+      <b-button size="sm" variant="danger" v-on:click.prevent="logout" :disabled="isLoading">
         Logout
       </b-button>
     </template>
@@ -49,6 +48,7 @@ export default {
   data(){
     return {
       scrollpx: 0,
+      isLoading: false,
     }
   },
   async mounted(){
@@ -66,10 +66,12 @@ export default {
   methods: {
    ...mapActions('auth', ['checkAuthUser', 'logoutAuthUser']),
    async logout(){
+     this.isLoading = true
      const res = await this.logoutAuthUser()
      if(res.status == 200){
        this.$router.push('/')
      }
+     this.isLoading = false
    },
    handleScroll() {
       this.scrollpx = window.scrollY;

@@ -36,15 +36,16 @@ export default {
   },
   UPDATE_ORGACC_STATUS(state, id){
     for(let i = 0; i < state.org_accounts.data.length; i++){
-      if(state.org_accounts.data[i].id == id){
-        state.org_accounts.data[i].status = 'Approved'
+      if(state.org_accounts.data[i].user.id == id){
+        state.org_accounts.data[i].user.status = 'Approved'
       }
     }
   },
   UPDATE_UNITACC_STATUS(state, id){
+    console.log(id)
     for(let i = 0; i < state.unit_accounts.data.length; i++){
-      if(state.unit_accounts.data[i].id == id){
-        state.unit_accounts.data[i].status = 'Approved'
+      if(state.unit_accounts.data[i].user.id == id){
+        state.unit_accounts.data[i].user.status = 'Approved'
       }
     }
   },

@@ -3,7 +3,7 @@
     <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
      <div class="row justify-content-center mt-3">
         <div class="col-12 col-sm-11 col-md-12 col-lg-12 col-xl-12">
-          <div class="card p-4">
+          <div class="card p-5">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
                 <h5 class="text-violet">Members</h5>
@@ -19,7 +19,7 @@
                 </div>
               </div>
             </div>
-            <div class="table-responsive mt-3" v-if="!viewPost">
+            <div class="table-responsive mt-4" v-if="!viewPost">
               <b-skeleton-table
                   :rows="4"
                   :columns="3"

@@ -3,7 +3,7 @@
     <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
      <div class="row justify-content-center mt-3">
         <div class="col-12 col-sm-11 col-md-12 col-lg-12 col-xl-12">
-          <div class="card p-4 mb-4">
+          <div class="card pe-5 ps-5 pb-4 pt-5 mb-4">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
                 <h5 class="text-violet">DELETED POSTS</h5>
@@ -11,6 +11,7 @@
               </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
+              <button v-on:click.prevent="$bvModal.show('scheduleModal')" class="btn btn-primary btn-sm me-2"><i class="bi bi-clock"></i> Schedule</button>
               <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
                 <div class="input-group form-floating">
                   <input v-model="search_post" type="text"  class="form-control" id="floatingSearchOrg" placeholder="Search here">
@@ -19,7 +20,7 @@
                 </div>
               </div>
             </div>
-            <div class="table-responsive mt-3">
+            <div class="table-responsive mt-4">
               <div v-if="posts == 0">No Posts found</div>
               <b-skeleton-table
                   :rows="4"
@@ -34,10 +35,8 @@
                     <th scope="col" class="text-nowrap">Image</th>
                     <th scope="col" class="text-nowrap">Title</th>
                     <th scope="col" class="text-nowrap">Post Excerpt</th>
-                    <!-- <th scope="col" class="text-nowrap">Views</th> -->
                     <th scope="col" class="text-nowrap">Status</th>
                     <th scope="col" class="text-nowrap">Date Posted</th>
-                    <th scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -51,24 +50,11 @@
                       <span class="text-muted"><small>Added by: {{post.useraccount.userinfo.first_name}} {{post.useraccount.userinfo.last_name}}</small></span>
                     </td>
                     <td class="cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">{{post.postcontent.post_excerpt}}</td>
-                    <!-- <td>{{post.views}}</td> -->
                     <td class="cursor-pointer">
                       <b-badge :variant="post.status == 'Approved' ? 'success rounded-pill':'info rounded-pill'">{{post.status}}</b-badge>
                     </td>
                     <td class="text-nowrap">{{post.created_at | moment}}</td>
-                    <td>
-                      <div class="d-flex">
-                        <button v-if="$can('approve_post') && post.status != 'Approved'" v-on:click.prevent="approve_post.id = post.id; $bvModal.show('approvePostModal')" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
-                           <i class="bi bi-check"></i>
-                        </button>
-                        <button v-if="post.user_account_id == user.id" v-on:click.prevent="updatePost(post)" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
-                          <i class="bi bi-pencil-square"></i>
-                        </button>
-                        <button v-if="$can('delete_post') || post.user_account_id == user.id" @click="deletePost = post.id; $bvModal.show('deleteModal')" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
-                          <i class="bi bi-trash"></i>
-                        </button>
-                      </div>
-                    </td>
+
                   </tr>
                 </tbody>
               </table>
@@ -94,11 +80,30 @@
         </template>
     </b-modal>
 
-    <b-modal id="viewPostModal" size="lg" scrollable centered :title="viewPost.postcontent.title">
+    <b-modal id="scheduleModal" centered title="Select Schedule">
+        <p class="">Select a schedule for deleting the records automatically</p>
+        <p class="">Current Schedule: <span class="fw-bold">{{schedule.deletion == '9999' ? 'None' : schedule.deletion + ' days'}}</span></p>
+        <p class="mt-3">Every after</p>
+        <select v-model="data.schedule" class="form-select">
+          <option value="1">1 day</option>
+          <option value="2">2 days</option>
+          <option value="3">3 days</option>
+          <option value="7">1 week</option>
+          <option value="30">1 month</option>
+        </select>
+        <template #modal-footer = {cancel} >
+        <b-button variant="primary" @click="cancel()"> Cancel </b-button>
+        <b-button variant="success" v-on:click.prevent="saveSchedule" :disabled="isLoading">
+            Save
+        </b-button>
+        </template>
+    </b-modal>
+
+    <b-modal id="viewPostModal" scrollable centered :title="viewPost.postcontent.title">
         <div v-html="viewPost.postcontent.content"></div>
-        <p class=" mt-3" v-if="viewPost.useraccount"><small>Added by: <strong>{{viewPost.useraccount.userinfo.first_name}} {{viewPost.useraccount.userinfo.last_name}}</strong></small></p>
+        <p class="mt-3" v-if="viewPost.useraccount"><small>Added by: <strong>{{viewPost.useraccount.userinfo.first_name}} {{viewPost.useraccount.userinfo.last_name}}</strong></small></p>
+        <p class="text-muted "><small>Date Posted: {{viewPost.created_at | moment}}</small></p>
         <p class=""><small>Views: {{viewPost.views}}</small></p>
-        <p class="text-muted mb-2"><small>Date Posted: {{viewPost.created_at | moment}}</small></p>
         <template #modal-footer = {cancel} >
           <b-button variant="primary" @click="cancel()"> Close </b-button>
         </template>
@@ -129,6 +134,9 @@ export default {
            content: ''
          },
        },
+       data: {
+         schedule: '',
+       },
        initialLoading: false,
        isLoading: false,
        isSearching: false,
@@ -156,19 +164,30 @@ export default {
   },
   computed: {
     ...mapState('auth', ['user']),
-    ...mapState('osa', ['posts']),
+    ...mapState('osa', ['posts', 'schedule']),
   },
   async mounted(){
     document.title = 'Info Kiosk - Post Management'
     this.initialLoading = true
     await this.checkAuthUser()
     await this.$store.dispatch('osa/getArchived', 1);
+    await this.$store.dispatch('osa/getSchedule');
     this.initialLoading = false
   },
   methods: {
    //SEARCH NEEDS TO BE FIXED
     ...mapActions('auth', ['checkAuthUser']),
-     async searchPost(page){
+    async saveSchedule(){
+        this.isLoading = true
+        const res = await this.$store.dispatch('osa/saveSchedule', this.data)
+        if(res.status == 200){
+          this.$bvModal.hide('scheduleModal')
+          this.$toast.success('Schedule has been updated successfully')
+          await this.$store.dispatch('osa/getSchedule');
+        }
+        this.isLoading = false
+    },
+    async searchPost(page){
       let data = {
         search: this.search_role
       }

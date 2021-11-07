@@ -30,6 +30,7 @@ Vue.use(Toast, {
   maxToasts: 3,
   newestOnTop: true,
   position: "top-center",
+  timeout: 1500,
   hideProgressBar: true,
 });
 

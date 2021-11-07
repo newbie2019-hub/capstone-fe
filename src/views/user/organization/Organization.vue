@@ -4,24 +4,24 @@
    <div class="row justify-content-center">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
      <div class="card mb-3 pe-5 ps-5 pb-4 pt-4">
-      <h5 class="mt-3" v-if="orgmembers.data != 0">{{orgmembers.data[0].organization.abbreviation ? orgmembers.data[0].organization.abbreviation : orgmembers.data[0].organization.name}}</h5>
+      <h5 class="mt-3" v-if="orgmembers.data != 0">{{orgmembers.data[0].organization.abbreviation ? orgmembers.data[0].organization.abbreviation : orgmembers.data[0].organization.name}} Organization</h5>
       <h5 class="mt-3" v-else>No Organization Available</h5>
-      <p class="text-muted">Here are the members of this organization</p>
+      <p class="text-muted">Here are the members for this organization</p>
       <div v-if="$can('assign_org_adviser')" class="d-flex justify-content-end mt-2">
         <div class="mt-2">
-          <button v-on:click.prevent="$bvModal.show('assignAdviserModal')" class="btn btn-purple"><i class="bi bi-person-circle me-2"></i>Assign Adviser</button>
         </div>
        </div>
       <div class="d-flex justify-content-end mt-2">
-        <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-          <div class="input-group form-floating mb-3">
+        <button v-on:click.prevent="$bvModal.show('assignAdviserModal')" class="btn btn-purple me-2"><i class="bi bi-person-circle me-2"></i>Assign Adviser</button>
+        <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-4">
+          <div class="input-group form-floating">
             <input type="text" v-model="search" class="form-control" id="floatingSearchOrg" placeholder="Search here">
             <label  for="floatingSearchOrg" class="">Search</label>
             <button @click.prevent="orgmemberSearch" class="btn btn-purple"><i class="bi bi-search"></i></button>
           </div>
         </div>
       </div>
-      <div class="table-responsive mt-4" v-if="!viewPost">
+      <div class="table-responsive mt-5" v-if="!viewPost">
        <div class="text-center" v-if="!orgmembers.data || orgmembers.data == 0">No accounts is under this organizations</div>
        <b-skeleton-table
         :rows="6"
