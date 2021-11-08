@@ -37,6 +37,7 @@
                   <tr>
                     <th scope="col">Logo</th>
                     <th scope="col" class="text-nowrap">Department</th>
+                    <th scope="col" class="text-nowrap">Abbreviation</th>
                     <th scope="col" class="text-nowrap">Added on</th>
                     <th scope="col">Actions</th>
                   </tr>
@@ -47,6 +48,7 @@
                       <b-avatar variant="dark" :src="`http://127.0.0.1:8000/uploads/${dep.image}`"></b-avatar>
                     </th>
                     <td>{{dep.name}}</td>
+                    <td :class="dep.appreviation ? '' : 'text-muted'">{{dep.abbreviation ? dep.appreviation : 'None'}}</td>
                     <td class="text-nowrap">{{dep.created_at | moment}}</td>
                     <td>
                       <div class="d-flex">

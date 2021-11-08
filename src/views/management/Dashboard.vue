@@ -42,7 +42,7 @@
               <tbody>
                 <tr v-for="(acc, i) in accounts" :key="i">
                   <th scope="row" class="d-flex justify-content-center" v-if="acc.length != 0">
-                    <b-avatar variant="dark" :src="`http://127.0.0.1:8000/uploads/${acc.userinfo.image}`" ></b-avatar>
+                    <b-avatar variant="dark" :src="`${imgURL}/${acc.userinfo.image}`" ></b-avatar>
                   </th>
                   <td v-if="acc.length != 0" class="text-nowrap">{{acc.userinfo.first_name}} {{acc.userinfo.last_name}}</td>
                   <td v-if="acc.length != 0">{{acc.email}}</td>

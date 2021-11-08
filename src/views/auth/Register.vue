@@ -125,9 +125,9 @@
                   <p class="mt-4">After signing up your account will still be on pending state. Please wait for the approval of the system administrator</p>
                 </div>
                 <div class="d-flex ">
-                  <button href="" class="btn btn-sm btn-purple me-2" v-on:click.prevent="prevStep" :disabled="currentStep == 0">Previous</button>
+                  <button href="" class="btn btn-sm btn-purple me-2" v-on:click.prevent="prevStep" :disabled="currentStep == 0 || isLoading" >Previous</button>
                   <button href="" class="btn btn-sm btn-purple me-3 me-xl-5 me-md-3 me-lg-3 me-xl-4" v-on:click.prevent="nextStep" :disabled="currentStep == 3">Next</button>
-                  <button class="btn btn-sm btn-purple me-3" v-on:click="create" v-if="currentStep == 3"><i class="bi bi-person-circle"></i> Sign-up</button>
+                  <button class="btn btn-sm btn-purple me-3" v-on:click="create" v-if="currentStep == 3" :disabled="isLoading"><i class="bi bi-person-circle"></i> Sign-up</button>
                   <a href="/" class="btn btn-sm btn-purple" v-if="currentStep == 0"><i class="bi bi-person-circle"></i> Login</a>
                 </div>
                 <step-progress :steps="mySteps" :active-color="'mediumslateblue'" :line-thickness="3" :active-thickness="3" :passive-thickness="3" :passive-color="'gray'" :current-step="currentStep" icon-class="bi bi-check"></step-progress>
@@ -147,6 +147,7 @@ export default {
   name: 'Register',
   data() {
     return {
+      isLoading: false,
       data: {
         first_name: '',
         middle_name: '',
@@ -195,6 +196,7 @@ export default {
   methods: {
     ...mapActions('auth', ['createAccount', 'getSignUpInfo']),
     async create(){
+      this.isLoading = true
       const res = await this.createAccount(this.data)
       if(res.status == 200){
         this.$toast.success('Account created successfully! \nPlease wait for the approval of your adviser')
@@ -206,6 +208,7 @@ export default {
       else {
         this.showError(res.data)
       }
+      this.isLoading = false
     },
     showError(data){
       for (const key of Object.keys(data)) {

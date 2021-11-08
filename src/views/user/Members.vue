@@ -44,7 +44,7 @@
                   </tr>
                   <tr v-for="(acc, i) in members.data" :key="i">
                     <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
-                      <b-avatar variant="dark" :src="'http://127.0.0.1:8000/uploads/' + acc.user.userinfo.image"></b-avatar>
+                      <b-avatar variant="dark" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
                     </th>
                     <td class="pt-3 cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{acc.user.userinfo.first_name}} {{acc.user.userinfo.middle_name}} {{acc.user.userinfo.last_name}}</td>
                     <td class="pt-3 cursor-pointer"  v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{acc.user.userinfo.role.role}}</td>

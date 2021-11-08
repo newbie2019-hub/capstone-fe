@@ -226,7 +226,7 @@ export default {
 
       if(this.fileRecordsForUpload.length > 0) {
         const img = await this.$refs.vueFileAgent.upload(
-          `http://127.0.0.1:8000/api/admin/uploadAccountImage?token=` + localStorage.getItem("auth"), 
+          `${this.envURL}/admin/uploadAccountImage?token=` + localStorage.getItem("auth"), 
           {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
         );
         this.data.image = img[0].data

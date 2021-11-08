@@ -172,7 +172,7 @@ export default {
    },
    async saveChanges(){
     if(this.data.first_name.trim() == '') return this.$toast.error('First Name is required')
-    if(this.data.middle_name.trim() == '') return this.$toast.error('Middle Name is required')
+    // if(this.data.middle_name.trim() == '') return this.$toast.error('Middle Name is required')
     if(this.data.last_name.trim() == '') return this.$toast.error('Last Name is required')
     if(this.data.gender == '') return this.$toast.error('Gender is required')
     if(this.data.contact_number == '') return this.$toast.error('Contact Number is required')
@@ -182,7 +182,7 @@ export default {
 
     if(this.fileRecordsForUpload.length > 0) {
         const img = await this.$refs.vueFileAgent.upload(
-          `http://127.0.0.1:8000/api/auth/user/uploadUserImage?token=` + localStorage.getItem("auth"), 
+          `${this.envURL}/auth/user/uploadUserImage?token=` + localStorage.getItem("auth"), 
           {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
         );
 

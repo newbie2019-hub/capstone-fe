@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import envURL from './assets/js/envUrl';
 import Toast from "vue-toastification";
 import VueFileAgent from 'vue-file-agent';
 import 'vue-file-agent/dist/vue-file-agent.css';
@@ -17,6 +18,7 @@ Vue.use(abilitiesPlugin, ability, {
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueFileAgent)
+Vue.mixin(envURL);
 
 import './assets/css/style.css'
 import 'bootstrap/dist/css/bootstrap.css'

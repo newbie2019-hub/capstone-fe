@@ -33,7 +33,7 @@
                 <thead>
                   <tr>
                     <th scope="col">Logo</th>
-                    <th scope="col" class="text-nowrap text-center">Organization</th>
+                    <th scope="col" class="text-nowrap">Organization</th>
                     <th scope="col" class="text-nowrap">Abbreviation</th>
                     <th scope="col" class="text-nowrap">Department</th>
                     <th scope="col" class="text-nowrap">Added on</th>

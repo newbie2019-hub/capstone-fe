@@ -38,7 +38,7 @@
 
          <tr v-for="(acc, i) in currentOrganization" :key="i" >
           <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
-            <b-avatar variant="dark" :src="'http://127.0.0.1:8000/uploads/' + acc.userinfo.image"></b-avatar>
+            <b-avatar variant="dark" :src="`${imgURL}/` + acc.userinfo.image"></b-avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.userinfo.first_name }} {{ acc.userinfo.last_name }}</td>
           <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.userinfo.role.role }}</td>
@@ -87,7 +87,7 @@
               <tr v-for="(post, i) in posts" :key="i">
                 <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">{{i + 1}}</td>
                 <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">
-                  <img v-if="post.postcontent.image" :src="'http://127.0.0.1:8000/uploads/' + post.postcontent.image" alt="" class="" width="100"/>
+                  <img v-if="post.postcontent.image" :src="`${imgURL}/` + post.postcontent.image" alt="" class="" width="100"/>
                   <p class="text-muted" v-else>No Image</p>
                 </td>
                 <td class="cursor-pointer text-nowrap" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')" >{{post.postcontent.title}}</td>
@@ -126,7 +126,7 @@
    <!-- VIEW INFO MODAL --->
    <b-modal id="viewInfoModal" centered title="Account Info">
       <div class="row justify-content-center text-center">
-        <b-avatar size="6rem" variant="dark" :src="'http://127.0.0.1:8000/uploads/' + accDisplayed.userinfo.image"></b-avatar>
+        <b-avatar size="6rem" variant="dark" :src="`${imgURL}/` + accDisplayed.userinfo.image"></b-avatar>
         <h5 class="mt-3 ">{{accDisplayed.userinfo.first_name}} {{accDisplayed.userinfo.last_name}}</h5>
         <p class="">{{accDisplayed.email}}</p>
         <p class="">Contact: {{accDisplayed.userinfo.contact_number}}</p>

@@ -41,7 +41,7 @@
             @image-added="handleImageAdded"
           />
           <div class="d-flex mt-3">
-           <button type="submit" class="btn btn-success btn-sm me-1">Save Post</button>
+           <button type="submit" class="btn btn-success btn-sm me-1" :disabled="isLoading">Save Post</button>
            <a @click.prevent="$router.back()" href="" class="btn btn-secondary btn-sm">Cancel</a>
           </div>
         </form>
@@ -93,6 +93,8 @@ export default {
     content: '',
     post_excerpt: '',
    },
+   isLoading: false,
+   initialLoading: false,
   }
  },
  async mounted(){
@@ -139,7 +141,7 @@ export default {
 
    if(this.fileRecordsForUpload.length > 0) {
      const img = await this.$refs.vueFileAgent.upload(
-       `http://127.0.0.1:8000/api/user/uploadPostImage?token=` + localStorage.getItem("auth"), 
+       `${this.envURL}/user/uploadPostImage?token=` + localStorage.getItem("auth"), 
        {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
      );
 

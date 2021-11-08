@@ -117,7 +117,7 @@
           <tbody>
             <tr v-for="(official, i) in officials.data" :key="i">
               <th scope="row" class="justify-content-center" v-if="officials.data != 0">
-                <b-avatar variant="dark" :src="'http://127.0.0.1:8000/uploads/' + official.image"></b-avatar>
+                <b-avatar variant="dark" :src="`${imgURL}/` + official.image"></b-avatar>
               </th>
               <td>{{official.title}}</td>
               <td>{{official.first_name}}</td>

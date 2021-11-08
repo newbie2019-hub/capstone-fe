@@ -42,7 +42,7 @@
                 <tbody>
                   <tr v-for="(post, i) in posts.data" :key="i">
                     <td v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">
-                      <img v-if="post.postcontent.image" :src="'http://127.0.0.1:8000/uploads/' + post.postcontent.image" alt="" class="" width="100"/>
+                      <img v-if="post.postcontent.image" :src="`${imgURL}/` + post.postcontent.image" alt="" class="" width="100"/>
                       <p class="text-muted" v-else>No Image</p>
                     </td>
                     <td class="text-nowrap cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">

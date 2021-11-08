@@ -73,7 +73,7 @@
         <tbody v-if="org_accounts.data">
          <tr v-for="(acc, i) in org_accounts.data" :key="i">
           <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
-           <b-avatar variant="dark" :src="'http://127.0.0.1:8000/uploads/' + acc.user.userinfo.image"></b-avatar>
+           <b-avatar variant="dark" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}</td>
           <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.organization.name }}</td>
@@ -191,7 +191,7 @@
         <tbody v-if="unit_accounts.data != 0">
          <tr v-for="(acc, i) in unit_accounts.data" :key="i">
           <th scope="row" class="justify-content-center cursor-pointer" v-if="unit_accounts.data != 0" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
-           <b-avatar variant="dark" :src="'http://127.0.0.1:8000/uploads/' + acc.user.userinfo.image"></b-avatar>
+           <b-avatar variant="dark" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
            {{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}
@@ -265,7 +265,7 @@
    <!-- VIEW INFO MODAL --->
    <b-modal id="viewInfoModal" hide-footer centered title="Account Info">
       <div class="row justify-content-center text-center">
-        <b-avatar size="6rem" variant="dark" :src="'http://127.0.0.1:8000/uploads/' + accDisplayed.user.userinfo.image"></b-avatar>
+        <b-avatar size="6rem" variant="dark" :src="`${imgURL}/` + accDisplayed.user.userinfo.image"></b-avatar>
         <h5 class="mt-3 ">{{accDisplayed.user.userinfo.first_name}} {{accDisplayed.user.userinfo.last_name}}</h5>
         <p class="">{{accDisplayed.user.email}}</p>
         <p class="">Contact: {{accDisplayed.user.userinfo.contact_number}}</p>
@@ -281,7 +281,7 @@
    <!-- VIEW INFO MODAL --->
    <b-modal id="viewDepInfoModal" hide-footer centered title="Account Info">
       <div class="row justify-content-center text-center">
-        <b-avatar size="6rem" variant="dark"  :src="'http://127.0.0.1:8000/uploads/' + accUnitDisplayed.user.userinfo.image"></b-avatar>
+        <b-avatar size="6rem" variant="dark"  :src="`${imgURL}/` + accUnitDisplayed.user.userinfo.image"></b-avatar>
         <h5 class="mt-3 ">{{accUnitDisplayed.user.userinfo.first_name}} {{accUnitDisplayed.user.userinfo.last_name}}</h5>
         <p class="">{{accUnitDisplayed.user.email}}</p>
         <p class="">Contact: {{accUnitDisplayed.user.userinfo.contact_number}}</p>
