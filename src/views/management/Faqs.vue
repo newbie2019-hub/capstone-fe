@@ -108,8 +108,8 @@
     <b-modal id="deleteModal" centered title="Confirm Delete">
         <p class="">Are you sure to delete this FAQ?</p>
         <template #modal-footer = {cancel} >
-        <b-button variant="primary" @click="cancel()"> Cancel </b-button>
-        <b-button variant="danger" v-on:click.prevent="destroyFAQ">
+        <b-button variant="primary" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
+        <b-button variant="danger" v-on:click.prevent="destroyFAQ" :disabled="isLoading">
             Delete
         </b-button>
         </template>

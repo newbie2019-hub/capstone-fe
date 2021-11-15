@@ -19,6 +19,7 @@
      <router-view name="teldirectory"/>
      <router-view name="permission"/>
      <router-view name="courses"/>
+     <router-view name="logs"/>
      <router-view name="newcourse"/>
      <router-view name="updatecourse"/>
    </div>

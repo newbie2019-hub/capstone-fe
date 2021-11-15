@@ -20,6 +20,8 @@ const UpdateSchoolOfficial = () => import('../views/management/university/Update
 const TelDirectory = () => import('../views/management/university/TelDirectory.vue')
 const GoalsandObjectives = () => import('../views/management/university/GoalsandObjectives.vue')
 
+const ActivityLogs = () => import('../views/management/ActivityLogs.vue')
+
 const Courses = () => import('../views/management/university/course/Courses.vue')
 const NewCourse = () => import('../views/management/university/course/NewCourse.vue')
 const UpdateCourse = () => import('../views/management/university/course/UpdateCourse.vue')
@@ -100,6 +102,13 @@ const routes = [
         name: 'department',
         components: {
           department: Department
+        }
+      },
+      {
+        path: 'logs',
+        name: 'logs',
+        components: {
+          logs: ActivityLogs
         }
       },
       // {

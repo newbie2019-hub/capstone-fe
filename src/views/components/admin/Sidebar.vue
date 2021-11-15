@@ -8,10 +8,11 @@
      <router-link to="/home/department" ><i class="bi bi-diagram-2 me-2 bi-3x"></i> <span class="sidenav-sr">Departments</span></router-link>
      <router-link to="/home/organization" ><i class="bi bi-grid me-2 bi-2x"></i> <span class="sidenav-sr">Organization</span></router-link>
      <router-link to="/home/permission" ><i class="bi bi-shield-check me-2 bi-2x"></i> <span class="sidenav-sr">Permission</span></router-link>
+     <router-link to="/home/logs" ><i class="bi bi-journal-text me-2 bi-2x"></i> <span class="sidenav-sr">Activity Logs</span></router-link>
      <!-- <router-link to="/home/admin/updates" ><i class="bi bi-megaphone me-2 bi-2x"></i> <span class="sidenav-sr">Updates</span></router-link> -->
      <a href="" :class="checkRoute" @click.prevent="toggleExpand" ref="expandedmenubtn">
        <div class="d-flex align-items-center w-100">
-        <i class="bi bi-info-circle me-3 bi-2x"></i> 
+        <i class="bi bi-info-circle me-2 bi-2x"></i> 
         <span class="sidenav-sr me-auto">University Info</span>
         <i class="bi bi-arrow-right-short mx-auto bi-2x" ref="rightarrow"></i>
         <i class="bi bi-arrow-down-short mx-auto bi-2x expand" ref="downarrow"></i>
