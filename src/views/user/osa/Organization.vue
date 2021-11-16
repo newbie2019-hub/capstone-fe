@@ -23,9 +23,8 @@
         :table-props="{ bordered: false, striped: true }"
         v-if="initialLoading || isSearching"
        ></b-skeleton-table>
-       <div class="text-center" v-if="!currentOrganization || currentOrganization == 0">No accounts is under this organizations</div>
-       <table class="table table-hover" v-if="(!viewPost && currentOrganization != 0) && !initialLoading ">
-        <thead v-if="currentOrganization">
+       <table class="table table-hover" v-if="!viewPost  && !initialLoading ">
+        <thead >
          <tr>
           <th scope="col"></th>
           <th scope="col" class="text-nowrap">Name</th>
@@ -34,9 +33,11 @@
           <th scope="col">Actions</th>
          </tr>
         </thead>
-        <tbody v-if="currentOrganization">
-
-         <tr v-for="(acc, i) in currentOrganization" :key="i" >
+        <tbody>
+          <tr v-if="currentOrganization == '' && !initialLoading">
+            <td class="text-center pt-3 pb-3" colspan="6">Please select an organization</td>
+          </tr>
+         <tr v-else v-for="(acc, i) in currentOrganization" :key="i" >
           <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
             <b-avatar variant="dark" :src="`${imgURL}/` + acc.userinfo.image"></b-avatar>
           </th>
@@ -49,8 +50,7 @@
               v-on:click.prevent="posts = acc.posts; viewPost = true"
               v-b-tooltip.hover
               title="View Posts"
-              class="btn btn-sm btn-secondary rounded-pill me-2"
-              >
+              class="btn btn-sm btn-secondary rounded-pill me-2">
               <i class="bi bi-newspaper"></i>
             </button>
            </div>
@@ -107,8 +107,6 @@
             </tbody>
           </table>
         </div>
-
-        <!--- END OF TABLE FOR POST --->
      </div>
     </div>
    </div>
@@ -196,7 +194,7 @@ export default {
      initialLoading: false,
      isLoading: false,
      isSearching: false,
-     currentOrganization: {},
+     currentOrganization: '',
      selectedOrganization: '',
      postContent: {
         postcontent: {

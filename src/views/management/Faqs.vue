@@ -151,7 +151,7 @@ export default {
     }
   },
   created: function () {
-    this.debouncedFaqsSearch = _.debounce(this.faqsSearch, 1000)
+    this.debouncedFaqsSearch = _.debounce(this.faqsSearch, 800)
   },
   computed: {
     ...mapState('faq', ['faqs']),
@@ -193,7 +193,7 @@ export default {
       }
       this.islLoading = false
     },
-     async searchFaqs(page){
+    async searchFaqs(page){
        this.isSearching = true
        let data = {
          search: this.search_faq

@@ -6,15 +6,15 @@
           <div class="card p-5">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
-                <h5 class="text-violet">Departments</h5>
-                <p class="mb-4"><small>Manage your departments below</small></p>
+                <h5 class="text-violet">Unit</h5>
+                <p class="mb-4"><small>Manage your unit below</small></p>
               </div>
               <div class="d-flex flex-column mt-2">
                
               </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-               <button v-on:click.prevent="$bvModal.show('newDepartmentModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> Department</button>
+               <button v-on:click.prevent="$bvModal.show('newDepartmentModal')" class="btn btn-purple btn-sm me-2"><i class="bi bi-plus-circle"></i> New Unit</button>
               <div class="col-7 col-sm-6 col-md-5 col-lg-4 col-xl-3">
                 <div class="input-group form-floating">
                   <input type="text" v-model="search_department" class="form-control" id="floatingSearchDep" placeholder="Search here">
@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="table-responsive mt-3">
-              <div v-if="departments.data == 0">No accounts under organizations</div>
+              <div v-if="departments.data == 0">No accounts under the unit</div>
               <b-skeleton-table
                   :rows="4"
                   :columns="3"
@@ -32,11 +32,11 @@
                   v-if="initialLoading || isSearching"
                 ></b-skeleton-table>
               <table class="table table-hover" v-else>
-                <caption>Showing {{departments.from}} to {{departments.to}} out of {{departments.total}} departments</caption>
+                <caption>Showing {{departments.from}} to {{departments.to}} out of {{departments.total}} units</caption>
                 <thead>
                   <tr>
                     <th scope="col">Logo</th>
-                    <th scope="col" class="text-nowrap">Department</th>
+                    <th scope="col" class="text-nowrap">Unit</th>
                     <th scope="col" class="text-nowrap">Abbreviation</th>
                     <th scope="col" class="text-nowrap">Added on</th>
                     <th scope="col">Actions</th>
@@ -82,8 +82,8 @@
           <div class="card p-5">
             <div class="d-flex align-items-center">
               <div class="d-flex flex-column me-auto mt-2">
-                <h5 class="text-violet">Department Roles</h5>
-                <p class="mb-4"><small>Manage your roles for departments below</small></p>
+                <h5 class="text-violet">Unit Roles</h5>
+                <p class="mb-4"><small>Manage your roles for the unit below</small></p>
               </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
@@ -97,7 +97,7 @@
               </div>
             </div>
             <div class="table-responsive mt-3">
-              <div v-if="dep_roles.data == 0">No roles added for department. Add a role by clicking the New Role button</div>
+              <div v-if="dep_roles.data == 0">No roles added for unit. Add a role by clicking the New Role button</div>
               <b-skeleton-table
                   :rows="4"
                   :columns="3"
@@ -105,7 +105,7 @@
                   v-if="initialLoading || isSearching"
                 ></b-skeleton-table>
               <table class="table table-hover" v-else>
-                <caption>Showing {{dep_roles.from}} to {{dep_roles.to}} out of {{dep_roles.total}} department roles</caption>
+                <caption>Showing {{dep_roles.from}} to {{dep_roles.to}} out of {{dep_roles.total}} unit roles</caption>
                 <thead>
                   <tr>
                     <th scope="col" class="text-nowrap">Role</th>

@@ -13,10 +13,14 @@ export default {
     objectives: [],
     update_official: '',
     updateCourse: '',
+    updateCollege: '',
   },
   getters: {
   },
   mutations: {
+    SET_UPDATE_COLLEGE(state, data){
+      state.updateCollege = data
+    },
     SET_UPDATE_COURSE(state, data){
       state.updateCourse = data
     },

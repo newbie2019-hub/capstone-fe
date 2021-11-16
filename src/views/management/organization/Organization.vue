@@ -46,8 +46,8 @@
                       <b-avatar variant="dark" icon="star-fill" :src="`http://127.0.0.1:8000/uploads/${org.image}`"></b-avatar>
                     </th>
                     <td class="">{{org.name}}</td>
-                    <td :class="org.abbreviation ? '':'text-muted'">{{org.abbreviation ? org.abbreviation : 'N/A'}}</td>
-                    <td :class="org.department ? '':'text-muted'">{{org.department ? org.department.name : 'N/A'}}</td>
+                    <td :class="org.abbreviation ? '':'text-muted'">{{org.abbreviation ? org.abbreviation : 'None'}}</td>
+                    <td :class="org.department ? '':'text-muted'">{{org.department ? org.department.name : 'None'}}</td>
                     <td class="text-nowrap text-center">{{org.created_at | moment}}</td>
                     <td>
                       <div class="d-flex">
@@ -142,8 +142,8 @@
 
  <!-- NEW ORGANIZATION MODAL --->
   <b-modal id="newOrganizationModal" centered title="New Organization">
-    <label for="brand" class="mt-2">Logo</label>
-    <VueFileAgent class="mb-4"
+    <label for="brand" class="mt-2">Organization Logo</label>
+    <VueFileAgent class="mb-2"
             ref="vueFileAgent"
             @select="filesSelected($event)"
             :multiple="false"
@@ -159,20 +159,15 @@
             }"
         v-model="fileRecords"
       ></VueFileAgent>
-    <div class="form-floating mb-2 mt-3 ">
-      <input v-model="organization.organization" type="text" class="form-control" id="newOrganization" placeholder="name@example.com">
-      <label for="newOrganization">Type a new organization</label>
-    </div>
-    <div class="form-floating mb-2 mt-4">
-      <input v-model="organization.abbreviation" type="text" class="form-control" id="newOrgAbbrev" placeholder="">
+      <label for="newOrganization">Organization Name</label>
+      <input v-model="organization.organization" type="text" class="form-control" id="newOrganization" placeholder="">
       <label for="newOrgAbbrev">Abbreviation</label>
-    </div>
+      <input v-model="organization.abbreviation" type="text" class="form-control" id="newOrgAbbrev" placeholder="">
+      <label for="newOrgAbbrev">Department</label>
     <!---- FIX UPDATE ON ORGANIZATION -> ADD THE DEPARTMENT AS TO WHERE IT BELONGS ---->
-    <div class="mb-2 mt-3">
-       <select v-model="organization.department_id" class="form-select">
+      <select v-model="organization.department_id" class="form-select">
         <option :value="unit.id" v-for="(unit, i) in signup.unit" :key="i">{{unit.name}}</option>
       </select>
-    </div>
     <template #modal-footer = {cancel} >
       <b-button variant="primary" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
       <b-button variant="success" v-on:click.prevent="saveOrganization" :disabled="isLoading">
@@ -183,8 +178,8 @@
 
   <!-- UPDATE ORGANIZATION MODAL --->
   <b-modal id="updateOrganizationModal" centered title="Update Organization">
-    <label for="brand" class="mt-2">Logo</label>
-    <VueFileAgent class="mb-4"
+    <label for="brand" class="mt-2">Organization Logo</label>
+    <VueFileAgent class="mb-2"
             ref="vueFileAgent"
             @select="filesSelected($event)"
             :multiple="false"
@@ -200,21 +195,17 @@
             }"
         v-model="fileRecords"
       ></VueFileAgent>
-    <div class="form-floating mb-2 mt-3 ">
+      <label for="updateOrganization">Organization Name</label>
       <input v-model="update_organization.name" type="text" class="form-control" id="updateOrganization" placeholder="">
-      <label for="updateOrganization">Type a new organization</label>
-    </div>
-    <div class="form-floating mb-2 mt-4">
-      <input v-model="update_organization.abbreviation" type="text" class="form-control" id="updateOrgAbbrev" placeholder="">
+
       <label for="updateOrgAbbrev">Abbreviation</label>
-    </div>
+      <input v-model="update_organization.abbreviation" type="text" class="form-control" id="updateOrgAbbrev" placeholder="">
     <!---- FIX UPDATE ON ORGANIZATION -> ADD THE DEPARTMENT AS TO WHERE IT BELONGS ---->
-    <div class="mb-2 mt-3">
-       <select v-model="update_organization.department_id" class="form-select" id="unitSelect" aria-label="Department">
+      <label for="updateOrgAbbrev">Department</label>
+      <select v-model="update_organization.department_id" class="form-select" id="unitSelect" aria-label="Department">
         <option value="default" selected disabled>Select a department</option>
         <option :value="unit.id" v-for="(unit, i) in signup.unit" :key="i">{{unit.name}}</option>
       </select>
-    </div>
     <template #modal-footer = {cancel} >
       <b-button variant="primary" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
       <b-button variant="success" v-on:click.prevent="updateOrganization" :disabled="isLoading">

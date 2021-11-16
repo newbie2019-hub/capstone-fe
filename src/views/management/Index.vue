@@ -15,7 +15,9 @@
      <router-view name="accountupdate"/>
      <router-view name="organization"/>
      <router-view name="department"/>
-     <router-view name="goalsandobjectives"/>
+     <router-view name="basiceducandcolleges"/>
+     <router-view name="createbasiceducandcollege"/>
+     <router-view name="updatebasiceducandcollege"/>
      <router-view name="teldirectory"/>
      <router-view name="permission"/>
      <router-view name="courses"/>

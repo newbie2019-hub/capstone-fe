@@ -37,7 +37,7 @@
           Tel Directory
         </span>
       </router-link>
-      <router-link to="/home/goalsandobjectives" class="w-100 d-inline-block">
+      <router-link to="/home/basiceducandcolleges" class="w-100 d-inline-block">
         <i class="bi bi-filter-right me-1"></i>
         <span class="sidenav-sr">Basic Education and Colleges</span>
       </router-link>

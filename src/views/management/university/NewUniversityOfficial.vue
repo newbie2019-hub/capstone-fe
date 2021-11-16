@@ -4,7 +4,7 @@
       <div class="row justify-content-center align-items-center">
         <div class="col-12 col-sm-12 col-md-11 col-lg-11 col-xl-12">
           <div class="card p-5 mb-4">
-            <h5>Create School Official</h5>
+            <h5>Add School Official</h5>
             <p class="text-muted">Please enter user information</p>
             <div v-if="initialLoading" class="row justify-content-center align-items-center mt-3" style="height: 250px">
               <div class="spinner-grow text-secondary" role="status" style="width: 2.5rem; height: 2.5rem">

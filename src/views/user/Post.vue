@@ -21,7 +21,6 @@
               </div>
             </div>
             <div class="table-responsive mt-3">
-              <div v-if="posts == 0">No Posts found</div>
               <b-skeleton-table
                   :rows="4"
                   :columns="7"
@@ -41,7 +40,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(post, i) in posts.data" :key="i">
+                  <tr v-if="posts.data == 0 && !initialLoading">
+                    <td class="text-center pt-3 pb-3" colspan="6">No data available</td>
+                  </tr>
+                  <tr v-else v-for="(post, i) in posts.data" :key="i">
                     <td v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">
                       <img v-if="post.postcontent.image" :src="`${imgURL}/` + post.postcontent.image" alt="" class="" width="100"/>
                       <p class="text-muted" v-else>No Image</p>
@@ -51,7 +53,6 @@
                       <span class="text-muted"><small>Added by: {{post.useraccount.userinfo.first_name}} {{post.useraccount.userinfo.last_name}}</small></span>
                     </td>
                     <td class="cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">{{post.postcontent.post_excerpt}}</td>
-                    <!-- <td>{{post.views}}</td> -->
                     <td class="cursor-pointer">
                       <b-badge :variant="post.status == 'Approved' ? 'success rounded-pill':'info rounded-pill'">{{post.status}}</b-badge>
                     </td>
@@ -97,8 +98,8 @@
     <b-modal id="viewPostModal" scrollable centered :title="viewPost.postcontent.title">
         <div v-html="viewPost.postcontent.content"></div>
         <p class=" mt-3" v-if="viewPost.useraccount"><small>Added by: <strong>{{viewPost.useraccount.userinfo.first_name}} {{viewPost.useraccount.userinfo.last_name}}</strong></small></p>
+        <p class=""><small>{{viewPost.created_at | moment}}</small></p>
         <p class=""><small>Views: {{viewPost.views}}</small></p>
-        <p class="text-muted mb-2"><small>Date Posted: {{viewPost.created_at | moment}}</small></p>
         <template #modal-footer = {cancel} >
           <b-button variant="primary" @click="cancel()"> Close </b-button>
         </template>

@@ -18,7 +18,10 @@ const UniversityInfo = () => import('../views/management/university/UniversityIn
 const NewSchoolOfficial = () => import('../views/management/university/NewUniversityOfficial.vue')
 const UpdateSchoolOfficial = () => import('../views/management/university/UpdateUniversityOfficial.vue')
 const TelDirectory = () => import('../views/management/university/TelDirectory.vue')
-const GoalsandObjectives = () => import('../views/management/university/GoalsandObjectives.vue')
+
+const BasicEducationandColleges = () => import('../views/management/university/college/BasicEducationandColleges.vue')
+const CreateBasicEducationandCollege = () => import('../views/management/university/college/CreateBasicEducationandCollege.vue')
+const UpdateEducationandCollege = () => import('../views/management/university/college/Update.vue')
 
 const ActivityLogs = () => import('../views/management/ActivityLogs.vue')
 
@@ -168,10 +171,24 @@ const routes = [
         }
       },
       {
-        path: 'goalsandobjectives',
-        name: 'goalsandobjectives',
+        path: 'basiceducandcolleges',
+        name: 'basiceducandcolleges',
         components: {
-          goalsandobjectives: GoalsandObjectives
+          basiceducandcolleges: BasicEducationandColleges
+        }
+      },
+      {
+        path: 'basiceducandcolleges/create',
+        name: 'basiceducandcolleges/create',
+        components: {
+          createbasiceducandcollege: CreateBasicEducationandCollege
+        }
+      },
+      {
+        path: 'basiceducandcolleges/update',
+        name: 'basiceducandcolleges/update',
+        components: {
+          updatebasiceducandcollege: UpdateEducationandCollege
         }
       },
       {

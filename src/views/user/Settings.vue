@@ -161,73 +161,72 @@ export default {
          if (k !== -1) this.fileRecords.splice(k, 1);
        }
      },
-   setData(){
-    this.data.first_name = this.user.userinfo.first_name
-    this.data.middle_name = this.user.userinfo.middle_name
-    this.data.last_name = this.user.userinfo.last_name
-    this.data.gender = this.user.userinfo.gender
-    this.data.contact_number = this.user.userinfo.contact_number
-    this.data.email = this.user.email
-    this.isLoading = false
-   },
-   async saveChanges(){
-    if(this.data.first_name.trim() == '') return this.$toast.error('First Name is required')
-    // if(this.data.middle_name.trim() == '') return this.$toast.error('Middle Name is required')
-    if(this.data.last_name.trim() == '') return this.$toast.error('Last Name is required')
-    if(this.data.gender == '') return this.$toast.error('Gender is required')
-    if(this.data.contact_number == '') return this.$toast.error('Contact Number is required')
-    if(this.data.email == '') return this.$toast.error('Email is required')
-
-    if(this.data.confirm_password.trim() == '') return this.$toast.error('Please enter your current password')
-
-    if(this.fileRecordsForUpload.length > 0) {
-        const img = await this.$refs.vueFileAgent.upload(
-          `${this.envURL}/auth/user/uploadUserImage?token=` + localStorage.getItem("auth"), 
-          {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
-        );
-
-        this.data.image = img[0].data
-      }
-
-    this.isLoading = true
-    const res = await this.$store.dispatch('auth/updateAccount', this.data)
-    this.data.confirm_password = ''
-    if(res.status == 422) {
-      this.$bvModal.hide('saveChangesModal')
-      this.$toast.error(res.data.msg)
-    }
-    if(res.status == 200){
-      await this.$store.dispatch('auth/checkAuthUser')
-      this.$toast.success(res.data.msg)
-      this.$bvModal.hide('saveChangesModal')
-    }
-    this.isLoading = false
- 
-   },
-   async changePassword(){
-     if(this.password_data.current_password.trim() == '') return this.$toast.error('Current password is required');
-     if(this.password_data.new_password.trim() == '') return this.$toast.error('New password is required');
-     if(this.password_data.confirm_password.trim() == '') return this.$toast.error('Confirm password is required');
-     if(this.password_data.new_password !== this.password_data.confirm_password) return this.$toast.error('New Password doesn\'t match');
-     this.isLoading = true
-
-     const res = await this.$store.dispatch('auth/changeUserPassword', this.password_data)
-
-     if(res.status == 200){
-       this.$toast.success(res.data.msg)
-       this.clearPasswordField()
-       this.$bvModal.hide('changePasswordModal')
-     } 
-     else {
-       this.$toast.error(res.data.msg)
-     }  
+    setData(){
+      this.data.first_name = this.user.userinfo.first_name
+      this.data.middle_name = this.user.userinfo.middle_name
+      this.data.last_name = this.user.userinfo.last_name
+      this.data.gender = this.user.userinfo.gender
+      this.data.contact_number = this.user.userinfo.contact_number
+      this.data.email = this.user.email
       this.isLoading = false
-   },
-   clearPasswordField(){
-     this.password_data.current_password = ''
-     this.password_data.new_password = ''
-     this.password_data.confirm_password = ''
-   }
+    },
+    async saveChanges(){
+      if(this.data.first_name.trim() == '') return this.$toast.error('First Name is required')
+      if(this.data.last_name.trim() == '') return this.$toast.error('Last Name is required')
+      if(this.data.gender == '') return this.$toast.error('Gender is required')
+      if(this.data.contact_number == '') return this.$toast.error('Contact Number is required')
+      if(this.data.email == '') return this.$toast.error('Email is required')
+
+      if(this.data.confirm_password.trim() == '') return this.$toast.error('Please enter your current password')
+
+      if(this.fileRecordsForUpload.length > 0) {
+          const img = await this.$refs.vueFileAgent.upload(
+            `${this.envURL}/auth/user/uploadUserImage?token=` + localStorage.getItem("auth"), 
+            {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
+          );
+
+          this.data.image = img[0].data
+        }
+
+      this.isLoading = true
+      const res = await this.$store.dispatch('auth/updateAccount', this.data)
+      this.data.confirm_password = ''
+      if(res.status == 422) {
+        this.$bvModal.hide('saveChangesModal')
+        this.$toast.error(res.data.msg)
+      }
+      if(res.status == 200){
+        await this.$store.dispatch('auth/checkAuthUser')
+        this.$toast.success(res.data.msg)
+        this.$bvModal.hide('saveChangesModal')
+      }
+      this.isLoading = false
+ 
+    },
+    async changePassword(){
+      if(this.password_data.current_password.trim() == '') return this.$toast.error('Current password is required');
+      if(this.password_data.new_password.trim() == '') return this.$toast.error('New password is required');
+      if(this.password_data.confirm_password.trim() == '') return this.$toast.error('Confirm password is required');
+      if(this.password_data.new_password !== this.password_data.confirm_password) return this.$toast.error('New Password doesn\'t match');
+      this.isLoading = true
+
+      const res = await this.$store.dispatch('auth/changeUserPassword', this.password_data)
+
+      if(res.status == 200){
+        this.$toast.success(res.data.msg)
+        this.clearPasswordField()
+        this.$bvModal.hide('changePasswordModal')
+      } 
+      else {
+        this.$toast.error(res.data.msg)
+      }  
+        this.isLoading = false
+    },
+    clearPasswordField(){
+      this.password_data.current_password = ''
+      this.password_data.new_password = ''
+      this.password_data.confirm_password = ''
+    }
 
   }
 }

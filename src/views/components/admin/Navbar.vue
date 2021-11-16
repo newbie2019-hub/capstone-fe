@@ -8,9 +8,10 @@
       <i></i>
     </label> 
     <div class="d-flex me-auto" v-if="user.length != 0">
-     <a href="/home/settings" class="text-decoration-none">
-       <b-avatar variant="dark" :src="`${imgURL}/${user.admininfo.image}`" size="3rem"></b-avatar>
-     </a>
+     <router-link to="/home/settings" class="text-decoration-none bg-light">
+       <b-avatar variant="dark" v-if="user.admininfo.image" :src="`${imgURL}/${user.admininfo.image}`" size="3rem"></b-avatar>
+       <b-avatar variant="dark" v-else :src="`${imgURL}/${user.admininfo.image}`" size="3rem"></b-avatar>
+     </router-link>
      <div class="d-flex flex-column justify-content-center ms-3">
       <h6 v-if="user.length != 0">{{user.admininfo.first_name}} {{user.admininfo.last_name}}</h6>
       <h6 class="text-muted nav-email-mobile" v-if="user.length != 0"><small>{{user.email}}</small></h6>
@@ -31,8 +32,8 @@
    <b-modal id="logoutModal" centered title="Logout">
     <p class="my-4">Are you sure you want to log-out?</p>
     <template #modal-footer = {cancel} >
-      <b-button variant="primary" size="sm" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
-      <b-button size="sm" variant="danger" v-on:click.prevent="logout" :disabled="isLoading">
+      <b-button variant="primary" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
+      <b-button variant="danger" v-on:click.prevent="logout" :disabled="isLoading">
         Logout
       </b-button>
     </template>

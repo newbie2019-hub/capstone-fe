@@ -34,5 +34,16 @@ export default {
 
       return res;
     },
+    async searchActivityLog({commit}, {page, data}){
+      const res = await API.post(`/admin/search/activity-logs?page=${page}`, data).then(res => {
+        commit('SET_ACTIVITY_LOG', res.data)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
   }
 }

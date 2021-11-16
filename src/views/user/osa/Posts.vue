@@ -40,6 +40,9 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <tr v-if="posts.data == 0 && !initialLoading">
+                    <td class="text-center pt-3 pb-3" colspan="6">No data available</td>
+                  </tr>
                   <tr v-for="(post, i) in posts.data" :key="i">
                     <td v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">
                       <img v-if="post.postcontent.image" :src="`${imgURL}/` + post.postcontent.image" alt="" class="" width="100"/>

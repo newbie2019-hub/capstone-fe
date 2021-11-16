@@ -73,17 +73,6 @@ export default {
     this.initialLoading = false
   },
   methods: {
-    emoji(emoji){
-      if(emoji == 'sad'){
-        return 'sad.png'
-      }
-      if(emoji == 'happy'){
-        return 'laugh.png'
-      }
-      if(emoji == 'angry'){
-        return 'angry.png'
-      }
-    },
     async getReview(page = 1){
       await this.$store.dispatch('review/getReview', page);
     }
