@@ -4,7 +4,7 @@
    <div class="row justify-content-center">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
      <div class="card mb-3 pe-5 ps-5 pb-4 pt-4">
-      <h5 class="mt-3">Organization Management</h5>
+      <h5 class="mt-3">Organization Monitoring</h5>
       <p class="text-muted">Manage organization member post below</p>
       <div class="row justify-content-end mt-4">
        <div class="col-9 col-sm-7 col-md-7 col-lg-6 col-xl-5 mt-2">

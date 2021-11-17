@@ -39,7 +39,7 @@
           <th scope="col" class="text-nowrap">Activity</th>
           <th scope="col" class="text-nowrap">Event Type</th>
           <th scope="col">Description</th>
-          <th scope="col">Created On</th>
+          <th scope="col" class="text-nowrap">Date and Time</th>
          </tr>
         </thead>
         <tbody>
@@ -167,6 +167,10 @@ export default {
           return 'danger'
         case 'updated':
           return 'primary'
+        case 'login success':
+          return 'success'
+        case 'login failed':
+          return 'danger'
         default:
           break;
       }
