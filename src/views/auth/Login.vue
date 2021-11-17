@@ -4,8 +4,8 @@
       <div class="row p-0 m-0 h-100 justify-content-center align-items-center">
         <div class="col-12 col-md-6 col-lg-7 col-xl-7 hero-bg">
           <div class="content-end">
-            <h3 class="fw-600">Touch-less</h3>
-            <p >Switching to touchless reduces common touchpoints, helping safeguard against the spread of viruses.</p>
+            <h3 class="fw-600">Touchless Information Kiosk</h3>
+            <p class="mt-3">Navigate the system without the need to touch. Explore what can be done with hand tracking technology. Everything is processed locally and no webcam data is being sent or stored to our server. Explore the system <a class="text-decoration-none text-info" href="https://home.lnukiosk.live">here</a></p>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-5 col-xl-5 mobile-login">
@@ -23,10 +23,7 @@
                   <label for="floatingPassword">Password</label>
                 </div>
                 <router-link to="/reset" class="mt-3 pt-2 text-decoration-none"><small>Forgot your password?</small></router-link>
-                <div class="form-check form-switch mt-3">
-                  <input class="form-check-input" v-model="isAdmin" type="checkbox" id="flexSwitchCheckDefault">
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Admin Account</label>
-                </div>
+
                 <div class="d-grid">
                   <button :disabled="isLoading" href="" class="mt-4 btn rounded-pill btn-purple" v-on:click.prevent="signin">
                     <div v-if="isLoading" class="spinner-grow text-light spinner-grow-sm me-2" role="status">
@@ -49,7 +46,6 @@ export default {
   name: 'Login',
   data(){
     return {
-      isAdmin: false,
       data: {
         email: '',
         password: '',
@@ -67,40 +63,30 @@ export default {
     async signin(){ 
       if(!this.validEmail()) return this.$toast.error('Email invalid');
       this.isLoading = true
-      if(this.isAdmin){
-        const res = await this.loginAccount(this.data)
-        if(res == 'Error: Network Error'){
-          this.$toast.error('Our server is currently down at this time.')
-        }
-        else {
-          if(res.status == 200){
-            this.$router.push('/home/dashboard')
-            this.$toast.success('Login successful')
-          }
-          else{
-            this.$toast.error('Incorrect credentials')
-            this.isLoading = false
-          }
-        }
-        this.isLoading = false
+
+      const res = await this.loginAccount(this.data)
+
+      if(res == 'Error: Network Error'){
+        this.$toast.error('Our server is currently down at this time.')
       }
       else {
-        const res = await this.loginUserAccount(this.data)
-        if(res.status == 200){
-          this.$router.push('/user/dashboard')
-          this.$toast.success('Login successful')
-          this.isLoading = false
-        }
-        else if(res.status == 403){
-          this.$toast.error('Your account is still pending')
-          this.isLoading = false
-        }
-        else {
-          this.$toast.error('Your login credentials is invalid')
-          this.isLoading = false
+        console.log(res.data.msg)
+        switch (res.status) {
+          case 200:
+            this.$router.push(res.data.route)
+            this.$toast.success('Login successful')
+            break;
+          case 422:
+            this.$toast.error(res.data.msg)
+            this.isLoading = false
+            break;
+          default:
+            this.$toast.error('Incorrect credentials')
+            this.isLoading = false
+            break;
         }
       }
-
+      this.isLoading = false
     },
     validEmail(){
       let regEx = /^([a-z0-9_\-.])+@([a-z0-9_\-.])+\.([a-z0-9]{2,})$/gi

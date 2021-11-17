@@ -5,7 +5,8 @@
      <div class="card  pe-5 ps-5 pt-5 pb-4 br-20">
        <div class="d-flex ">
          <div class="d-flex flex-column me-auto">
-           <h4 v-if="user.length != 0">{{msg}}, {{user.userinfo.last_name}}</h4>
+           <h4 v-if="user">{{msg}}, {{user.userinfo.last_name}}</h4>
+           <b-skeleton v-else animation="throb" width="95%"></b-skeleton>
            <p class="mt-3 lh-1 -1">It's good to know you're here. <br/>Have a great day</p>
          </div>
          <div class="cardimg">
@@ -14,7 +15,7 @@
        </div>
       </div>
       <div v-if="$can('osa_permissions')" class="card mt-4 pe-5 ps-5 pt-5 pb-4 mb-4 br-20">
-        <div class="d-flex flex-column me-auto">
+        <div class="row w-100 flex-column me-auto">
           <h5>Latest Post</h5>
           <p class="mb-4"><small>Latest post of the organizations</small></p>
         </div>
@@ -45,12 +46,14 @@
       </div>
        <div v-else class="card mt-4 mb-4 p-5 br-20">
           <div class="d-flex">
-            <div class="d-flex flex-column me-auto">
-              <h5>{{user.type == 'Organization' ? 'Organization' : 'Department'}} Members</h5>
-              <p class="mb-4"><small>Latest members of your {{user.type == 'Organization' ? 'organization' : 'department'}} </small></p>
+            <div class="row w-100 flex-column me-auto">
+              <h5 v-if="user">{{user.type == 'Organization' ? 'Organization' : 'Department'}} Members</h5>
+              <b-skeleton v-else animation="throb" width="65%"></b-skeleton>
+              <p v-if="user" class="mb-4"><small>Latest members of your {{user.type == 'Organization' ? 'organization' : 'department'}} </small></p>
+              <b-skeleton v-else  animation="throb"  width="90%"></b-skeleton>
             </div>
             <div class="d-flex">
-              <a href="members" class="text-decoration-none text-violet cursor-pointer ">View All</a>
+              <a href="members" class="text-decoration-none text-violet cursor-pointer ">View</a>
             </div>
           </div>
           <div class="table-responsive">

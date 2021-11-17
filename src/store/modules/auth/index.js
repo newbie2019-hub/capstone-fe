@@ -82,28 +82,35 @@ export default {
   actions: {
     async loginAccount({commit}, payload){
       const res = await API.post('/auth/admin/login', payload).then(res => {
-        commit('SET_AUTH_ACC', res.data)
-        commit('SET_AUTH_TOKEN', res.data.access_token)
+        if(res.data.type == 'admin'){
+          commit('SET_AUTH_ACC', res.data)
+          commit('SET_AUTH_TOKEN', res.data.access_token)
+        }
+        else 
+        {
+          commit('SET_USER_ACC', res.data.user)
+          commit('SET_USER_TOKEN', res.data.access_token)
+        }
 
         return res;
       }).catch(err => {
-       return err
+       return err.response
       })
 
       return res;
     },
-    async loginUserAccount({commit}, payload){
-      const res = await API.post('/auth/user/login', payload).then(res => {
-        commit('SET_USER_ACC', res.data.user)
-        commit('SET_USER_TOKEN', res.data.access_token)
+    // async loginUserAccount({commit}, payload){
+    //   const res = await API.post('/auth/user/login', payload).then(res => {
+    //     commit('SET_USER_ACC', res.data.user)
+    //     commit('SET_USER_TOKEN', res.data.access_token)
 
-        return res;
-      }).catch(err => {
-       return err.response;
-      })
+    //     return res;
+    //   }).catch(err => {
+    //    return err.response;
+    //   })
 
-      return res;
-    },
+    //   return res;
+    // },
     async createAccount({commit}, payload){
       const res = await API.post('/auth/user/store', payload).then(res => {
 

@@ -13,7 +13,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 .hero-bg {
  height: 100vh;
- background: linear-gradient(to top, #6859cbd7, #615bff93), url('~@/assets/images/hero-bg.jpg');
+ background: linear-gradient(to top, #382f77d7, #221f7e93), url('~@/assets/images/hero-bg.jpg');
  background-position: center;
  background-attachment: fixed;
  background-size: cover;
@@ -401,9 +401,14 @@ span.sr-only{
 }
 
 /** UTILITY HELPER */
+.bg-transpa {
+  background-color: transparent;
+}
+
 .font-weight-400 {
   font-weight: 400 !important;
 }
+
 .expand {
   display: none;
   height: 0px;
@@ -581,7 +586,10 @@ span.sr-only{
     color: white;
   }
 
-
+  .mobile-login label {
+    color: grey;
+  }
+  
   .nav-email-mobile {
     display: block !important;
   }
@@ -861,7 +869,7 @@ span.sr-only{
 @media (prefers-color-scheme: dark) {
 
   html, body {
-    background-color: rgb(27, 27, 27) !important;
+    background-color: rgb(15, 15, 15) !important;
     color: #fff;
   }
 
@@ -874,7 +882,7 @@ span.sr-only{
   }
 
   .admin {
-    background-color: rgb(27,27,27);
+    background-color: rgb(15, 15, 15);
     color: white;
   }
 
@@ -928,7 +936,7 @@ span.sr-only{
   }
 
   .form-floating > label {
-    color: white !important;
+    color: rgb(156, 156, 156) !important;
   }
   p, h1, h2, h3, h4, h5, h6 {
     color: white;

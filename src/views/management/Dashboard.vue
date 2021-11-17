@@ -5,7 +5,7 @@
         <div class="card pe-5 ps-5 pt-5 pb-4 br-20">
           <div class="d-flex ">
             <div class="d-flex flex-column me-auto">
-              <h4 v-if="user.length != 0">{{msg}}, {{user.admininfo.last_name}}</h4>
+              <h4 v-if="user">{{msg}}, {{user.admininfo.last_name}}</h4>
               <p class="mt-3 lh-1 -1">It's good to know you're here. <br/>Have a great day</p>
             </div>
             <div class="cardimg">
