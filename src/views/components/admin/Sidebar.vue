@@ -9,11 +9,12 @@
      <router-link to="/home/organization" ><i class="bi bi-grid me-2 bi-2x"></i> <span class="sidenav-sr">Organization</span></router-link>
      <router-link to="/home/permission" ><i class="bi bi-shield-check me-2 bi-2x"></i> <span class="sidenav-sr">Permission</span></router-link>
      <router-link to="/home/logs" ><i class="bi bi-journal-text me-2 bi-2x"></i> <span class="sidenav-sr">Activity Logs</span></router-link>
+     <router-link to="/home/archived/accounts"><i class="bi bi-people me-2 bi-2x"></i> <span class="sidenav-sr">Archived</span></router-link>
      <!-- <router-link to="/home/admin/updates" ><i class="bi bi-megaphone me-2 bi-2x"></i> <span class="sidenav-sr">Updates</span></router-link> -->
      <a href="" :class="checkRoute" @click.prevent="toggleExpand" ref="expandedmenubtn">
        <div class="d-flex align-items-center w-100">
         <i class="bi bi-info-circle me-2 bi-2x"></i> 
-        <span class="sidenav-sr me-auto">University Info</span>
+        <span class="sidenav-sr me-auto">University</span>
         <i class="bi bi-arrow-right-short mx-auto bi-2x" ref="rightarrow"></i>
         <i class="bi bi-arrow-down-short mx-auto bi-2x expand" ref="downarrow"></i>
        </div>
@@ -22,7 +23,7 @@
       <router-link to="/home/universityinfo" class="w-100 d-inline-block">
         <i class="bi bi-diagram-2"></i>
         <span class="sidenav-sr">
-          University
+          Info
         </span>
       </router-link>
       <router-link to="/home/faqs" class="w-100 d-inline-block">

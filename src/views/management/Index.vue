@@ -19,6 +19,7 @@
      <router-view name="createbasiceducandcollege"/>
      <router-view name="updatebasiceducandcollege"/>
      <router-view name="teldirectory"/>
+     <router-view name="archivedaccounts"/>
      <router-view name="permission"/>
      <router-view name="courses"/>
      <router-view name="logs"/>

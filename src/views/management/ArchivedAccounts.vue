@@ -1,0 +1,421 @@
+<template>
+ <div>
+  <div class="container pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
+   <div class="row justify-content-center">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+     <div class="card pe-5 ps-5 pb-4 pt-5">
+      <div class="d-flex align-items-center">
+       <div class="d-flex flex-column me-auto mt-2">
+        <h5>
+         <router-link to="/home/organization" class="text-decoration-none text-violet">Organization</router-link>
+         Accounts
+        </h5>
+        <p class="mb-4"><small>Listed below are accounts under organization</small></p>
+       </div>
+      </div>
+      <div class="row justify-content-between row-reverse flex-md-row mt-2">
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
+          <div class="d-flex align-items-center justify-content-center">
+            <p class="pe-2">Status</p>
+            <select v-model="orgStatus" @change="getOrgAccounts" class="form-select">
+            <option value="All Accounts">All Accounts</option>
+            <option value="Approved">Approved</option>
+            <option value="Pending">Pending</option>
+          </select>
+         </div>
+       </div>
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
+        <div class="input-group form-floating mb-3">
+         <input
+          type="text"
+          v-model="search_organization"
+          class="form-control"
+          id="floatingSearchDep"
+          placeholder="Search here"
+         />
+         <label for="floatingSearchDep" class="">Search</label>
+         <button @click.prevent="organizationSearch" class="btn btn-purple"><i class="bi bi-search"></i></button>
+        </div>
+       </div>
+      </div>
+      <div class="table-responsive mt-3">
+       <div class="text-center" v-if="org_accounts.data == 0">No accounts under organizations</div>
+       <b-skeleton-table
+        :rows="6"
+        :columns="10"
+        :table-props="{ bordered: false, striped: true }"
+        v-if="initialLoading && org_accounts.data == 0"
+       ></b-skeleton-table>
+       <b-skeleton-table
+        :rows="6"
+        :columns="10"
+        :table-props="{ bordered: false, striped: true }"
+        v-if="orgAccountLoading"
+       ></b-skeleton-table>
+       <table class="table table-hover" v-if="!orgAccountLoading">
+        <caption>Showing {{org_accounts.from}} to {{org_accounts.to}} out of {{org_accounts.total}} accounts</caption>
+        <thead v-if="org_accounts.data != 0">
+         <tr>
+          <th scope="col"></th>
+          <th scope="col" class="text-nowrap">Name</th>
+          <th scope="col">Organization</th>
+          <th scope="col">Role</th>
+          <th scope="col" class="text-nowrap">Status</th>
+          <th scope="col" class="text-nowrap">Date Created</th>
+          <th scope="col">Actions</th>
+         </tr>
+        </thead>
+        <tbody v-if="org_accounts.data">
+         <tr v-for="(acc, i) in org_accounts.data" :key="i" class="text-muted">
+          <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
+           <b-avatar variant="dark" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
+          </th>
+          <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}</td>
+          <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.organization.name }}</td>
+          <td>{{ acc.user.userinfo.role.role }}</td>
+          <td>
+           <b-badge class="rounded-pill" :class="acc.user.status == 'Approved' ? 'bg-success' : 'bg-danger'">{{
+            acc.user.status
+           }}</b-badge>
+          </td>
+          <td>{{ acc.created_at | moment }}</td>
+          <td>
+           <div class="d-flex">
+            
+           </div>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="row mt-3" v-if="org_accounts.data">
+       <pagination
+        :showDisabled="true"
+        :align="'right'"
+        :data="org_accounts"
+        @pagination-change-page="organizationSearch"
+       >
+        <span slot="prev-nav">&laquo;</span>
+        <span slot="next-nav">&raquo;</span>
+       </pagination>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <!--- DEPARTMENT ACCOUNT -->
+   <div class="row justify-content-center mt-3">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+     <div class="card pe-5 ps-5 pb-4 pt-5 mb-4">
+      <div class="d-flex align-items-center">
+       <div class="d-flex flex-column me-auto mt-3">
+        <h5>
+         <router-link to="/home/organization" class="text-decoration-none text-violet">Department </router-link>
+         Accounts
+        </h5>
+        <p class="mb-4"><small>Listed below are accounts under a department</small></p>
+       </div>
+      </div>
+      <div class="row justify-content-between row-reverse flex-md-row mt-2">
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
+         <div class="d-flex align-items-center justify-content-center">
+           <p class="pe-2">Status</p>
+            <select @change="getUniAccounts" v-model="unitStatus" class="form-select">
+            <option value="All Accounts">All Accounts</option>
+            <option value="Approved">Approved</option>
+            <option value="Pending">Pending</option>
+            </select>
+         </div>
+       </div>
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
+        <div class="input-group form-floating">
+         <input
+          type="text"
+          v-model="search_department"
+          class="form-control"
+          id="floatingSearchDep"
+          placeholder="Search here"/>
+         <label for="floatingSearchDep" class="">Search here</label>
+         <button @click.prevent="departmentSearch" class="btn btn-purple"><i class="bi bi-search"></i></button>
+        </div>
+       </div>
+      </div>
+      <div class="table-responsive mt-3">
+       <b-skeleton-table
+        :rows="4"
+        :columns="10"
+        :table-props="{ bordered: false, striped: true }"
+        v-if="initialLoading && unit_accounts.data == 0"></b-skeleton-table>
+       <b-skeleton-table
+        :rows="4"
+        :columns="10"
+        :table-props="{ bordered: false, striped: true }"
+        v-if="depAccountLoading"></b-skeleton-table>
+       <table class="table table-hover" v-if="!depAccountLoading">
+        <caption>Showing {{unit_accounts.from}} to {{unit_accounts.to}} out of {{unit_accounts.total}} accounts</caption>
+        <div class="text-center" v-if="unit_accounts.data == 0">No accounts under unit/departments</div>
+        <thead v-if="unit_accounts.data != 0">
+         <tr>
+          <th scope="col"></th>
+          <th scope="col" class="text-nowrap">Name</th>
+          <th scope="col">Unit</th>
+          <th scope="col">Role</th>
+          <th scope="col" class="text-nowrap">Status</th>
+          <th scope="row" class="text-nowrap">Date Created</th>
+          <th scope="col">Action</th>
+         </tr>
+        </thead>
+        <tbody v-if="unit_accounts.data != 0">
+         <tr v-for="(acc, i) in unit_accounts.data" :key="i">
+          <th scope="row" class="justify-content-center cursor-pointer" v-if="unit_accounts.data != 0" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
+           <b-avatar variant="dark" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
+          </th>
+          <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
+           {{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}
+          </td>
+          <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">{{ acc.department.name }}</td>
+          <td class="text-nowrap">{{ acc.user.userinfo.role.role }}</td>
+          <td>
+           <b-badge class="rounded-pill" :class="acc.user.status == 'Approved' ? 'bg-success' : 'bg-danger'">{{
+            acc.user.status
+           }}</b-badge>
+          </td>
+          <td class="text-nowrap">{{ acc.created_at | moment }}</td>
+          <td>
+           <div class="d-flex">
+            
+           </div>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="row mt-3" v-if="unit_accounts.data">
+       <pagination
+        :showDisabled="true"
+        :align="'right'"
+        :data="unit_accounts"
+        @pagination-change-page="departmentSearch">
+        <span slot="prev-nav">&laquo;</span>
+        <span slot="next-nav">&raquo;</span>
+       </pagination>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <!-- DELETE MODAL --->
+   <b-modal id="deleteModal" centered title="Confirm Delete">
+    <p >Are you sure you want to delete this account?</p>
+    <template #modal-footer="{cancel}">
+     <b-button variant="primary" size="sm" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
+     <b-button size="sm" variant="danger" v-on:click.prevent="removeAccount" :disabled="isLoading">
+      Delete
+     </b-button>
+    </template>
+   </b-modal>
+
+   <!-- VIEW INFO MODAL --->
+   <b-modal id="viewInfoModal" hide-footer centered title="Account Info">
+      <div class="row justify-content-center text-center">
+        <b-avatar size="6rem" variant="dark" :src="`${imgURL}/` + accDisplayed.user.userinfo.image"></b-avatar>
+        <h5 class="mt-3 ">{{accDisplayed.user.userinfo.first_name}} {{accDisplayed.user.userinfo.last_name}}</h5>
+        <p class="">{{accDisplayed.user.email}}</p>
+        <p class="">Contact: {{accDisplayed.user.userinfo.contact_number}}</p>
+        <p class="">Gender: {{accDisplayed.user.userinfo.gender}}</p>
+        <p class="mt-4">Organization: {{accDisplayed.organization.name}} {{ accDisplayed.organization.abbreviation ? ' - ' + accDisplayed.organization.abbreviation :'' }}</p>
+        <p class="">Role: {{accDisplayed.user.userinfo.role.role}}</p>
+      </div>
+     <div class="d-flex justify-content-center mt-5">
+        <b-button variant="primary" @click="$bvModal.hide('viewInfoModal')"> Close </b-button>
+      </div>
+   </b-modal>
+
+   <!-- VIEW INFO MODAL --->
+   <b-modal id="viewDepInfoModal" hide-footer centered title="Account Info">
+      <div class="row justify-content-center text-center">
+        <b-avatar size="6rem" variant="dark"  :src="`${imgURL}/` + accUnitDisplayed.user.userinfo.image"></b-avatar>
+        <h5 class="mt-3 ">{{accUnitDisplayed.user.userinfo.first_name}} {{accUnitDisplayed.user.userinfo.last_name}}</h5>
+        <p class="">{{accUnitDisplayed.user.email}}</p>
+        <p class="">Contact: {{accUnitDisplayed.user.userinfo.contact_number}}</p>
+        <p class="">Gender: {{accUnitDisplayed.user.userinfo.gender}}</p>
+        <p class="mt-4">Unit: {{accUnitDisplayed.department.name}}</p>
+        <p class="">Role: {{accUnitDisplayed.user.userinfo.role.role}}</p>
+      </div>
+      <div class="d-flex justify-content-center mt-5">
+        <b-button variant="primary" @click="$bvModal.hide('viewDepInfoModal')"> Close </b-button>
+      </div>
+   </b-modal>
+
+   <!--- APPROVE MODAL -->
+   <b-modal id="approveModal" centered title="Confirm Approve">
+    <p class="">An email of approval will be sent to the user. Are you sure you want to approve this account?</p>
+    <template #modal-footer="{cancel}">
+     <b-button :disabled="isLoading" variant="primary" @click="cancel()"> Cancel </b-button>
+     <b-button :disabled="isLoading" variant="success" v-on:click.prevent="setStatus">
+      Approve
+     </b-button>
+    </template>
+   </b-modal>
+  </div>
+ </div>
+</template>
+<script>
+ import moment from 'moment';
+ import { mapState, mapActions } from 'vuex';
+ const _ = require('lodash');
+
+ export default {
+  filters: {
+   moment: function(date) {
+    return moment(date).format('MMM Do YYYY, h:mm a');
+   },
+  },
+  data() {
+   return {
+    current_id: '',
+    isLoading: false,
+    search: '',
+    delete_data: {
+     id: '',
+     type: '',
+    },
+    approve_data: {
+     id: '',
+     index: '',
+     type: '',
+    },
+    search_organization: '',
+    search_department: '',
+    initialLoading: false,
+    orgStatus: 'All Accounts',
+    advancedFilter: false,
+    unitStatus: 'All Accounts',
+    orgAccountLoading: false,
+    depAccountLoading: false,
+    accDisplayed: {
+      organization: {
+        name: ''
+      },
+      user: {
+        userinfo: {
+          first_name: '',
+          last_name: '',
+          role: {
+            role: '',
+          },
+        },
+      }
+    },
+    accUnitDisplayed: {
+      department:{
+        name: '',
+      },
+      user: {
+        userinfo: {
+          role: {
+            role: '',
+          },
+          first_name: '',
+          last_name: '',
+          orgunit: {
+            role: {
+              role: '',
+            },
+          },
+        },
+      },
+    }
+   }
+  },
+  watch: {
+   search_organization: function(after, before) {
+    this.debouncedOrganizationSearch()
+   },
+   search_department: function(after, before) {
+    this.debouncedDepartmentSearch()
+   },
+  },
+  created: function () {
+    this.debouncedOrganizationSearch = _.debounce(this.organizationSearch, 1000)
+    this.debouncedDepartmentSearch = _.debounce(this.departmentSearch, 1000)
+  },
+  async mounted() {
+   document.title = 'Archive Accounts';
+   this.isLoading = true;
+   this.initialLoading = true;
+   await this.$store.dispatch('archive/unitAccounts', 1);
+   await this.$store.dispatch('archive/orgAccounts', 1);
+   this.isLoading = false;
+   this.initialLoading = false;
+  },
+  computed: {
+   ...mapState('archive', ['accounts', 'unit_accounts', 'org_accounts']),
+  },
+  methods: {
+   ...mapActions('archive', ['approveAccountType', 'deleteAccount']),
+   async getOrgAccounts(page = 1) {
+    if (this.orgStatus == 'All Accounts') {
+     await this.$store.dispatch('archive/orgAccounts', page);
+    }
+    if (this.orgStatus == 'Approved') {
+     await this.$store.dispatch('archive/approvedOrgAccounts', page);
+    }
+    if (this.orgStatus == 'Pending') {
+     await this.$store.dispatch('archive/pendingOrgAccounts', page);
+    }
+   },
+   async getUniAccounts(page) {
+    if (this.unitStatus == 'All Accounts') {
+     await this.$store.dispatch('archive/unitAccounts', page);
+    }
+    if (this.unitStatus == 'Approved') {
+     await this.$store.dispatch('archive/approvedUnitAccounts', page);
+    }
+    if (this.unitStatus == 'Pending') {
+     await this.$store.dispatch('archive/pendingUnitAccounts', page);
+    }
+   },
+   async searchOrganization(page) {
+    this.isSearching = true;
+    let data = {
+     search: this.search_organization,
+     status: this.orgStatus,
+    };
+    await this.$store.dispatch('archive/searchOrgAccount', { page: page, data: data });
+    this.isSearching = false;
+   },
+   async organizationSearch(page = 1) {
+    this.orgAccountLoading = true;
+    if (this.search_organization == '') {
+     await this.getOrgAccounts(page);
+     this.orgAccountLoading = false;
+    } else {
+     await this.searchOrganization(page);
+     this.orgAccountLoading = false;
+    }
+   },
+   async searchDepartment(page) {
+    this.isSearching = true;
+
+    let data = {
+     search: this.search_department,
+     status: this.unitStatus,
+    };
+    await this.$store.dispatch('archive/searchUnitAccount', { page: page, data: data });
+    this.isSearching = false;
+   },
+   async departmentSearch(page = 1) {
+    this.depAccountLoading = true
+    if (this.search_department == '') {
+     await this.getUniAccounts(page)
+     this.depAccountLoading = false
+    } else {
+     await this.searchDepartment(page)
+     this.depAccountLoading = false
+    }
+   },
+  },
+ };
+</script>
+

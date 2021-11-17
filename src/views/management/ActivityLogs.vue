@@ -16,8 +16,7 @@
             v-model="search"
             class="form-control"
             id="floatingSearchDep"
-            placeholder="Search here"
-          />
+            placeholder="Search here"/>
           <label for="floatingSearchDep" class="">Search</label>
           <button class="btn btn-purple"><i class="bi bi-search"></i></button>
           </div>

@@ -75,7 +75,8 @@
               <tbody>
                 <tr v-for="(acc, i) in accounts" :key="i">
                   <th scope="row" class="d-flex justify-content-center" v-if="acc.length != 0"> 
-                    <b-avatar variant="dark" :src="`${imgURL}/${acc.user.userinfo.image}`" ></b-avatar>
+                    <b-avatar variant="dark" v-if="acc.user.userinfo.image" :src="`${imgURL}/${acc.user.userinfo.image}`" ></b-avatar>
+                    <b-avatar variant="dark" v-else></b-avatar>
                   </th>
                   <td v-if="acc.length != 0" class="text-nowrap">{{acc.user.userinfo.first_name}} {{acc.user.userinfo.last_name}}</td>
                   <td v-if="acc.length != 0">{{acc.user.userinfo.role.role}}</td>
@@ -88,7 +89,7 @@
     </div>
     <div class="col-11 col-md-11 col-lg-5 col-xl-6">
       <div class="row justify-content-center mb-4">
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-10">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
           <div class="card sys-primary text-white br-20 ps-4 p-3">
             <div class="lh-l">
               <p class="date">{{date}}</p>
@@ -98,7 +99,7 @@
         </div>
       </div>
        <div v-if="$can('osa_permissions')" class="row justify-content-center">
-          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+          <div class="col-6 col-md-6 col-lg-6 col-xl-6">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex flex-column justify-content-center align-items-center mb-3">
                 <i class="bi bi-person-circle me-2 bi-5x"></i>
@@ -111,7 +112,7 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+          <div class="col-6 col-md-6 col-lg-6 col-xl-6">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex mb-3 flex-column justify-content-center align-items-center">
                 <i class="bi bi-receipt me-2 bi-5x"></i>
@@ -124,7 +125,7 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+          <div class="col-6 col-md-6 col-lg-6 col-xl-6">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex mb-3 flex-column justify-content-center align-items-center">
                 <i class="bi bi-receipt me-2 bi-5x"></i>
@@ -137,7 +138,7 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+          <div class="col-6 col-md-6 col-lg-6 col-xl-6">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex mb-3 flex-column justify-content-center align-items-center">
                 <i class="bi bi-receipt me-2 bi-5x"></i>
@@ -152,7 +153,7 @@
           </div>
         </div>
        <div v-else class="row justify-content-center">
-          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+          <div class="col-6 col-md-6 col-lg-6 col-xl-6">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex flex-column justify-content-center align-items-center mb-3">
                 <i class="bi bi-person-circle me-2 bi-5x"></i>
@@ -165,7 +166,7 @@
               </div>
             </div>
           </div>
-          <div class="col-6 col-md-6 col-lg-6 col-xl-5">
+          <div class="col-6 col-md-6 col-lg-6 col-xl-6">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex mb-3 flex-column justify-content-center align-items-center">
                 <i class="bi bi-receipt me-2 bi-5x"></i>
@@ -178,7 +179,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-12 col-lg-12 col-xl-10">
+          <div class="col-12 col-md-12 col-lg-12 col-xl-12">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
                <div class="d-flex flex-column me-auto mt-2">
                   <h5>Activity Logs</h5>
@@ -195,6 +196,7 @@
                 <thead >
                 <tr>
                   <th scope="col" class="text-nowrap">ID</th>
+                  <th scope="col" class="text-nowrap">Activity</th>
                   <th scope="col" class="text-nowrap">Event Type</th>
                   <th scope="col" class="text-nowrap">Date and Time</th>
                 </tr>
@@ -202,6 +204,7 @@
                 <tbody>
                   <tr v-for="(log, i) in logsummary" :key="i" class="cursor-pointer">
                     <th>{{i + 1}}</th>
+                    <td>{{log.log_name}}</td>
                     <td><small><b-badge :variant="badgeEvent(log.event)" pill>{{log.event}}</b-badge></small></td>
                     <td>{{log.created_at | moment}}</td>
                   </tr>

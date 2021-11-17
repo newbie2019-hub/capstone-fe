@@ -15,13 +15,14 @@ import permission from './modules/permission'
 import updates from './modules/updates'
 import osa from './modules/osa'
 import logs from './modules/logs'
+import archive from './modules/archive'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
  modules: {
   auth, dashboard, account, userdashboard, universityinfo, depandorg, review, faq, post, members, updates, 
-  permission, osa, logs
+  permission, osa, logs, archive
  }
 })
 

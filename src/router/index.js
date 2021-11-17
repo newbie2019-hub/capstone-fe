@@ -29,6 +29,7 @@ const Courses = () => import('../views/management/university/course/Courses.vue'
 const NewCourse = () => import('../views/management/university/course/NewCourse.vue')
 const UpdateCourse = () => import('../views/management/university/course/UpdateCourse.vue')
 
+const ArchiveAccounts = () => import('../views/management/ArchivedAccounts.vue')
 const Faqs = () => import('../views/management/Faqs.vue')
 const User = () => import('../views/user/Index.vue')
 const UserActivityLog = () => import('../views/user/ActivityLog.vue')
@@ -225,6 +226,13 @@ const routes = [
         name: 'universityinfo',
         components: {
           universityinfo: UniversityInfo
+        }
+      },
+      {
+        path: 'archived/accounts',
+        name: 'archivedaccounts',
+        components: {
+          archivedaccounts: ArchiveAccounts
         }
       },
       {
