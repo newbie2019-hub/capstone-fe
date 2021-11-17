@@ -12,7 +12,7 @@
         </div>
        </div>
       <div class="d-flex justify-content-end mt-2">
-        <button v-on:click.prevent="$bvModal.show('assignAdviserModal')" class="btn btn-purple me-2"><i class="bi bi-person-circle me-2"></i>Assign Adviser</button>
+        <button v-if="$can('assign_org_adviser') || adviser_id == user.id" v-on:click.prevent="$bvModal.show('assignAdviserModal')" class="btn btn-purple me-2"><i class="bi bi-person-circle me-2"></i>Assign Adviser</button>
         <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-4">
           <div class="input-group form-floating">
             <input type="text" v-model="search" class="form-control" id="floatingSearchOrg" placeholder="Search here">

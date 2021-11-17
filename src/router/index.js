@@ -31,6 +31,7 @@ const UpdateCourse = () => import('../views/management/university/course/UpdateC
 
 const Faqs = () => import('../views/management/Faqs.vue')
 const User = () => import('../views/user/Index.vue')
+const UserActivityLog = () => import('../views/user/ActivityLog.vue')
 const Post = () => import('../views/user/Post.vue')
 const DepartmentOrganization = () => import('../views/user/organization/Organization.vue')
 const CreatePost = () => import('../views/user/post/NewPost.vue')
@@ -306,6 +307,13 @@ const routes = [
         name: 'faqs',
         components: {
           osafaqs: OSAFAQs
+        }
+      },
+      {
+        path: 'activity/log',
+        name: 'useractivitylog',
+        components: {
+          useractivitylog: UserActivityLog
         }
       },
       {

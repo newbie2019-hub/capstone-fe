@@ -10,7 +10,7 @@
     <div class="d-flex me-auto" v-if="user.length != 0">
      <router-link to="/home/settings" class="text-decoration-none bg-transpa">
        <b-avatar variant="dark" v-if="user.admininfo.image" :src="`${imgURL}/${user.admininfo.image}`" size="3rem"></b-avatar>
-       <b-avatar variant="dark" v-else :src="`${imgURL}/${user.admininfo.image}`" size="3rem"></b-avatar>
+       <b-avatar variant="dark" v-else size="3rem"></b-avatar>
      </router-link>
      <div class="d-flex flex-column justify-content-center ms-3">
       <h6 v-if="user.length != 0">{{user.admininfo.first_name}} {{user.admininfo.last_name}}</h6>

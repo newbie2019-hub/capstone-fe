@@ -178,6 +178,41 @@
               </div>
             </div>
           </div>
+          <div class="col-12 col-md-12 col-lg-12 col-xl-10">
+            <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
+               <div class="d-flex flex-column me-auto mt-2">
+                  <h5>Activity Logs</h5>
+                  <p class="mb-4"><small>Listed below are latest logs of your activities</small></p>
+                </div>
+              <div class="table-responsive mt-3">
+                <b-skeleton-table
+                  :rows="5"
+                  :columns="4"
+                  :table-props="{ bordered: false, striped: true }"
+                  v-if="initialLoading"
+                ></b-skeleton-table>
+                <table class="table table-hover" v-else>
+                <thead >
+                <tr>
+                  <th scope="col" class="text-nowrap">ID</th>
+                  <th scope="col" class="text-nowrap">Event Type</th>
+                  <th scope="col" class="text-nowrap">Date and Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(log, i) in logsummary" :key="i" class="cursor-pointer">
+                    <th>{{i + 1}}</th>
+                    <td><small><b-badge :variant="badgeEvent(log.event)" pill>{{log.event}}</b-badge></small></td>
+                    <td>{{log.created_at | moment}}</td>
+                  </tr>
+                  <tr v-if="logsummary == 0">
+                    <td class="text-center pt-3 pb-3" colspan="6">No data available</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
         </div>
      </div>
    </div>
@@ -227,6 +262,7 @@ export default {
      this.$store.dispatch('userdashboard/getOSAPostSummary')
    }
    this.$store.dispatch('userdashboard/summary')
+   await this.$store.dispatch('logs/summary')
    setInterval(() =>{
       this.currentdate()
       this.currenttime()
@@ -237,10 +273,27 @@ export default {
   },
   computed: {
     ...mapState('auth', ['user']),
+    ...mapState('logs', ['logsummary']),
     ...mapState('userdashboard', ['accounts', 'summary', 'post_summary']),
   },
   methods: {
     ...mapActions('auth', ['checkAuthUser']),
+    badgeEvent(event){
+      switch (event) {
+        case 'created':
+          return 'success'
+        case 'deleted':
+          return 'danger'
+        case 'updated':
+          return 'primary'
+        case 'login success':
+          return 'success'
+        case 'login failed':
+          return 'danger'
+        default:
+          break;
+      }
+    },
     currentdate(){
       var a = new Date();
       this.date = moment(a).format(' MMMM D[,] YYYY'); 

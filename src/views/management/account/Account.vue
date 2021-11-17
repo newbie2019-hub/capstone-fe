@@ -86,14 +86,19 @@
           <td>{{ acc.created_at | moment }}</td>
           <td>
            <div class="d-flex">
+            <button href="" :disabled="isLoading && current_id == acc.id" v-if="acc.user.status != 'Approved'" v-on:click.prevent=" approve_data.id = acc.user.id; approve_data.type = acc.user.type; $bvModal.show('approveModal');" v-b-tooltip.hover title="Approve Account" class="btn btn-sm btn-success rounded-pill me-2">
+             <i v-if="current_id != acc.id" class="bi bi-check2"></i>
+             <div v-if="isLoading && current_id == acc.id" class="spinner-grow text-light spinner-grow-sm" role="status">
+              <span class="visually-hidden">Loading...</span>
+             </div>
+            </button>
             <button
              v-on:click.prevent="setUpdateAccount(acc, 'Organization')"
              href=""
              v-if="acc.user.status == 'Approved'"
              v-b-tooltip.hover
              title="Update Account"
-             class="btn btn-sm btn-success rounded-pill me-2"
-            >
+             class="btn btn-sm btn-success rounded-pill me-2">
              <i class="bi bi-pencil-square"></i>
             </button>
             <button href="" v-on:click.prevent="$bvModal.show('deleteModal'); delete_data.id = acc.user.id; delete_data.type = acc.user.type"

@@ -12,7 +12,9 @@
      <router-view name="usersettings"/>
      <router-view name="osafaqs"/>
      <router-view name="directory"/>
+     <router-view name="useractivitylog"/>
      <router-view name="osapost"/>
+     <router-view name="osaarchived"/>
      <router-view name="osaarchived"/>
      <router-view name="osaorganizations"/>
    </div>
