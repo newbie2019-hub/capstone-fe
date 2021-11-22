@@ -67,6 +67,45 @@
     </div>
    </div>
   </div>
+  
+  <!-- LOG INFO MODAL --->
+  <b-modal id="logInfoModal" scrollable centered title="Log Info" v-if="selectedLog.user">
+      <p class=""><span class="fw-bold">Activity</span>:  {{selectedLog.log_name}}</p>
+      <p class=""><span class="fw-bold">User</span>: {{selectedLog.user.userinfo.first_name}} {{selectedLog.user.userinfo.last_name}}</p>
+      <p class=""><span class="fw-bold">Event Type</span>: <small><b-badge :variant="badgeEvent(selectedLog.event)" pill>{{selectedLog.event}}</b-badge></small></p>
+      
+      <div v-if="selectedLog.event == 'deleted'" class="">
+        <h6 class="mt-3 fw-bold mb-2">Deleted Data</h6>
+        <div v-for="(value, key, i) in selectedLog.properties.old" :key="i">
+          <p v-if="key == 'created_at' || key == 'updated_at'"><span class="fw-bold">{{key}}:</span> {{value | moment}}</p>
+          <p v-else><span class="fw-bold">{{key}}:</span> {{value}}</p>
+        </div>
+      </div>
+
+      <div v-if="selectedLog.event == 'created'" class="">
+        <h6 class="mt-3 fw-bold mb-2">Data Created</h6>
+        <div v-for="(value, key, i) in selectedLog.properties.attributes" :key="i">
+          <p v-if="key == 'created_at' || key == 'updated_at'"><span class="fw-bold">{{key}}:</span> {{value | moment}}</p>
+          <p v-else><span class="fw-bold">{{key}}:</span> {{value}}</p>
+        </div>
+      </div>
+
+      <div v-if="selectedLog.event == 'updated'" class="">
+        <h6 class="mt-3 fw-bold mb-2">New Data</h6>
+        <div v-for="(value, key, i) in selectedLog.properties.attributes" :key="i">
+          <p v-if="key == 'created_at' || key == 'updated_at'"><span class="fw-bold">{{key}}:</span> {{value | moment}}</p>
+          <p v-else><span class="fw-bold">{{key}}:</span> {{value}}</p>
+        </div>
+        <h6 class="mt-3 fw-bold mb-2">Old Data</h6>
+        <div v-for="(value, key) in selectedLog.properties.old" :key="key.id">
+          <p v-if="key == 'created_at' || key == 'updated_at'"><span class="fw-bold">{{key}}:</span> {{value | moment}}</p>
+          <p v-else><span class="fw-bold">{{key}}:</span> {{value}}</p>
+        </div>
+      </div>
+      <template #modal-footer = {cancel} >
+      <b-button variant="primary" @click="cancel()">Close</b-button>
+      </template>
+  </b-modal>
  </div>
 </template>
 <script>
@@ -82,6 +121,7 @@ export default {
   },
   data(){
     return {
+      
       initialLoading: false,
       selectedLog: {
         user: {

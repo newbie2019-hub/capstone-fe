@@ -49,12 +49,12 @@
                   <td>
                     <div class="d-flex">
                       <!--- DO NOT REMOVE - APPROVE BUTTON FROM ADMIN ---->
-                      <!-- <button href="" v-b-tooltip.hover title="Approve Account"  v-on:click.prevent="setStatus(acc.id)" :disabled="isLoading && current_id == acc.id"  class="btn me-2 btn-sm btn-purple rounded-pill btn-approve">
+                      <button href="" v-b-tooltip.hover title="Approve Account"  v-on:click.prevent="setStatus(acc.id)" :disabled="isLoading && current_id == acc.id"  class="btn me-2 btn-sm btn-purple rounded-pill btn-approve">
                         <i v-if="current_id != acc.id" class="bi bi-check2" ></i>
                         <div v-if="isLoading && current_id == acc.id" class="spinner-grow text-light spinner-grow-sm" role="status">
                           <span class="visually-hidden">Loading...</span>
                         </div>
-                      </button> -->
+                      </button>
                       <button href="" v-on:click.prevent="$bvModal.show('deleteModal'); id = acc.id;" v-b-tooltip.hover title="Delete Account" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
                         <i v-if="current_id != acc.id" class="bi bi-trash"></i>
                         <div v-if="isLoading && current_id == acc.id" class="spinner-grow text-light spinner-grow-sm" role="status">

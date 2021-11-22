@@ -83,6 +83,14 @@
         </div>
       </div>
 
+      <div v-if="selectedLog.event == 'deleted account'" class="">
+        <h6 class="mt-3 fw-bold mb-2">Deleted Account</h6>
+        <div v-for="(value, key, i) in selectedLog.properties" :key="i">
+          <p v-if="key == 'created_at' || key == 'updated_at'"><span class="fw-bold">{{key}}:</span> {{value | moment}}</p>
+          <p v-else><span class="fw-bold">{{key}}:</span> {{value}}</p>
+        </div>
+      </div>
+
       <div v-if="selectedLog.event == 'created'" class="">
         <h6 class="mt-3 fw-bold mb-2">Data Created</h6>
         <div v-for="(value, key, i) in selectedLog.properties.attributes" :key="i">
@@ -162,6 +170,8 @@ export default {
       switch (event) {
         case 'created':
           return 'success'
+        case 'deleted account':
+          return 'danger'
         case 'deleted':
           return 'danger'
         case 'updated':

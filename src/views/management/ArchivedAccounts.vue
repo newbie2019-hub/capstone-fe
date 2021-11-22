@@ -13,8 +13,8 @@
         <p class="mb-4"><small>Listed below are accounts under organization</small></p>
        </div>
       </div>
-      <div class="row justify-content-between row-reverse flex-md-row mt-2">
-       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
+      <div class="row justify-content-end row-reverse flex-md-row mt-2">
+       <!-- <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
           <div class="d-flex align-items-center justify-content-center">
             <p class="pe-2">Status</p>
             <select v-model="orgStatus" @change="getOrgAccounts" class="form-select">
@@ -23,7 +23,7 @@
             <option value="Pending">Pending</option>
           </select>
          </div>
-       </div>
+       </div> -->
        <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
         <div class="input-group form-floating mb-3">
          <input
@@ -68,7 +68,8 @@
         <tbody v-if="org_accounts.data">
          <tr v-for="(acc, i) in org_accounts.data" :key="i" class="text-muted">
           <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
-           <b-avatar variant="dark" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
+           <b-avatar variant="dark" v-if="acc.user.userinfo.image" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
+           <b-avatar variant="dark" v-else></b-avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}</td>
           <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.organization.name }}</td>
@@ -81,7 +82,12 @@
           <td>{{ acc.created_at | moment }}</td>
           <td>
            <div class="d-flex">
-            
+             <button v-on:click.prevent="approve_post.id = post.id; $bvModal.show('approvePostModal')" class="btn btn-sm btn-secondary text-nowrap me-2" >
+              View Post
+            </button>
+            <button @click="deletePost = post.id; $bvModal.show('deletePostModal')" class="btn btn-sm btn-secondary btn-approve text-nowrap me-2" >
+              View Logs
+            </button>
            </div>
           </td>
          </tr>
@@ -116,8 +122,8 @@
         <p class="mb-4"><small>Listed below are accounts under a department</small></p>
        </div>
       </div>
-      <div class="row justify-content-between row-reverse flex-md-row mt-2">
-       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
+      <div class="row justify-content-end row-reverse flex-md-row mt-2">
+       <!-- <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
          <div class="d-flex align-items-center justify-content-center">
            <p class="pe-2">Status</p>
             <select @change="getUniAccounts" v-model="unitStatus" class="form-select">
@@ -126,7 +132,7 @@
             <option value="Pending">Pending</option>
             </select>
          </div>
-       </div>
+       </div> -->
        <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
         <div class="input-group form-floating">
          <input
@@ -168,7 +174,8 @@
         <tbody v-if="unit_accounts.data != 0">
          <tr v-for="(acc, i) in unit_accounts.data" :key="i">
           <th scope="row" class="justify-content-center cursor-pointer" v-if="unit_accounts.data != 0" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
-           <b-avatar variant="dark" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
+           <b-avatar variant="dark" v-if="acc.user.userinfo.image" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
+           <b-avatar variant="dark" v-else></b-avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
            {{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}
@@ -218,7 +225,8 @@
    <!-- VIEW INFO MODAL --->
    <b-modal id="viewInfoModal" hide-footer centered title="Account Info">
       <div class="row justify-content-center text-center">
-        <b-avatar size="6rem" variant="dark" :src="`${imgURL}/` + accDisplayed.user.userinfo.image"></b-avatar>
+        <b-avatar size="6rem" variant="dark" v-if="accDisplayed.user.userinfo.image" :src="`${imgURL}/` + accDisplayed.user.userinfo.image"></b-avatar>
+        <b-avatar size="6rem" variant="dark" v-else></b-avatar>
         <h5 class="mt-3 ">{{accDisplayed.user.userinfo.first_name}} {{accDisplayed.user.userinfo.last_name}}</h5>
         <p class="">{{accDisplayed.user.email}}</p>
         <p class="">Contact: {{accDisplayed.user.userinfo.contact_number}}</p>
