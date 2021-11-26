@@ -15,7 +15,6 @@
      <router-view name="useractivitylog"/>
      <router-view name="osapost"/>
      <router-view name="osaarchived"/>
-     <router-view name="osaarchived"/>
      <router-view name="osaorganizations"/>
    </div>
  </div>
