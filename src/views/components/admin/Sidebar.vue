@@ -10,7 +10,7 @@
      <router-link to="/home/permission" ><i class="bi bi-shield-check me-2 bi-2x"></i> <span class="sidenav-sr">Permission</span></router-link>
      <a href="" :class="checkRoute" @click.prevent="toggleExpand" ref="expandedmenubtn">
        <div class="d-flex align-items-center w-100">
-        <i class="bi bi-info-circle me-2 bi-2x"></i> 
+        <i class="bi bi-info-circle me-3 bi-2x"></i> 
         <span class="sidenav-sr me-auto">University</span>
         <i class="bi bi-arrow-right-short mx-auto bi-2x" ref="rightarrow"></i>
         <i class="bi bi-arrow-down-short mx-auto bi-2x expand" ref="downarrow"></i>

@@ -23,6 +23,7 @@ const BasicEducationandColleges = () => import('../views/management/university/c
 const CreateBasicEducationandCollege = () => import('../views/management/university/college/CreateBasicEducationandCollege.vue')
 const UpdateEducationandCollege = () => import('../views/management/university/college/Update.vue')
 
+const AccountActivityLogs = () => import('../views/management/AccountLogs.vue')
 const ActivityLogs = () => import('../views/management/ActivityLogs.vue')
 const UserPosts = () => import('../views/management/Post.vue')
 
@@ -115,6 +116,13 @@ const routes = [
         name: 'logs',
         components: {
           logs: ActivityLogs
+        }
+      },
+      {
+        path: 'admin/logs',
+        name: 'accountlogs',
+        components: {
+          accountlogs: AccountActivityLogs
         }
       },
       // {

@@ -406,7 +406,7 @@
       </div>
 
       <div v-if="selectedLog.event == 'logout' || selectedLog.event == 'login success'" class="">
-        <h6 class="fw-bold mb-2">User IP: <span class="fw-normal">{{selectedLog.properties.ip}}</span></h6>
+        <h6 class="fw-bold mt-1 mb-2">User IP: <span class="fw-normal">{{selectedLog.properties.ip}}</span></h6>
       </div>
 
       <div v-if="selectedLog.event == 'created'" class="">
