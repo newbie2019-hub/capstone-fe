@@ -30,10 +30,10 @@
           v-if="initialLoading || isSearching"
          ></b-skeleton-table>
         <table class="table table-hover" v-else>
-        <caption>Showing {{logs.from}} to {{logs.to}} out of {{logs.total}} accounts</caption>
+        <caption>Showing {{logs.from}} to {{logs.to}} out of {{logs.total}} activity logs</caption>
         <thead >
          <tr>
-          <th scope="col">ID</th>
+          <th scope="col">#</th>
           <th scope="col" class="text-nowrap">User</th>
           <th scope="col" class="text-nowrap">Activity</th>
           <th scope="col" class="text-nowrap">Event Type</th>
@@ -43,7 +43,7 @@
         </thead>
         <tbody>
           <tr v-for="(log, i) in logs.data" :key="i" class="cursor-pointer" @click.prevent="selectedLog = log; $bvModal.show('logInfoModal')">
-            <th>{{i + 1}}</th>
+            <th>{{logs.from + i}}</th>
             <td class="text-nowrap" v-if="log.user">{{log.user.userinfo.first_name}} {{log.user.userinfo.last_name}}</td>
             <td>{{log.log_name}}</td>
             <td><small><b-badge :variant="badgeEvent(log.event)" pill>{{log.event}}</b-badge></small></td>
@@ -81,6 +81,10 @@
           <p v-if="key == 'created_at' || key == 'updated_at'"><span class="fw-bold">{{key}}:</span> {{value | moment}}</p>
           <p v-else><span class="fw-bold">{{key}}:</span> {{value}}</p>
         </div>
+      </div>
+
+      <div v-if="selectedLog.event == 'login failed' || selectedLog.event == 'logout' || selectedLog.event == 'login success'" class="">
+        <h6 class="fw-bold mb-2">User IP: <span class="fw-normal">{{selectedLog.properties.ip}}</span></h6>
       </div>
 
       <div v-if="selectedLog.event == 'deleted account'" class="">

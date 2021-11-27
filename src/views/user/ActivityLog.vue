@@ -31,7 +31,7 @@
           v-if="initialLoading || isSearching"
          ></b-skeleton-table>
         <table class="table table-hover" v-else>
-        <caption>Showing {{logs.from}} to {{logs.to}} out of {{logs.total}} accounts</caption>
+        <caption>Showing {{logs.from}} to {{logs.to}} out of {{logs.total}} activity logs</caption>
         <thead >
          <tr>
           <th scope="col" class="text-nowrap">ID</th>

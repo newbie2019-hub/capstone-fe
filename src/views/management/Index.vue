@@ -24,6 +24,7 @@
      <router-view name="courses"/>
      <router-view name="logs"/>
      <router-view name="newcourse"/>
+     <router-view name="userposts"/>
      <router-view name="updatecourse"/>
    </div>
   </div>

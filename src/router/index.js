@@ -24,6 +24,7 @@ const CreateBasicEducationandCollege = () => import('../views/management/univers
 const UpdateEducationandCollege = () => import('../views/management/university/college/Update.vue')
 
 const ActivityLogs = () => import('../views/management/ActivityLogs.vue')
+const UserPosts = () => import('../views/management/Post.vue')
 
 const Courses = () => import('../views/management/university/course/Courses.vue')
 const NewCourse = () => import('../views/management/university/course/NewCourse.vue')
@@ -208,6 +209,13 @@ const routes = [
         }
       },
       {
+        path: 'userposts',
+        name: 'userposts',
+        components: {
+          userposts: UserPosts
+        }
+      },
+      {
         path: 'courses/new',
         name: 'newcourse',
         components: {
@@ -250,7 +258,7 @@ const routes = [
         }
       },
       {
-        path: '/',
+        path: '/home',
         redirect: {name: 'dashboard'}
       }
     ]

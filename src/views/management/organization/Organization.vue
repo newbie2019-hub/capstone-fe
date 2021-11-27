@@ -43,7 +43,8 @@
                 <tbody>
                   <tr v-for="(org, i) in organizations.data" :key="i">
                     <th>
-                      <b-avatar variant="dark" icon="star-fill" :src="`http://127.0.0.1:8000/uploads/${org.image}`"></b-avatar>
+                      <b-avatar variant="dark" icon="star-fill" v-if="org.image" :src="`${imgURL}/${org.image}`"></b-avatar>
+                      <b-avatar variant="dark" icon="star-fill" v-else></b-avatar>
                     </th>
                     <td class="">{{org.name}}</td>
                     <td :class="org.abbreviation ? '':'text-muted'">{{org.abbreviation ? org.abbreviation : 'None'}}</td>
@@ -417,7 +418,7 @@ export default {
 
       if(this.fileRecordsForUpload.length > 0) {
         const img = await this.$refs.vueFileAgent.upload(
-          `http://127.0.0.1:8000/api/admin/uploadOrganizationImage?token=` + localStorage.getItem("auth"), 
+          `${this.envURL}/admin/uploadOrganizationImage?token=` + localStorage.getItem("auth"), 
           {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
         );
 
@@ -439,7 +440,7 @@ export default {
 
       if(this.fileRecordsForUpload.length > 0) {
         const img = await this.$refs.vueFileAgent.upload(
-          `http://127.0.0.1:8000/api/admin/uploadOrganizationImage?token=` + localStorage.getItem("auth"), 
+          `${this.envURL}/admin/uploadOrganizationImage?token=` + localStorage.getItem("auth"), 
           {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
         );
 

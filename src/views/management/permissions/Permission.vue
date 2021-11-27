@@ -106,15 +106,15 @@
    <b-modal id="updateModal" centered title="Update Permission">
     <label for="permissions" class="mb-2">Type to add permissions</label>
     <tags-input element-id="permissions"
-    v-model="data.permission"
-    :existing-tags="rolepermissions"
-    typeahead-style="dropdown"
-    discard-search-text="Permissions"
-    id-field="id"
-    text-field="permission"
-    :only-existing-tags="true"
-    placeholder=" "
-    :typeahead="true"></tags-input>
+      v-model="data.permission"
+      :existing-tags="rolepermissions"
+      typeahead-style="dropdown"
+      discard-search-text="Permissions"
+      id-field="id"
+      text-field="permission"
+      :only-existing-tags="true"
+      placeholder=" "
+      :typeahead="true"></tags-input>
     <template #modal-footer="{cancel}">
      <b-button variant="primary" size="sm" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
      <b-button size="sm" variant="success" v-on:click.prevent="updatePermissions" :disabled="isLoading">

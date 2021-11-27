@@ -50,7 +50,7 @@
          </tr>
         </thead>
         <tbody v-if="org_accounts.data">
-         <tr v-for="(acc, i) in org_accounts.data" :key="i" class="text-muted">
+         <tr v-for="(acc, i) in org_accounts.data" :key="i">
           <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
            <b-avatar variant="dark" v-if="acc.user.userinfo.image" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
            <b-avatar variant="dark" v-else></b-avatar>
@@ -66,10 +66,10 @@
           <td>{{ acc.created_at | moment }}</td>
           <td>
            <div class="d-flex">
-             <button @click="userPosts = acc.user.posts; viewPost = true" class="btn btn-sm btn-secondary text-nowrap me-2" >
-              View Post
+             <button @click="userPosts = acc.user.posts; viewPost = true" class="btn btn-sm btn-primary text-nowrap me-2" >
+              View Posts
             </button>
-            <button @click="userLogs = acc.user.logs; viewLogs = true"  class="btn btn-sm btn-secondary btn-approve text-nowrap me-2" >
+            <button @click="userLogs = acc.user.logs; viewLogs = true"  class="btn btn-sm btn-primary btn-approve text-nowrap me-2" >
               View Logs
             </button>
            </div>
@@ -89,8 +89,7 @@
        </pagination>
       </div>
 
-      
-      <!---POSTS OF USER---->
+      <!---POSTS OF ORGANIZATION USER---->
       <div class="mt-2" v-if="viewPost">
         <button v-on:click.prevent="viewPost = false; posts = []" class="btn btn-purple"><i class="bi bi-arrow-left me-2"></i>Return</button>
       </div>
@@ -116,7 +115,7 @@
             <tr v-for="(post, i) in userPosts" :key="i">
               <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">{{i + 1}}</td>
               <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">
-                <b-avatar v-if="post.postcontent.image" size="6rem" variant="dark"  :src="'http://127.0.0.1:8000/uploads/' + post.postcontent.image"></b-avatar>
+                <b-avatar v-if="post.postcontent.image" size="6rem" variant="dark"  :src="`${imgURL}/` + post.postcontent.image"></b-avatar>
                 <p class="text-muted" v-else>No Image</p>
               </td>
               <td class="cursor-pointer text-nowrap" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')" >{{post.postcontent.title}}</td>
@@ -130,8 +129,7 @@
         </table>
       </div>
 
-
-      <!---- USER LOGS --->
+      <!---- ORGANIZATION USER LOGS --->
       <div class="mt-2" v-if="viewLogs">
         <button v-on:click.prevent="viewLogs = false; userLogs = []" class="btn btn-purple"><i class="bi bi-arrow-left me-2"></i>Return</button>
       </div>
@@ -142,29 +140,28 @@
           :table-props="{ bordered: false, striped: true }"
           v-if="initialLoading || isSearching"
          ></b-skeleton-table>
-        <table class="table table-hover" v-else>
-        <thead >
-         <tr>
-          <th scope="col" class="text-nowrap">ID</th>
-          <th scope="col" class="text-nowrap">Activity</th>
-          <th scope="col" class="text-nowrap">Event Type</th>
-          <th scope="col">Description</th>
-          <th scope="col" class="text-nowrap">Date and Time</th>
-         </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(log, i) in userLogs" :key="i" class="cursor-pointer" @click.prevent="selectedLog = log; $bvModal.show('logInfoModal')">
-            <th>{{i + 1}}</th>
-            <td>{{log.log_name}}</td>
-            <td><small><b-badge :variant="badgeEvent(log.event)" pill>{{log.event}}</b-badge></small></td>
-            <td>{{log.description}}</td>
-            <td>{{log.created_at | moment}}</td>
-          </tr>
-          <tr v-if="userLogs == 0">
-            <td class="text-center pt-3 pb-3" colspan="6">No data available</td>
-          </tr>
-        </tbody>
-       </table>
+        <b-table id="orglogstable" :items="userLogs" :fields="['id', 'log_name', 'event', 'description', 'created_at', 'actions']" :per-page="8" :current-page="orglogspage" striped v-else>
+          <template #cell(event)="row">
+            <small><b-badge :variant="badgeEvent(row.item.event)" pill>{{row.item.event}}</b-badge></small>
+          </template>
+          <template #cell(created_at)="row">
+            {{ row.item.created_at | moment }}
+          </template>
+          <template #cell(actions)="row">
+              <b-button variant="success" size="sm" @click="selectedLog = row.item; $bvModal.show('logInfoModal')" class="mr-1">
+                View
+              </b-button>
+            </template>
+        </b-table>
+        <div class="d-flex justify-content-end">
+          <b-pagination
+            class="mt-3"
+            v-model="orglogspage"
+            :total-rows="userLogs.length"
+            :per-page="8"
+            aria-controls="orglogstable"
+          ></b-pagination>
+        </div>
       </div>
 
      </div>
@@ -204,7 +201,7 @@
         :columns="6"
         :table-props="{ bordered: false, striped: true }"
         v-if="initialLoading"></b-skeleton-table>
-       <table class="table table-hover" v-if="!initialLoading">
+       <table class="table table-hover" v-if="!initialLoading && !viewUnitPost && !viewUnitLogs">
         <caption>Showing {{unit_accounts.from}} to {{unit_accounts.to}} out of {{unit_accounts.total}} accounts</caption>
         <div class="text-center" v-if="unit_accounts.data == 0">No deleted accounts under unit</div>
         <thead v-if="unit_accounts.data != 0">
@@ -236,21 +233,20 @@
           </td>
           <td class="text-nowrap">{{ acc.created_at | moment }}</td>
           <td>
-           <div class="d-flex">
-            <button
-              v-on:click.prevent="userPosts = acc.user.posts; viewPost = true"
-              v-b-tooltip.hover
-              title="View Posts"
-              class="btn btn-sm btn-success rounded-pill me-2">
-              <i v-if="current_id != acc.id" class="bi bi-newspaper"></i>
-            </button>
-           </div>
+            <div class="d-flex">
+              <button @click="userUnitPosts = acc.user.posts; viewUnitPost = true" class="btn btn-sm btn-primary text-nowrap me-2" >
+                View Posts
+              </button>
+              <button @click="userUnitLogs = acc.user.logs; viewUnitLogs = true"  class="btn btn-sm btn-primary btn-approve text-nowrap me-2" >
+                View Logs
+              </button>
+            </div>
           </td>
          </tr>
         </tbody>
        </table>
       </div>
-      <div class="row mt-3" v-if="unit_accounts.data">
+      <div class="row mt-3" v-if="unit_accounts.data && !viewUnitPost && !viewUnitLogs">
        <pagination
         :showDisabled="true"
         :align="'right'"
@@ -260,6 +256,83 @@
         <span slot="next-nav">&raquo;</span>
        </pagination>
       </div>
+
+      
+      <!---POSTS OF DEPARTMENT USER---->
+      <div class="mt-2" v-if="viewUnitPost">
+        <button v-on:click.prevent="viewUnitPost = false; posts = []" class="btn btn-purple"><i class="bi bi-arrow-left me-2"></i>Return</button>
+      </div>
+      <div class="table-responsive mt-3" v-if="viewUnitPost">
+        <b-skeleton-table
+            :rows="4"
+            :columns="7"
+            :table-props="{ bordered: false, striped: true }"
+            v-if="isLoading"
+          ></b-skeleton-table>
+        <table class="table table-hover" v-if="!isLoading">
+          <thead>
+            <tr>
+              <th scope="col" class="text-nowrap">ID</th>
+              <th scope="col" class="text-nowrap">Image</th>
+              <th scope="col" class="text-nowrap">Title</th>
+              <th scope="col" class="text-nowrap">Post Excerpt</th>
+              <th scope="col" class="text-nowrap">Status</th>
+              <th scope="col" class="text-nowrap">Date Posted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(post, i) in userUnitPosts" :key="i">
+              <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">{{i + 1}}</td>
+              <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">
+                <b-avatar v-if="post.postcontent.image" size="6rem" variant="dark"  :src="`${imgURL}/` + post.postcontent.image"></b-avatar>
+                <p class="text-muted" v-else>No Image</p>
+              </td>
+              <td class="cursor-pointer text-nowrap" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')" >{{post.postcontent.title}}</td>
+              <td class="cursor-pointer" v-on:click.prevent="postContent = post; $bvModal.show('viewPostModal')">{{post.postcontent.post_excerpt}}</td>
+              <td>
+                <b-badge :variant="post.status == 'Approved' ? 'success':'info'">{{post.status}}</b-badge>
+              </td>
+              <td class="text-nowrap">{{post.created_at | moment}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!---- DEPARTMENT USER LOGS --->
+      <div class="mt-2" v-if="viewUnitLogs">
+        <button v-on:click.prevent="viewUnitLogs = false; userUnitLogs = []" class="btn btn-purple"><i class="bi bi-arrow-left me-2"></i>Return</button>
+      </div>
+      <div class="table-responsive mt-3" v-if="viewUnitLogs">
+         <b-skeleton-table
+          :rows="6"
+          :columns="5"
+          :table-props="{ bordered: false, striped: true }"
+          v-if="initialLoading || isSearching"
+         ></b-skeleton-table>
+        <b-table id="orglogstable" :items="userUnitLogs" :fields="['id', 'log_name', 'event', 'description', 'created_at', 'actions']" :per-page="8" :current-page="orglogspage" striped v-else>
+          <template #cell(event)="row">
+            <small><b-badge :variant="badgeEvent(row.item.event)" pill>{{row.item.event}}</b-badge></small>
+          </template>
+          <template #cell(created_at)="row">
+            {{ row.item.created_at | moment }}
+          </template>
+          <template #cell(actions)="row">
+              <b-button variant="success" size="sm" @click="selectedLog = row.item; $bvModal.show('logInfoModal')" class="mr-1">
+                View
+              </b-button>
+            </template>
+        </b-table>
+        <div class="d-flex justify-content-end">
+          <b-pagination
+            class="mt-3"
+            v-model="orglogspage"
+            :total-rows="userLogs.length"
+            :per-page="8"
+            aria-controls="orglogstable"
+          ></b-pagination>
+        </div>
+      </div>
+
      </div>
     </div>
    </div>
@@ -292,7 +365,7 @@
       </div>
    </b-modal>
 
-  <b-modal id="viewPostModal" size="lg" scrollable centered :title="postContent.postcontent.title">
+  <b-modal id="viewPostModal" scrollable centered :title="postContent.postcontent.title">
       <div v-html="postContent.postcontent.content"></div>
       <p class="mt-4"><small>Views: {{postContent.views}}</small></p>
       <p class=" mb-2"><small>Date Posted: {{postContent.created_at | moment}}</small></p>
@@ -330,6 +403,10 @@
           <p v-if="key == 'created_at' || key == 'updated_at'"><span class="fw-bold">{{key}}:</span> {{value | moment}}</p>
           <p v-else><span class="fw-bold">{{key}}:</span> {{value}}</p>
         </div>
+      </div>
+
+      <div v-if="selectedLog.event == 'logout' || selectedLog.event == 'login success'" class="">
+        <h6 class="fw-bold mb-2">User IP: <span class="fw-normal">{{selectedLog.properties.ip}}</span></h6>
       </div>
 
       <div v-if="selectedLog.event == 'created'" class="">
@@ -383,6 +460,7 @@
   },
   data() {
    return {
+    orglogspage: 1,
     current_id: '',
     postContent: {
       postcontent: {
@@ -397,6 +475,10 @@
     userLogs: [],
     viewPost: false,
     viewLogs: false,
+    userUnitPosts: [],
+    userUnitLogs: [],
+    viewUnitPost: false,
+    viewUnitLogs: false,
     delete_data: {
      id: '',
      type: '',

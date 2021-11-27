@@ -29,7 +29,7 @@
           </select>
          </div>
        </div>
-       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-4 mt-2">
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
         <div class="input-group form-floating mb-3">
          <input
           type="text"
@@ -155,7 +155,7 @@
             </select>
          </div>
        </div>
-       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-4 mt-2">
+       <div class="col-9 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
         <div class="input-group form-floating">
          <input
           type="text"

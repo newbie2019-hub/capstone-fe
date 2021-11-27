@@ -208,6 +208,7 @@ export default {
      if(this.password_data.new_password.trim() == '') return this.$toast.error('New password is required');
      if(this.password_data.confirm_password.trim() == '') return this.$toast.error('Confirm password is required');
 
+     if(this.password_data.new_password != this.password_data.confirm_password) return this.$toast.error('New Password does not match')
      this.isLoading = true
 
      const res = await this.$store.dispatch('auth/changeAdminPassword', this.password_data)

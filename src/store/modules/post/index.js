@@ -108,5 +108,49 @@ export default {
 
       return res;
     },
+
+    async getUserPosts({commit}, page){
+      const res = await API.get(`/admin/posts?page=${page}`).then(res => {
+        commit('SET_POST', res.data)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
+    async searchUserPosts({commit}, {page, data}){
+      const res = await API.post(`/admin/posts/search?page=${page}`, data).then(res => {
+        commit('SET_POST', res.data)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
+    async deleteUserPost({commit}, id){
+      const res = await API.delete(`/admin/posts/${id}`).then(res => {
+        commit('DELETE_POST', id)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
+    async restoreUserPost({commit}, id){
+      const res = await API.put(`/admin/posts/restore/${id}`).then(res => {
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
   }
 }

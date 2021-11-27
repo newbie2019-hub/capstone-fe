@@ -5,7 +5,7 @@
         <div class="col-12 col-md-6 col-lg-7 col-xl-7 hero-bg">
           <div class="content-end">
             <h3 class="fw-600">Information Kiosk Management</h3>
-            <p class="mt-3">Navigate the system without the need to touch. Explore what can be done with hand tracking technology. Everything is processed locally and no webcam data is being sent or stored to our server. Explore the system <a class="text-decoration-none text-info" href="https://home.lnukiosk.live">here</a></p>
+            <p class="mt-3">Navigate the system without the need to touch. Explore what can be done with hand tracking technology. Everything is processed locally and no webcam data is being sent or stored to our server.</p>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-5 col-xl-5 mobile-login">

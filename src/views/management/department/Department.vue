@@ -45,7 +45,7 @@
                 <tbody>
                   <tr v-for="(dep, i) in departments.data" :key="i">
                     <th>
-                      <b-avatar variant="dark" :src="`http://127.0.0.1:8000/uploads/${dep.image}`"></b-avatar>
+                      <b-avatar variant="dark" :src="`${imgURL}/${dep.image}`"></b-avatar>
                     </th>
                     <td>{{dep.name}}</td>
                     <td :class="dep.appreviation ? '' : 'text-muted'">{{dep.abbreviation ? dep.appreviation : 'None'}}</td>
@@ -403,7 +403,7 @@ export default {
 
       if(this.fileRecordsForUpload.length > 0) {
         const img = await this.$refs.vueFileAgent.upload(
-          `http://127.0.0.1:8000/api/admin/uploadDepartmentImage?token=` + localStorage.getItem("auth"), 
+          `${this.envURL}/admin/uploadDepartmentImage?token=` + localStorage.getItem("auth"), 
           {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
         );
 
@@ -424,7 +424,7 @@ export default {
 
       if(this.fileRecordsForUpload.length > 0) {
         const img = await this.$refs.vueFileAgent.upload(
-          `http://127.0.0.1:8000/api/admin/uploadDepartmentImage?token=` + localStorage.getItem("auth"), 
+          `${this.envURL}/admin/uploadDepartmentImage?token=` + localStorage.getItem("auth"), 
           {'X-Requested-With' : 'XMLHttpRequest'}, this.fileRecordsForUpload
         );
 
