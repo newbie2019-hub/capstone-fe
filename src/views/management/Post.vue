@@ -98,7 +98,7 @@
     </div>
 
     <b-modal id="noteModal" centered title="Note">
-        <p class="">Listed on the table are the posts created by the users. For the deleted posts, you can restore it if the user account is not deleted. But, if you'd wish to really restore the post you can then restore the account first on the <router-link to="/archived/accounts">Archived Account</router-link> section.</p>
+        <p class="">Listed on the table are the posts created by the users. For the deleted posts, you can restore it if the user account is not deleted. But, if you'd wish to really restore the post you can then restore the account first on the <router-link to="/home/archived/accounts">Archived Account</router-link> section.</p>
         <template #modal-footer = {cancel} >
         <b-button variant="primary" @click="cancel()"> Close </b-button>
         </template>
