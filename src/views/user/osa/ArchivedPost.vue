@@ -11,7 +11,7 @@
               </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-              <button v-on:click.prevent="$bvModal.show('scheduleModal')" class="btn btn-primary btn-sm me-2"><i class="bi bi-clock"></i> Schedule</button>
+              <!-- <button v-on:click.prevent="$bvModal.show('scheduleModal')" class="btn btn-primary btn-sm me-2"><i class="bi bi-clock"></i> Schedule</button> -->
               <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
                 <div class="input-group form-floating">
                   <input v-model="search_post" type="text"  class="form-control" id="floatingSearchOrg" placeholder="Search here">
@@ -79,7 +79,7 @@
         </b-button>
         </template>
     </b-modal>
-
+<!-- 
     <b-modal id="scheduleModal" centered title="Select Schedule">
         <p class="">Select a schedule for deleting the records automatically</p>
         <p class="">Current Schedule: <span class="fw-bold">{{schedule.deletion == '9999' ? 'None' : schedule.deletion + ' days'}}</span></p>
@@ -97,7 +97,7 @@
             Save
         </b-button>
         </template>
-    </b-modal>
+    </b-modal> -->
 
     <b-modal id="viewPostModal" scrollable centered :title="viewPost.postcontent.title">
         <div v-html="viewPost.postcontent.content"></div>

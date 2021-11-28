@@ -46,7 +46,11 @@
                     <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
                       <b-avatar variant="dark" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
                     </th>
-                    <td class="pt-3 cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{acc.user.userinfo.first_name}} {{acc.user.userinfo.middle_name}} {{acc.user.userinfo.last_name}}</td>
+                    <td class="pt-3 cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
+                      <div style="width: 150px">
+                        {{acc.user.userinfo.first_name}} {{acc.user.userinfo.middle_name}} {{acc.user.userinfo.last_name}}
+                      </div>
+                    </td>
                     <td class="pt-3 cursor-pointer"  v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{acc.user.userinfo.role.role}}</td>
                     <td class="pt-3 cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
                       <b-badge class="rounded-pill" :class="acc.user.status == 'Approved' ? 'bg-success' : 'bg-danger'">{{
@@ -171,7 +175,7 @@
 
     <b-modal id="viewInfoModal" centered title="Account Info">
       <div class="row justify-content-center text-center">
-        <b-avatar size="6rem" variant="dark" :src="'http://127.0.0.1:8000/uploads/' + accDisplayed.user.userinfo.image"></b-avatar>
+        <b-avatar size="6rem" variant="dark" :src="`${imgURL}/` + accDisplayed.user.userinfo.image"></b-avatar>
         <h5 class="mt-3 ">{{accDisplayed.user.userinfo.first_name}} {{accDisplayed.user.userinfo.last_name}}</h5>
         <p class="">{{accDisplayed.email}}</p>
         <p class="">Contact: {{accDisplayed.user.userinfo.contact_number}}</p>
@@ -185,7 +189,8 @@
 
     <!--- APPROVE MODAL -->
    <b-modal id="approveModal" centered title="Confirm Approve">
-    <p class="">An email of approval will be sent to the user. Are you sure you want to approve this account?</p>
+  <p class="">An email of approval will be sent to the user. Are you sure you want to approve this account?</p>
+    <p class="mt-4"><small><span class="fw-bold">Note:</span> Accounts with similar roles in the same organization or unit will be deleted autmatically. Roles that are not affected by this condition are representative and faculty member.</small></p>
     <template #modal-footer="{cancel}">
      <b-button :disabled="isLoading" variant="primary" @click="cancel()"> Cancel </b-button>
      <b-button :disabled="isLoading" variant="success" v-on:click.prevent="approveAccount">

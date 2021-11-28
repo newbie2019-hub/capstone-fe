@@ -246,11 +246,14 @@
           <td class="text-nowrap">{{ acc.created_at | moment }}</td>
           <td>
             <div class="d-flex">
-              <button @click="userUnitPosts = acc.user.posts; viewUnitPost = true" class="btn btn-sm btn-primary text-nowrap me-2" >
-                View Posts
+              <button @click="userUnitPosts = acc.user.posts; viewUnitPost = true" class="btn btn-sm btn-purple rounded-pill text-nowrap me-2" >
+                <i class="bi bi-stickies"></i>
               </button>
-              <button @click="userUnitLogs = acc.user.logs; viewUnitLogs = true"  class="btn btn-sm btn-primary btn-approve text-nowrap me-2" >
-                View Logs
+              <button @click="userUnitLogs = acc.user.logs; viewUnitLogs = true"  class="btn btn-sm btn-purple btn-approve rounded-pill text-nowrap me-2" >
+                <i class="bi bi-journal-text"></i>
+              </button>
+              <button @click="restoreAccount = acc.user.id; $bvModal.show('restoreModal')"  class="btn btn-sm btn-purple btn-approve rounded-pill text-nowrap me-2" >
+                <i class="bi bi-recycle"></i>
               </button>
             </div>
           </td>

@@ -76,7 +76,11 @@
            <b-avatar variant="dark" :src="`${imgURL}/` + acc.user.userinfo.image"></b-avatar>
           </th>
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}</td>
-          <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.organization.name }}</td>
+          <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
+            <div style="width: 250px">
+              {{ acc.organization.name }}
+            </div>
+          </td>
           <td>{{ acc.user.userinfo.role.role }}</td>
           <td>
            <b-badge class="rounded-pill" :class="acc.user.status == 'Approved' ? 'bg-success' : 'bg-danger'">{{
@@ -201,7 +205,11 @@
           <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
            {{ acc.user.userinfo.first_name }} {{ acc.user.userinfo.last_name }}
           </td>
-          <td class="text-nowrap cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">{{ acc.department.name }}</td>
+          <td class="cursor-pointer" v-on:click.prevent="accUnitDisplayed = acc; $bvModal.show('viewDepInfoModal')">
+            <div style="width: 250px">
+              {{ acc.department.name }}
+            </div>
+          </td>
           <td class="text-nowrap">{{ acc.user.userinfo.role.role }}</td>
           <td>
            <b-badge class="rounded-pill" :class="acc.user.status == 'Approved' ? 'bg-success' : 'bg-danger'">{{
@@ -302,6 +310,7 @@
    <!--- APPROVE MODAL -->
    <b-modal id="approveModal" centered title="Confirm Approve">
     <p class="">An email of approval will be sent to the user. Are you sure you want to approve this account?</p>
+    <p class="mt-4"><small><span class="fw-bold">Note:</span> Accounts with similar roles in the same organization or unit will be deleted autmatically. Roles that are not affected by this condition are representative and faculty member.</small></p>
     <template #modal-footer="{cancel}">
      <b-button :disabled="isLoading" variant="primary" @click="cancel()"> Cancel </b-button>
      <b-button :disabled="isLoading" variant="success" v-on:click.prevent="setStatus">
@@ -416,9 +425,11 @@
      this.$bvModal.hide('approveModal');
      this.$toast.success('Account Approved \nAn email has been sent to the user.');
      if (this.approve_data.type == 'Organization') {
-      this.$store.commit('account/UPDATE_ORGACC_STATUS', this.approve_data.id);
+       this.organizationSearch()
+      // this.$store.commit('account/UPDATE_ORGACC_STATUS', this.approve_data.id);
      } else if (this.approve_data.type == 'Department') {
-      this.$store.commit('account/UPDATE_UNITACC_STATUS', this.approve_data.id);
+       this.departmentSearch()
+      // this.$store.commit('account/UPDATE_UNITACC_STATUS', this.approve_data.id);
      }
     } else {
      this.current_id = '';

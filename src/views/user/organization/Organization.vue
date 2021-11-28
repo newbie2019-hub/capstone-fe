@@ -7,13 +7,9 @@
       <h5 class="mt-3" v-if="orgmembers.data != 0">{{orgmembers.data[0].organization.abbreviation ? orgmembers.data[0].organization.abbreviation : orgmembers.data[0].organization.name}} Organization</h5>
       <h5 class="mt-3" v-else>No Organization Available</h5>
       <p class="text-muted">Here are the members for this organization</p>
-      <div v-if="$can('assign_org_adviser')" class="d-flex justify-content-end mt-2">
-        <div class="mt-2">
-        </div>
-       </div>
-      <div class="d-flex justify-content-end mt-2">
-        <button v-if="$can('assign_org_adviser')" v-on:click.prevent="$bvModal.show('assignAdviserModal')" class="btn btn-purple me-2"><i class="bi bi-person-circle me-2"></i>Assign Adviser</button>
-        <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-4">
+      <div class="d-flex justify-content-end mt-5">
+        <button v-if="($can('assign_org_adviser') || adviser_id == user.id) && orgmembers.data != 0" v-on:click.prevent="$bvModal.show('assignAdviserModal')" class="btn btn-purple me-2"><i class="bi bi-person-circle me-2"></i>Assign Adviser</button>
+        <div v-if="orgmembers.data != 0" class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-4">
           <div class="input-group form-floating">
             <input type="text" v-model="search" class="form-control" id="floatingSearchOrg" placeholder="Search here">
             <label  for="floatingSearchOrg" class="">Search</label>
@@ -22,7 +18,7 @@
         </div>
       </div>
       <div class="table-responsive mt-5" v-if="!viewPost">
-       <div class="text-center" v-if="!orgmembers.data || orgmembers.data == 0">No accounts is under this organizations</div>
+       <div class="text-center mb-5 mt-3 fw-bold" v-if="!orgmembers.data || orgmembers.data == 0">No organization available</div>
        <b-skeleton-table
         :rows="6"
         :columns="10"
