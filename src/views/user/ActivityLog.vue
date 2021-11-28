@@ -9,7 +9,7 @@
         <p class="mb-4"><small>Listed below are your logs </small></p>
        </div>
        <div class="d-flex justify-content-end mt-2">
-        <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
+        <div class="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3">
           <div class="input-group form-floating mb-3">
           <input
             type="text"

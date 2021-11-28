@@ -57,7 +57,7 @@
       </div>
       <div class="row mt-3" v-if="adminlogs.data">
       <pagination :showDisabled="true" :align="'right'"
-        :data="adminlogs"
+        :data="adminlogs" :limit="3"
         @pagination-change-page="getLogs">
         <span slot="prev-nav">&laquo;</span>
         <span slot="next-nav">&raquo;</span>

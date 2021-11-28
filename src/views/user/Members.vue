@@ -11,7 +11,7 @@
               </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-              <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
+              <div class="col-10 col-sm-5 col-md-5 col-lg-4 col-xl-3">
                 <div class="input-group form-floating mb-3">
                   <input type="text" v-model="search_member" class="form-control" id="floatingSearchOrg" placeholder="Search here">
                   <label  for="floatingSearchOrg" class="">Search</label>

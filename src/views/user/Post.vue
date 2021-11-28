@@ -12,7 +12,7 @@
             </div>
             <div class="d-flex justify-content-end mt-2">
               <router-link to="/user/post/create" class="btn btn-purple btn-sm me-2 d-flex align-items-center"><i class="bi bi-plus-circle me-2"></i> New Post</router-link>
-              <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
+              <div class="col-7 col-sm-5 col-md-5 col-lg-4 col-xl-3">
                 <div class="input-group form-floating">
                   <input v-model="search_post" type="text"  class="form-control" id="floatingSearchOrg" placeholder="Search here">
                   <label  for="floatingSearchOrg" class="">Search here</label>
@@ -52,7 +52,11 @@
                       {{post.postcontent.title}} <br/>
                       <span class="text-muted"><small>Added by: {{post.useraccount.userinfo.first_name}} {{post.useraccount.userinfo.last_name}}</small></span>
                     </td>
-                    <td class="cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">{{post.postcontent.post_excerpt}}</td>
+                    <td class="cursor-pointer" v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">
+                      <div style="width: 250px">
+                        {{post.postcontent.post_excerpt}}
+                      </div>
+                    </td>
                     <td class="cursor-pointer">
                       <b-badge :variant="post.status == 'Approved' ? 'success rounded-pill':'info rounded-pill'">{{post.status}}</b-badge>
                     </td>

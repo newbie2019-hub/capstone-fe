@@ -66,11 +66,14 @@
           <td>{{ acc.created_at | moment }}</td>
           <td>
            <div class="d-flex">
-             <button @click="userPosts = acc.user.posts; viewPost = true" class="btn btn-sm btn-primary text-nowrap me-2" >
-              View Posts
+             <button @click="userPosts = acc.user.posts; viewPost = true" class="btn btn-sm btn-purple rounded-pill text-nowrap me-2" >
+              <i class="bi bi-stickies"></i>
             </button>
-            <button @click="userLogs = acc.user.logs; viewLogs = true"  class="btn btn-sm btn-primary btn-approve text-nowrap me-2" >
-              View Logs
+            <button @click="userLogs = acc.user.logs; viewLogs = true"  class="btn btn-sm btn-purple btn-approve rounded-pill text-nowrap me-2" >
+              <i class="bi bi-journal-text"></i>
+            </button>
+            <button @click="restoreAccount = acc.user.id; $bvModal.show('restoreModal')"  class="btn btn-sm btn-purple btn-approve rounded-pill text-nowrap me-2" >
+              <i class="bi bi-recycle"></i>
             </button>
            </div>
           </td>
@@ -163,10 +166,19 @@
           ></b-pagination>
         </div>
       </div>
-
      </div>
     </div>
    </div>
+
+    <b-modal id="restoreModal" centered title="Confirm Restore">
+        <p class="">Are you sure you want to restore this account?</p>
+        <template #modal-footer = {cancel} >
+          <b-button variant="secondary" @click="cancel()"> Cancel </b-button>
+          <b-button class="btn-purple" v-on:click.prevent="revertAccount" :disabled="isLoading">
+              Restore
+          </b-button>
+        </template>
+    </b-modal>
 
    <!--- DEPARTMENT ACCOUNT -->
    <div class="row justify-content-center mt-3">
@@ -405,7 +417,7 @@
         </div>
       </div>
 
-      <div v-if="selectedLog.event == 'logout' || selectedLog.event == 'login success'" class="">
+      <div v-if="selectedLog.event == 'login failed' || selectedLog.event == 'logout' || selectedLog.event == 'login success'" class="">
         <h6 class="fw-bold mt-1 mb-2">User IP: <span class="fw-normal">{{selectedLog.properties.ip}}</span></h6>
       </div>
 
@@ -546,6 +558,7 @@
         }
       }
     },
+    restoreAccount: '',
    }
   },
   watch: {
@@ -557,8 +570,8 @@
    },
   },
   created: function () {
-    this.debouncedOrganizationSearch = _.debounce(this.organizationSearch, 1000)
-    this.debouncedDepartmentSearch = _.debounce(this.departmentSearch, 1000)
+    this.debouncedOrganizationSearch = _.debounce(this.organizationSearch, 800)
+    this.debouncedDepartmentSearch = _.debounce(this.departmentSearch, 800)
   },
   async mounted() {
    document.title = 'Archive Accounts';
@@ -590,17 +603,30 @@
           break;
       }
     },
-   async getOrgAccounts(page = 1) {
-    if (this.orgStatus == 'All Accounts') {
-     await this.$store.dispatch('archive/orgAccounts', page);
-    }
-    if (this.orgStatus == 'Approved') {
-     await this.$store.dispatch('archive/approvedOrgAccounts', page);
-    }
-    if (this.orgStatus == 'Pending') {
-     await this.$store.dispatch('archive/pendingOrgAccounts', page);
-    }
-   },
+    async revertAccount(){
+      this.isLoading = true
+      const res = await this.$store.dispatch('auth/restoreAccount', this.restoreAccount)
+      if(res.status == 200){
+          await this.organizationSearch()
+          await this.departmentSearch()
+          this.$toast.success('Account restored successfully!')
+          this.$bvModal.hide('restoreModal')
+      } else {
+          this.$toast.error('Something went wrong')
+      }
+      this.isLoading = false
+    },
+    async getOrgAccounts(page = 1) {
+      if (this.orgStatus == 'All Accounts') {
+        await this.$store.dispatch('archive/orgAccounts', page);
+      }
+      if (this.orgStatus == 'Approved') {
+        await this.$store.dispatch('archive/approvedOrgAccounts', page);
+      }
+      if (this.orgStatus == 'Pending') {
+        await this.$store.dispatch('archive/pendingOrgAccounts', page);
+      }
+    },
    async getUniAccounts(page) {
     if (this.unitStatus == 'All Accounts') {
      await this.$store.dispatch('archive/unitAccounts', page);

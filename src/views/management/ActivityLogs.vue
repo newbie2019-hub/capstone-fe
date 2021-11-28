@@ -9,7 +9,7 @@
         <p class="mb-4"><small>Listed below are the activity of the users</small></p>
        </div>
        <div class="d-flex justify-content-end mt-2">
-        <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
+        <div class="col-10 col-sm-5 col-md-5 col-lg-4 col-xl-3">
           <div class="input-group form-floating mb-3">
           <input
             type="text"
@@ -58,7 +58,7 @@
       </div>
       <div class="row mt-3" v-if="logs.data">
       <pagination :showDisabled="true" :align="'right'"
-        :data="logs"
+        :data="logs"  :limit="3"
         @pagination-change-page="getLogs">
         <span slot="prev-nav">&laquo;</span>
         <span slot="next-nav">&raquo;</span>
@@ -84,7 +84,7 @@
       </div>
 
       <div v-if="selectedLog.event == 'login failed' || selectedLog.event == 'logout' || selectedLog.event == 'login success'" class="">
-        <h6 class="fw-bold mb-2">User IP: <span class="fw-normal">{{selectedLog.properties.ip}}</span></h6>
+        <h6 class="fw-bold mt-1 mb-2">User IP: <span class="fw-normal">{{selectedLog.properties.ip}}</span></h6>
       </div>
 
       <div v-if="selectedLog.event == 'deleted account'" class="">

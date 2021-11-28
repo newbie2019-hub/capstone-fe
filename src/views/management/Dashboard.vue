@@ -13,7 +13,7 @@
             </div>
           </div>
         </div>
-        <div class="card mt-5 mb-4 p-5 br-20">
+        <div class="card mt-4 mb-4 p-5 br-20">
           <div class="d-flex">
             <div class="d-flex flex-column me-auto">
               <h5>Pending Accounts</h5>
@@ -86,7 +86,7 @@
           </div>
         </div>
         <!-- ACCOUNTS AND POST -->
-        <div class="row justify-content-center">
+        <div class="row g-2 justify-content-center">
           <div class="col-6 col-md-6 col-lg-6 col-xl-5">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex flex-column justify-content-center align-items-center mb-3">
@@ -118,7 +118,7 @@
         </div>
 
         <!--- DEPARTMENT  AND ORG --->
-        <div class="row justify-content-center">
+        <div class="row g-2 justify-content-center">
           <div class="col-6 col-md-6 col-lg-6 col-xl-5">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex flex-column justify-content-center align-items-center mb-3">

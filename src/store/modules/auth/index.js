@@ -99,18 +99,16 @@ export default {
 
       return res;
     },
-    // async loginUserAccount({commit}, payload){
-    //   const res = await API.post('/auth/user/login', payload).then(res => {
-    //     commit('SET_USER_ACC', res.data.user)
-    //     commit('SET_USER_TOKEN', res.data.access_token)
+    async restoreAccount({commit}, id){
+      const res = await API.put(`auth/admin/restore/${id}`).then(res => {
 
-    //     return res;
-    //   }).catch(err => {
-    //    return err.response;
-    //   })
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
 
-    //   return res;
-    // },
+      return res;
+    },
     async createAccount({commit}, payload){
       const res = await API.post('/auth/user/store', payload).then(res => {
 

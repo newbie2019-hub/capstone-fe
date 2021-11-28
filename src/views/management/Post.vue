@@ -14,7 +14,7 @@
               <button @click.prevent="$bvModal.show('noteModal')" class="btn rounded-pill d-flex align-items-center me-2">
                 <i class="bi bi-question-circle bi-2x"></i>
               </button>
-              <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-3">
+              <div class="col-10 col-sm-5 col-md-5 col-lg-4 col-xl-3">
                 <div class="input-group form-floating">
                   <input v-model="search" type="text"  class="form-control" id="floatingSearchOrg" placeholder="Search here">
                   <label  for="floatingSearchOrg" class="">Search here</label>
@@ -46,7 +46,7 @@
                 </thead>
                 <tbody>
                   <tr v-if="posts.data == 0 && !initialLoading">
-                    <td class="text-center pt-3 pb-3" colspan="6">No data available</td>
+                    <td class="text-center pt-3 pb-3" colspan="8">No data available</td>
                   </tr>
                   <tr v-for="(post, i) in posts.data" :key="i">
                     <td v-on:click.prevent="viewPost = post; $bvModal.show('viewPostModal')">

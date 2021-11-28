@@ -2,7 +2,7 @@
  <div>
    <div class="row justify-content-center m-0">
    <div class="col-11 col-md-11 col-lg-7 col-xl-6">
-     <div class="card  pe-5 ps-5 pt-5 pb-4 br-20">
+     <div class="card pe-5 ps-5 pt-5 pb-4 br-20">
        <div class="d-flex ">
          <div class="d-flex flex-column me-auto">
            <h4 v-if="user">{{msg}}, {{user.userinfo.last_name}}</h4>
@@ -88,7 +88,7 @@
         </div>
     </div>
     <div class="col-11 col-md-11 col-lg-5 col-xl-6">
-      <div class="row justify-content-center mb-4">
+      <div class="row g-2 justify-content-center mb-4">
         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
           <div class="card sys-primary text-white br-20 ps-4 p-3">
             <div class="lh-l">
@@ -152,7 +152,7 @@
             </div>
           </div>
         </div>
-       <div v-else class="row justify-content-center">
+       <div v-else class="row g-2 justify-content-center">
           <div class="col-6 col-md-6 col-lg-6 col-xl-6">
             <div class="card pe-5 ps-5 pb-5 pt-4 br-20 mb-4">
               <div class="d-flex flex-column justify-content-center align-items-center mb-3">
