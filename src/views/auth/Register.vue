@@ -203,10 +203,10 @@ export default {
         this.$router.push('/')
       }
       else if(res.status == 422){
-        this.$toast.error(res.data.msg); 
+        this.showError(res.data)
       }
       else {
-        this.showError(res.data)
+        this.$toast.error(res.data.msg); 
       }
       this.isLoading = false
     },
