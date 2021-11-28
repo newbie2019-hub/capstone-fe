@@ -125,6 +125,8 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import moment from 'moment'
+const _ = require('lodash');
+
 export default {
     data(){
     return {
@@ -200,7 +202,7 @@ export default {
     },
      async searchPost(page){
       let data = {
-        search: this.search_role
+        search: this.search_post
       }
       this.isSearching = true
       await this.$store.dispatch('post/searchPost', {page: page, data: data})
@@ -218,9 +220,12 @@ export default {
       }
     },
   },
+  created: function () {
+    this.debouncedPostSearch = _.debounce(this.postSearch, 800)
+  },
   watch: {
     search_post(before, after){
-      this.postSearch()
+      this.debouncedPostSearch()
     }
   }
 }
