@@ -334,7 +334,7 @@ export default {
       if(res.status == 200){
         this.$toast.success('Post has been approved')
         this.posts.forEach((post, i) => {
-          console.log(post)
+          // console.log(post)
           if(post.id == this.approve_post.id){
             this.$set(this.posts[i], 'status', 'Approved')
           }

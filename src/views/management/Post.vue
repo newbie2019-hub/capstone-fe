@@ -205,7 +205,7 @@ export default {
         }
         this.isLoading = false
     },
-    async revertPost(){
+     async revertPost(){
         this.isLoading = true
         const res = await this.$store.dispatch('post/restoreUserPost', this.restorePost)
         if(res.status == 200){
@@ -216,7 +216,7 @@ export default {
             this.$toast.error('Something went wrong')
         }
         this.isLoading = false
-    },
+     },
      async searchPost(page){
       let data = {
         search: this.search

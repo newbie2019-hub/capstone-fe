@@ -17,9 +17,9 @@
       <h6 v-if="user.length != 0 && user.userinfo.role.role == 'OSA'"><small class="font-weight-400" >{{user.userinfo.role.role}}</small></h6>
      </div>
     </div>
-    <div class="d-flex">
+    <!-- <div class="d-flex">
      <i v-b-tooltip.hover title="Dark Mode" class="bi bi-lightbulb c-primary bi-3x dark-mode-margin"></i>
-    </div>
+    </div> -->
     <a href="" v-on:click.prevent="$bvModal.show('logoutModal')" class=" text-decoration-none ms-2 logout-btn">
       <div class="d-flex btn-logout ms-4 justify-content-center flex-row align-items-center c-primary ">
       <i class="bi bi-box-arrow-in-right bi-2x logout-btn me-2"></i>  

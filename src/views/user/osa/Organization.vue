@@ -4,64 +4,91 @@
    <div class="row justify-content-center">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
      <div class="card mb-3 pe-5 ps-5 pb-4 pt-4">
-      <h5 class="mt-3">Organization Monitoring</h5>
+      <h5 class="mt-4">Organization Monitoring</h5>
       <p class="text-muted">Manage organization member post below</p>
-      <div class="row justify-content-end mt-4">
-       <div class="col-9 col-sm-7 col-md-7 col-lg-6 col-xl-5 mt-2">
-        <div class="d-flex align-items-center justify-content-center">
-           <p class="pe-2">Organization</p>
-           <select v-model="selectedOrganization" @change="setCurrentOrganization" class="form-select">
-           <option v-for="(org, i) in organizations" :key="i" :value="org.id">{{org.name}}</option>
-         </select>
+      <div class="row mt-3" v-if="!viewMembers">
+        <div class="table-responsive mt-4">
+          <div class="row justify-content-end mb-3">
+            <div class="col-10 col-sm-8 col-md-5 col-lg-4 col-xl-4">
+              <b-input-group>
+                <b-form-input id="filter-input" v-model="filter" type="search" placeholder="Type to Search"></b-form-input>
+                <b-input-group-append>
+                  <b-button class="rounded-0" :filter="!filter" @click="filter = ''">Clear</b-button>
+                </b-input-group-append>
+              </b-input-group>
+            </div>
+          </div>
+          <b-table id="orgstable" :items="organizations" @filtered="onFiltered" :filter="filter" sort-icon-left :filter-included-fields="['name', 'abbreviation']" :fields="orgSelectionFields" :per-page="8" :current-page="currentOrgPage" striped>
+            <template #table-caption>Organizations of the university </template>
+            <template #cell(actions)="row">
+                <b-button variant="" size="sm" @click="currentOrganization = row.item.members; viewMembers = true" class="mr-1 btn-purple ">
+                  View
+                </b-button>
+              </template>
+          </b-table>
+          <div class="d-flex justify-content-end">
+            <b-pagination
+              class="mt-3"
+              v-model="currentOrgPage"
+              :total-rows="organizations.length"
+              :per-page="8"
+              aria-controls="orgstable"
+            ></b-pagination>
+          </div>
         </div>
-       </div>
       </div>
-      <div class="table-responsive mt-4" v-if="!viewPost">
-       <b-skeleton-table
-        :rows="6"
-        :columns="10"
-        :table-props="{ bordered: false, striped: true }"
-        v-if="initialLoading || isSearching"
-       ></b-skeleton-table>
-       <table class="table table-hover" v-if="!viewPost  && !initialLoading ">
-        <thead >
-         <tr>
-          <th scope="col"></th>
-          <th scope="col" class="text-nowrap">Name</th>
-          <th scope="col">Role</th>
-          <th scope="col" class="text-nowrap">Date Created</th>
-          <th scope="col">Actions</th>
-         </tr>
-        </thead>
-        <tbody>
-          <tr v-if="currentOrganization == '' && !initialLoading">
-            <td class="text-center pt-3 pb-3" colspan="6">Please select an organization</td>
-          </tr>
-         <tr v-else v-for="(acc, i) in currentOrganization" :key="i" >
-          <th scope="row" class="justify-content-center cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">
-            <b-avatar variant="dark" :src="`${imgURL}/` + acc.userinfo.image"></b-avatar>
-          </th>
-          <td class="text-nowrap cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.userinfo.first_name }} {{ acc.userinfo.last_name }}</td>
-          <td class="cursor-pointer" v-on:click.prevent="accDisplayed = acc; $bvModal.show('viewInfoModal')">{{ acc.userinfo.role.role }}</td>
-          <td>{{ acc.created_at | moment }}</td>
-          <td>
-           <div class="d-flex">
-            <button
-              v-on:click.prevent="posts = acc.posts; viewPost = true"
-              v-b-tooltip.hover
-              title="View Posts"
-              class="btn btn-sm btn-secondary rounded-pill me-2">
-              <i class="bi bi-newspaper"></i>
-            </button>
-           </div>
-          </td>
-         </tr>
-        </tbody>
-       </table>
+      <div class="table-responsive mt-4"  v-if="viewMembers && !viewPost ">
+        <button class="btn btn-purple" @click="viewMembers = false">
+          <i class="bi bi-arrow-left me-2"></i> Return
+        </button>
+        <div class="row mt-3" v-if="viewMembers">
+          <div class="table-responsive mt-4">
+            <div class="row justify-content-end mb-3">
+              <div class="col-10 col-sm-8 col-md-5 col-lg-4 col-xl-4">
+                <b-input-group>
+                  <b-form-input id="filter-input" v-model="filterMembers" type="search" placeholder="Type to Search"></b-form-input>
+                  <b-input-group-append>
+                    <b-button class="rounded-0" :filter="!filterMembers" @click="filterMembers = ''">Clear</b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
+            </div>
+            <b-table id="orgstable" :items="currentOrganization" @filtered="onFilteredMembers" :filter="filterMembers" sort-icon-left :filter-included-fields="[]" show-empty :fields="orgMemberFields" :per-page="8" :current-page="currentOrgMemberPage" striped>
+              <template #table-caption>Members of the selected organization</template>
+              <template #cell(name)="row">
+                  {{row.item.userinfo.first_name}} {{row.item.userinfo.last_name}}
+              </template>
+              <template #cell(role)="row">
+                  {{row.item.userinfo.role.role}}
+              </template>
+              <template #cell(actions)="row">
+                 <button
+                    v-on:click.prevent="posts = row.item.posts; viewPost = true"
+                    v-b-tooltip.hover
+                    title="View Posts"
+                    class="btn btn-sm btn-purple me-2">
+                     Post
+                  </button>
+                  <b-button variant="" size="sm" @click="accDisplayed = row.item; $bvModal.show('viewInfoModal'); viewMembers = true" class="mr-1 btn-purple ">
+                    Details
+                  </b-button>
+              </template>
+            </b-table>
+            <div class="d-flex justify-content-end">
+              <b-pagination
+                class="mt-3"
+                v-model="currentOrgMemberPage"
+                :total-rows="currentOrganization.length"
+                :per-page="8"
+                aria-controls="orgstable"
+              ></b-pagination>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!---POSTS OF USER---->
-       <div class="mt-2" v-if="viewPost">
+       <div class="mt-4 mb-3" v-if="viewPost">
          <button v-on:click.prevent="viewPost = false; posts = []" class="btn btn-purple"><i class="bi bi-arrow-left me-2"></i>Return</button>
        </div>
        <div class="table-responsive mt-3" v-if="viewPost">
@@ -71,7 +98,7 @@
               :table-props="{ bordered: false, striped: true }"
               v-if="isLoading"
             ></b-skeleton-table>
-          <table class="table table-hover" v-if="!isLoading">
+            <table class="table table-hover" v-if="!isLoading">
             <thead>
               <tr>
                 <th scope="col" class="text-nowrap">ID</th>
@@ -226,6 +253,47 @@ export default {
       id: '',
     },
     deletePost: '',
+    currentOrgPage: 1,
+    currentOrgMemberPage: 1,
+    viewMembers: false,
+    filter: null,
+    filterMembers: null,
+    orgSelectionFields: [
+      {
+        key: 'id',
+        sortable: true,
+      },
+      {
+        key: 'image',
+        sortable: true,
+      },
+      {
+        key: 'name',
+        sortable: true,
+      },
+      {
+        key: 'abbreviation',
+        sortable: true,
+      },
+      {
+        key: 'actions',
+      },
+    ],
+    orgMemberFields: [
+      {
+        key: 'id',
+        sortable: true,
+      },
+      {
+        key: 'name',
+      },
+      {
+        key: 'role',
+      },
+      {
+        key: 'actions',
+      },
+    ]
   }
  },
  computed: {
@@ -249,12 +317,20 @@ export default {
      }
     });
    },
+   onFiltered(filteredItems) {
+      this.totalRows = filteredItems.length
+      this.currentOrgPage = 1
+   },
+   onFilteredMembers(filteredItems) {
+      this.totalRows = filteredItems.length
+      this.currentOrgMemberPage = 1
+   },
    async destroyPost(){
     this.isLoading = true
     const res = await this.$store.dispatch('post/deleteOrgMemberPost', this.deletePost)
     if(res.status == 200){
       this.viewPost = false
-      this.$router.go()
+      // this.$router.go()
       this.$toast.success('Post deleted successfully!')
     } else {
       this.$toast.error('Something went wrong')
@@ -265,7 +341,7 @@ export default {
   async approvePost(){
     const res = await this.$store.dispatch('post/approveOrgMemberPost', this.approve_post)
     if(res.status == 200){
-      this.$router.go()
+      // this.$router.go()
       this.viewPost = false
       this.$toast.success('Post has been approved')
     }
