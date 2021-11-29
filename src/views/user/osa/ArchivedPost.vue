@@ -37,6 +37,7 @@
                     <th scope="col" class="text-nowrap">Post Excerpt</th>
                     <th scope="col" class="text-nowrap">Status</th>
                     <th scope="col" class="text-nowrap">Date Posted</th>
+                    <th scope="col" class="text-nowrap">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -54,7 +55,11 @@
                       <b-badge :variant="post.status == 'Approved' ? 'success rounded-pill':'info rounded-pill'">{{post.status}}</b-badge>
                     </td>
                     <td class="text-nowrap">{{post.created_at | moment}}</td>
-
+                    <td>
+                      <button @click="restorePost = post.id; $bvModal.show('restoreModal')" class="btn btn-sm btn-secondary d-flex me-2" >
+                        <i class="bi bi-recycle me-1"></i> Restore
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -69,6 +74,17 @@
         </div>
       </div>
     </div>
+
+    <b-modal id="restoreModal" centered title="Confirm Restore">
+      <p class="">Are you sure you want to restore this post?</p>
+      <template #modal-footer = {cancel} >
+        <b-button variant="primary" @click="cancel()"> Cancel </b-button>
+        <b-button variant="danger" v-on:click.prevent="revertPost" :disabled="isLoading">
+            Restore
+        </b-button>
+      </template>
+    </b-modal>
+
 
     <b-modal id="deleteModal" centered title="Confirm Delete">
         <p class="">Are you sure to delete this post?</p>
@@ -155,6 +171,7 @@ export default {
            image: '',
        },
        deletePost: '',
+       restorePost: '',
     }
   },
   filters: {
@@ -177,6 +194,18 @@ export default {
   methods: {
    //SEARCH NEEDS TO BE FIXED
     ...mapActions('auth', ['checkAuthUser']),
+    async revertPost(){
+        this.isLoading = true
+        const res = await this.$store.dispatch('post/restoreUserPost', this.restorePost)
+        if(res.status == 200){
+            await this.postSearch()
+            this.$toast.success('Post has been restored!')
+            this.$bvModal.hide('restoreModal')
+        } else {
+            this.$toast.error('Something went wrong')
+        }
+        this.isLoading = false
+    },
     async saveSchedule(){
         this.isLoading = true
         const res = await this.$store.dispatch('osa/saveSchedule', this.data)
@@ -196,11 +225,11 @@ export default {
       this.isSearching = false
     },
     async getPost(page){
-       await this.$store.dispatch('post/getPost', page);
+       await this.$store.dispatch('post/getArchived', page);
     },
-    postSearch(page = 1){
+    async postSearch(page = 1){
       if(this.search_post == ''){
-        this.getPost(page)
+        await this.$store.dispatch('osa/getArchived', page);
       }
       else {
         this.searchPost(page)

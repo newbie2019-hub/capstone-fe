@@ -11,7 +11,7 @@
         <div class="d-flex align-items-center justify-content-center">
            <p class="pe-2">Organization</p>
            <select v-model="selectedOrganization" @change="setCurrentOrganization" class="form-select">
-           <option v-for="(org, i) in organizations.data" :key="i" :value="org.id">{{org.name}}</option>
+           <option v-for="(org, i) in organizations" :key="i" :value="org.id">{{org.name}}</option>
          </select>
         </div>
        </div>
@@ -98,9 +98,12 @@
                 <td class="text-nowrap">{{post.created_at | moment}}</td>
                 <td>
                   <div class="d-flex">
-                    <!-- <button v-if="$can('delete_post') || post.user_account_id == user.id || adviser_id == user.id" @click="deletePost = post.id; $bvModal.show('deletePostModal')" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
+                    <button v-if="post.status != 'Approved'"  v-on:click.prevent="approve_post.id = post.id; $bvModal.show('approvePostModal')" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
+                        <i class="bi bi-check"></i>
+                    </button>
+                    <button @click="deletePost = post.id; $bvModal.show('deletePostModal')" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
                       <i class="bi bi-trash"></i>
-                    </button> -->
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -112,7 +115,7 @@
    </div>
   </div>
 
-  <b-modal id="viewPostModal" size="lg" scrollable centered :title="postContent.postcontent.title">
+  <b-modal id="viewPostModal" scrollable centered :title="postContent.postcontent.title">
       <div v-html="postContent.postcontent.content"></div>
       <p class="mt-4"><small>Views: {{postContent.views}}</small></p>
       <p class=" mb-2"><small>Date Posted: {{postContent.created_at | moment}}</small></p>
@@ -121,38 +124,38 @@
       </template>
   </b-modal>
 
-   <!-- VIEW INFO MODAL --->
-   <b-modal id="viewInfoModal" centered title="Account Info">
-      <div class="row justify-content-center text-center">
-        <b-avatar size="6rem" variant="dark" :src="`${imgURL}/` + accDisplayed.userinfo.image"></b-avatar>
-        <h5 class="mt-3 ">{{accDisplayed.userinfo.first_name}} {{accDisplayed.userinfo.last_name}}</h5>
-        <p class="">{{accDisplayed.email}}</p>
-        <p class="">Contact: {{accDisplayed.userinfo.contact_number}}</p>
-        <p class="">Gender: {{accDisplayed.userinfo.gender}}</p>
-        <p class="">Role: {{accDisplayed.userinfo.role.role}}</p>
-      </div>
-    <template #modal-footer="{cancel}">
-     <b-button variant="primary" @click="cancel()"> Close </b-button>
-    </template>
-   </b-modal>
+  <!-- VIEW INFO MODAL --->
+  <b-modal id="viewInfoModal" centered title="Account Info">
+    <div class="row justify-content-center text-center">
+      <b-avatar size="6rem" variant="dark" :src="`${imgURL}/` + accDisplayed.userinfo.image"></b-avatar>
+      <h5 class="mt-3 ">{{accDisplayed.userinfo.first_name}} {{accDisplayed.userinfo.last_name}}</h5>
+      <p class="">{{accDisplayed.email}}</p>
+      <p class="">Contact: {{accDisplayed.userinfo.contact_number}}</p>
+      <p class="">Gender: {{accDisplayed.userinfo.gender}}</p>
+      <p class="">Role: {{accDisplayed.userinfo.role.role}}</p>
+    </div>
+  <template #modal-footer="{cancel}">
+    <b-button variant="primary" @click="cancel()"> Close </b-button>
+  </template>
+  </b-modal>
 
-   <!-- DELETE MODAL --->
-   <b-modal id="deleteModal" centered title="Confirm Delete">
-    <p >Are you sure you want to delete this account?</p>
-    <template #modal-footer="{cancel}">
-     <b-button variant="primary" size="sm" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
-     <b-button size="sm" variant="danger" v-on:click.prevent="removeAccount" :disabled="isLoading">
-      Delete
-     </b-button>
-    </template>
-   </b-modal>
+  <!-- DELETE MODAL --->
+  <b-modal id="deleteModal" centered title="Confirm Delete">
+  <p >Are you sure you want to delete this account?</p>
+  <template #modal-footer="{cancel}">
+    <b-button variant="primary" size="sm" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
+    <b-button size="sm" variant="danger" v-on:click.prevent="removeAccount" :disabled="isLoading">
+    Delete
+    </b-button>
+  </template>
+  </b-modal>
 
    <!-- DELETE POST OF ORG MEMBER MODAL --->
    <b-modal id="deletePostModal" centered title="Confirm Delete">
     <p >Are you sure you want to delete this account?</p>
     <template #modal-footer="{cancel}">
      <b-button variant="primary" size="sm" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
-     <b-button size="sm" variant="danger" v-on:click.prevent="deletePost" :disabled="isLoading">
+     <b-button size="sm" variant="danger" v-on:click.prevent="destroyPost" :disabled="isLoading">
       Delete
      </b-button>
     </template>
@@ -219,6 +222,10 @@ export default {
         },
       },
     },
+    approve_post: {
+      id: '',
+    },
+    deletePost: '',
   }
  },
  computed: {
@@ -236,12 +243,37 @@ export default {
  },
  methods: {
    setCurrentOrganization(){
-    this.organizations.data.forEach((org) => {
+    this.organizations.forEach((org) => {
      if(org.id == this.selectedOrganization){
       this.currentOrganization = org.members
      }
     });
    },
+   async destroyPost(){
+    this.isLoading = true
+    const res = await this.$store.dispatch('post/deleteOrgMemberPost', this.deletePost)
+    if(res.status == 200){
+      this.viewPost = false
+      this.$router.go()
+      this.$toast.success('Post deleted successfully!')
+    } else {
+      this.$toast.error('Something went wrong')
+    }
+    this.$bvModal.hide('deletePostModal')
+    this.isLoading = false
+  },
+  async approvePost(){
+    const res = await this.$store.dispatch('post/approveOrgMemberPost', this.approve_post)
+    if(res.status == 200){
+      this.$router.go()
+      this.viewPost = false
+      this.$toast.success('Post has been approved')
+    }
+    else {
+      this.$toast.error('Something went wrong')
+    }
+    this.$bvModal.hide('approvePostModal')
+  },
    async searchOrganizationMember(page) {
     this.isSearching = true;
     let data = {

@@ -66,6 +66,17 @@ export default {
 
       return res;
     },
+    async approveOrgMemberPost({commit}, data){
+      const res = await API.put(`/user/post/approve/${data.id}`, data).then(res => {
+        // commit('APPROVE_POST', data)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
     async approveMemberPost({commit}, data){
       const res = await API.put(`/user/post/approve/${data.id}`).then(res => {
 
@@ -100,6 +111,16 @@ export default {
     async deletePost({commit}, id){
       const res = await API.delete(`/user/post/destroy/${id}`).then(res => {
         commit('DELETE_POST', id)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
+    async deleteOrgMemberPost({commit}, id){
+      const res = await API.delete(`/user/post/destroy/${id}`).then(res => {
 
         return res;
       }).catch(err => {

@@ -146,10 +146,10 @@
                       <td class="text-nowrap">{{post.created_at | moment}}</td>
                       <td>
                         <div class="d-flex">
-                          <button v-if="$can('approve_post') && post.status != 'Approved' || adviser_id == user.id" v-on:click.prevent="approve_post.id = post.id; $bvModal.show('approvePostModal')" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
+                          <button v-if="$can('approve_post') && post.status != 'Approved'"  v-on:click.prevent="approve_post.id = post.id; $bvModal.show('approvePostModal')" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
                               <i class="bi bi-check"></i>
                           </button>
-                          <button v-if="$can('delete_post') || post.user_account_id == user.id || adviser_id == user.id" @click="deletePost = post.id; $bvModal.show('deletePostModal')" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
+                          <button v-if="$can('delete_post')" @click="deletePost = post.id; $bvModal.show('deletePostModal')" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
                             <i class="bi bi-trash"></i>
                           </button>
                         </div>
@@ -199,7 +199,7 @@
     </template>
    </b-modal>
 
-      <!-- DELETE MODAL --->
+    <!-- DELETE MODAL --->
    <b-modal id="deleteModal" centered title="Confirm Delete">
     <p >Are you sure you want to delete this account?</p>
     <template #modal-footer="{cancel}">
@@ -209,6 +209,28 @@
      </b-button>
     </template>
    </b-modal>
+
+    <b-modal id="deletePostModal" centered title="Confirm Delete">
+      <p class="">Are you sure to delete this post?</p>
+      <template #modal-footer = {cancel} >
+        <b-button variant="primary" @click="cancel()"> Cancel </b-button>
+        <b-button variant="danger" v-on:click.prevent="destroyPost" :disabled="isLoading">
+            Delete
+        </b-button>
+      </template>
+    </b-modal>
+   
+    <!--- APPROVE MODAL -->
+   <b-modal id="approvePostModal" centered title="Confirm Approve">
+    <p class="">Are you sure you want to approve this post?</p>
+    <template #modal-footer="{cancel}">
+     <b-button :disabled="isLoading" variant="primary" @click="cancel()"> Cancel </b-button>
+     <b-button :disabled="isLoading" variant="success" v-on:click.prevent="approvePost">
+      Approve
+     </b-button>
+    </template>
+   </b-modal>
+
   </div>
 </template>
 <script>
@@ -233,12 +255,14 @@ export default {
       approve_data: {
         id: '',
       },
+      deletePost: '',
       postContent: {
         postcontent: {
           title: '',
           content: ''
         },
       },
+      adviser_id: '',
       isSearching: '',
       accDisplayed: {
         user: {
@@ -266,7 +290,10 @@ export default {
           image: '',
           type: '',
         }
-      }
+      },
+      approve_post: {
+         id: '',
+      },
     }
   },
   watch: {
@@ -275,7 +302,7 @@ export default {
     }
   },
   created: function () {
-    this.debouncedMemberSearch = _.debounce(this.memberSearch, 1000)
+    this.debouncedMemberSearch = _.debounce(this.memberSearch,800)
   },
   async mounted() {
     document.title = "All Accounts"
@@ -288,6 +315,32 @@ export default {
     ...mapActions('auth', ['checkAuthUser']),
     async getMembers(page = 1){
       await this.$store.dispatch('members/getMembers', page)
+    },
+    async destroyPost(){
+        this.isLoading = true
+        const res = await this.$store.dispatch('post/deleteOrgMemberPost', this.deletePost)
+
+        if(res.status == 200){
+          this.memberSearch()
+          this.viewPost = false
+          this.$toast.success('Post deleted successfully!')
+        } else {
+          this.$toast.error('Something went wrong')
+        }
+        this.$bvModal.hide('deletePostModal')
+        this.isLoading = false
+    },
+    async approvePost(){
+      const res = await this.$store.dispatch('post/approveOrgMemberPost', this.approve_post)
+      if(res.status == 200){
+        this.memberSearch()
+        this.viewPost = false
+        this.$toast.success('Post has been approved')
+      }
+      else {
+        this.$toast.error('Something went wrong')
+      }
+      this.$bvModal.hide('approvePostModal')
     },
     async removeAccount() {
       this.isLoading = true
@@ -318,6 +371,7 @@ export default {
       const { status, data } = await this.$store.dispatch('members/approveMember', this.approve_data)
       if(status == 200){
         this.$toast.success('Account of member has been approved')
+        this.memberSearch()
       }
       else {
         this.$toast.error(data.msg)
