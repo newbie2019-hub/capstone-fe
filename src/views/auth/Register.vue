@@ -199,7 +199,7 @@ export default {
       this.isLoading = true
       const res = await this.createAccount(this.data)
       if(res.status == 200){
-        this.$toast.success('Account created successfully! \nPlease wait for the approval of your adviser')
+        this.$toast.success('Account created successfully! \nPlease wait for the approval of your account')
         this.$router.push('/')
       }
       else if(res.status == 422){

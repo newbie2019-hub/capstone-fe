@@ -301,7 +301,9 @@ export default {
     for (var key in this.data) {
       if(typeof this.data[key] === 'string'){
         if(this.data[key].trim() == ''){
-          errors.push(key)
+          if(key != 'middle_name'){
+            errors.push(key)
+          }
           if(key == 'first_name'){
             this.validated.first_name = false
           }
