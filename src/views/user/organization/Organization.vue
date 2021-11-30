@@ -8,7 +8,7 @@
       <h5 class="mt-3" v-else>No Organization Available</h5>
       <p class="text-muted">Here are the members for this organization</p>
       <div class="d-flex justify-content-end mt-5">
-        <button v-if="($can('assign_org_adviser') || adviser_id == user.id) && orgmembers.data != 0" v-on:click.prevent="$bvModal.show('assignAdviserModal')" class="btn btn-purple me-2"><i class="bi bi-person-circle me-2"></i>Assign Adviser</button>
+        <button v-if="$can('assign_org_adviser') && orgmembers.data != 0" v-on:click.prevent="$bvModal.show('assignAdviserModal')" class="btn btn-purple me-2"><i class="bi bi-person-circle me-2"></i>Assign Adviser</button>
         <div v-if="orgmembers.data != 0" class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-4">
           <div class="input-group form-floating">
             <input type="text" v-model="search" class="form-control" id="floatingSearchOrg" placeholder="Search here">
@@ -155,7 +155,7 @@
    </div>
   </div>
 
-  <b-modal id="viewPostModal" size="lg" scrollable centered :title="postContent.postcontent.title">
+  <b-modal id="viewPostModal" scrollable centered :title="postContent.postcontent.title">
       <div v-html="postContent.postcontent.content"></div>
       <p class="mt-4"><small>Views: {{postContent.views}}</small></p>
       <p class=" mb-2"><small>Date Posted: {{postContent.created_at | moment}}</small></p>
@@ -225,7 +225,7 @@
     <p >Are you sure you want to delete this account?</p>
     <template #modal-footer="{cancel}">
      <b-button variant="primary" size="sm" @click="cancel()" :disabled="isLoading"> Cancel </b-button>
-     <b-button size="sm" variant="danger" v-on:click.prevent="deletePost" :disabled="isLoading">
+     <b-button size="sm" variant="danger" v-on:click.prevent="destroyPost" :disabled="isLoading">
       Delete
      </b-button>
     </template>
@@ -383,6 +383,19 @@ export default {
      this.adviser_data = {id: ''};
      this.$bvModal.hide('assignAdviserModal');
      this.isLoading = false
+   },
+   async destroyPost(){
+    this.isLoading = true
+    const res = await this.$store.dispatch('post/deleteOrgMemberPost', this.deletePost)
+    if(res.status == 200){
+      this.viewPost = false
+      this.$router.go()
+      this.$toast.success('Post deleted successfully!')
+    } else {
+      this.$toast.error('Something went wrong')
+    }
+    this.$bvModal.hide('deletePostModal')
+    this.isLoading = false
    },
    async removeAccount(page = 1) {
     this.isLoading = true

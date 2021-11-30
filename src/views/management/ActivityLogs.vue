@@ -8,62 +8,46 @@
         <h5>Activity Logs</h5>
         <p class="mb-4"><small>Listed below are the activity of the users</small></p>
        </div>
-       <div class="d-flex justify-content-end mt-2">
-        <div class="col-10 col-sm-5 col-md-5 col-lg-4 col-xl-3">
-          <div class="input-group form-floating mb-3">
-          <input
-            type="text"
-            v-model="search"
-            class="form-control"
-            id="floatingSearchDep"
-            placeholder="Search here"/>
-          <label for="floatingSearchDep" class="">Search</label>
-          <button class="btn btn-purple"><i class="bi bi-search"></i></button>
+        <div class="row justify-content-end mb-3">
+          <div class="col-10 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+            <b-input-group>
+              <b-form-input id="filter-input" v-model="filterLogs" type="search" placeholder="Type to Search"></b-form-input>
+              <b-input-group-append>
+                <b-button class="rounded-0 btn-purple" :filter="!filterLogs" @click="filterLogs = ''">Clear</b-button>
+              </b-input-group-append>
+            </b-input-group>
           </div>
         </div>
-       </div>
        <div class="table-responsive mt-3">
-         <b-skeleton-table
-          :rows="6"
-          :columns="5"
-          :table-props="{ bordered: false, striped: true }"
-          v-if="initialLoading || isSearching"
-         ></b-skeleton-table>
-        <table class="table table-hover" v-else>
-        <caption>Showing {{logs.from}} to {{logs.to}} out of {{logs.total}} activity logs</caption>
-        <thead >
-         <tr>
-          <th scope="col">#</th>
-          <th scope="col" class="text-nowrap">User</th>
-          <th scope="col" class="text-nowrap">Activity</th>
-          <th scope="col" class="text-nowrap">Event Type</th>
-          <th scope="col">Description</th>
-          <th scope="col" class="text-nowrap">Date and Time</th>
-         </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(log, i) in logs.data" :key="i" class="cursor-pointer" @click.prevent="selectedLog = log; $bvModal.show('logInfoModal')">
-            <th>{{logs.from + i}}</th>
-            <td class="text-nowrap" v-if="log.user">{{log.user.userinfo.first_name}} {{log.user.userinfo.last_name}}</td>
-            <td>{{log.log_name}}</td>
-            <td><small><b-badge :variant="badgeEvent(log.event)" pill>{{log.event}}</b-badge></small></td>
-            <td>{{log.description}}</td>
-            <td>{{log.created_at | moment}}</td>
-          </tr>
-          <tr v-if="logs.data == 0">
-            <td class="text-center pt-3 pb-3" colspan="6">No data available</td>
-          </tr>
-        </tbody>
-       </table>
-      </div>
-      <div class="row mt-3" v-if="logs.data">
-      <pagination :showDisabled="true" :align="'right'"
-        :data="logs"  :limit="3"
-        @pagination-change-page="getLogs">
-        <span slot="prev-nav">&laquo;</span>
-        <span slot="next-nav">&raquo;</span>
-      </pagination>
-     </div>
+          <b-table id="logstable" :items="logs" @filtered="onFiltered" :filter="filterLogs" sort-icon-left :filter-included-fields="['user','event']" show-empty :fields="logsFields" :per-page="10" :current-page="currentLogsPage" striped>
+            <template #table-caption>Users activity logs</template>
+            <template #cell(user)="row">
+              <div class="text-nowrap cursor-pointer" @click="selectedLog = row.item; $bvModal.show('logInfoModal')">
+                {{row.item.user.userinfo.first_name}} {{row.item.user.userinfo.last_name}}
+              </div>
+            </template>
+            <template #cell(activity)="row">
+              <div class="text-nowrap cursor-pointer" @click="selectedLog = row.item; $bvModal.show('logInfoModal')">
+                {{row.item.log_name}}
+              </div>
+            </template>
+            <template #cell(event_type)="row" >
+                <small><b-badge :variant="badgeEvent(row.item.event)" pill>{{row.item.event}}</b-badge></small>
+            </template>
+            <template #cell(date_and_time)="row">
+               {{row.item.created_at | moment}}
+            </template>
+          </b-table>
+        </div>
+        <div class="d-flex justify-content-end">
+          <b-pagination
+            class="mt-1"
+            v-model="currentLogsPage"
+            :total-rows="logs.length"
+            :per-page="10"
+            aria-controls="logstable"
+          ></b-pagination>
+        </div>
      </div>
     </div>
    </div>
@@ -153,20 +137,31 @@ export default {
       },
       search: '',
       isSearching: false,
+      currentLogsPage: 1,
+      filterLogs: null,
+      logsFields: [
+        {
+          key: 'user',
+        },
+        {
+          key: 'activity',
+        },
+        {
+          key: 'event_type',
+        },
+        {
+          key: 'description',
+        },
+        {
+          key: 'date_and_time',
+        },
+      ],
     }
-  },
-  watch: {
-    search(){
-      this.debouncedActivityLogSearch()
-    }
-  },
-  created: function () {
-    this.debouncedActivityLogSearch = _.debounce(this.activityLogSearch, 800)
   },
   async mounted() {
     this.initialLoading = true
     document.title = "Activity Logs - Management"
-    await this.$store.dispatch('logs/getAllActivityLogs', 1)
+    await this.$store.dispatch('logs/getAllActivityLogs')
     this.initialLoading = false
   },
   methods: {
@@ -188,24 +183,12 @@ export default {
           break;
       }
     },
+    onFiltered(filteredItems) {
+      this.totalRows = filteredItems.length
+      this.currentLogsPage = 1
+    },
     async getLogs(page = 1){
       await this.$store.dispatch('logs/getAllActivityLogs', page)
-    },
-    async searchActivityLog(page){
-       this.isSearching = true
-       let data = {
-         search: this.search
-       }
-       await this.$store.dispatch('logs/searchActivityLog', {page: page, data: data})
-       this.isSearching = false
-    },
-    activityLogSearch(page = 1){
-      if(this.search == ''){
-        this.getLogs(page)
-      }
-      else {
-        this.searchActivityLog(page)
-      }
     },
   },
   computed: {

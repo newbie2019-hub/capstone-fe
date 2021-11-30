@@ -20,11 +20,15 @@
           </div>
           <b-table id="orgstable" :items="organizations" @filtered="onFiltered" :filter="filter" sort-icon-left :filter-included-fields="['name', 'abbreviation']" :fields="orgSelectionFields" :per-page="8" :current-page="currentOrgPage" striped>
             <template #table-caption>Organizations of the university </template>
+            <template #cell(logo)="row">
+              <img v-if="row.item.image" :src=" `${imgURL}/` + row.item.image" alt="" width="40">
+              <img v-else src="@/assets/images/lnulogo.png" alt="" width="40">
+            </template>
             <template #cell(actions)="row">
-                <b-button variant="" size="sm" @click="currentOrganization = row.item.members; viewMembers = true" class="mr-1 btn-purple ">
-                  View
-                </b-button>
-              </template>
+              <b-button variant="" size="sm" @click="currentOrganization = row.item.members; viewMembers = true" class="mr-1 btn-purple ">
+                View
+              </b-button>
+            </template>
           </b-table>
           <div class="d-flex justify-content-end">
             <b-pagination
@@ -264,8 +268,7 @@ export default {
         sortable: true,
       },
       {
-        key: 'image',
-        sortable: true,
+        key: 'logo',
       },
       {
         key: 'name',
@@ -330,7 +333,7 @@ export default {
     const res = await this.$store.dispatch('post/deleteOrgMemberPost', this.deletePost)
     if(res.status == 200){
       this.viewPost = false
-      // this.$router.go()
+      this.$router.go()
       this.$toast.success('Post deleted successfully!')
     } else {
       this.$toast.error('Something went wrong')

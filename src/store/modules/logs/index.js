@@ -16,18 +16,7 @@ export default {
       }
      ]
     },
-    logs: {
-     data: [
-      {
-       user: {
-        userinfo: {
-         first_name: '',
-         last_name: '',
-        }
-       }
-      }
-     ]
-    }
+    logs: []
   },
   getters: {
   },

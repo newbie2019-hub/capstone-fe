@@ -126,10 +126,10 @@
               <td>{{official.email}}</td>
               <td>
                 <div class="d-flex">
-                  <button v-on:click.prevent="setUpdateAccount(official)" v-b-tooltip.hover title="Update Account Account" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
+                  <button v-on:click.prevent="setUpdateAccount(official)" v-b-tooltip.hover title="Update" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
                    <i class="bi bi-pencil-square"></i>
                   </button>
-                  <button :disabled="isLoading && current_id == official.id" v-on:click.prevent="data.id = official.id; $bvModal.show('deleteModal')" v-b-tooltip.hover title="Delete Account" class="btn btn-sm btn-danger rounded-pill btn-approve" >
+                  <button :disabled="isLoading && current_id == official.id" v-on:click.prevent="data.id = official.id; $bvModal.show('deleteModal')" v-b-tooltip.hover title="Delete" class="btn btn-sm btn-danger rounded-pill btn-approve" >
                     <i v-if="current_id != official.id" class="bi bi-trash"></i>
                     <div v-if="isLoading && current_id == official.id" class="spinner-grow text-light spinner-grow-sm" role="status">
                       <span class="visually-hidden">Loading...</span>
