@@ -434,6 +434,26 @@ export default {
 
       return res;
     },
+    async updateHistory({commit}, data){
+      const res = await API.put(`/admin/history/${data.id}`, data).then(res => {
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
+    async updateQualityPolicy({commit}, data){
+      const res = await API.put(`/admin/qualitypolicy/${data.id}`, data).then(res => {
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
     async saveCV({commit}, data){
       const res = await API.put(`/admin/corevalues/${data.id}`, data).then(res => {
 

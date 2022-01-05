@@ -205,6 +205,8 @@ export default {
 
       return res;
     }).catch(error => {
+      commit('UNSET_USER')
+      window.location.reload()
       return error.response;
     })
 
