@@ -34,7 +34,7 @@
                     <th scope="col" class="text-nowrap">Image</th>
                     <th scope="col" class="text-nowrap">Title</th>
                     <th scope="col" class="text-nowrap">Post Excerpt</th>
-                    <th scope="col" class="text-nowrap">Status</th>
+                    <th scope="col" class="text-nowrap" v-if="user.userinfo.role.role != 'University Admin'">Status</th>
                     <th scope="col" class="text-nowrap">Date Posted</th>
                     <th scope="col">Actions</th>
                   </tr>
@@ -57,7 +57,7 @@
                         {{post.postcontent.post_excerpt}}
                       </div>
                     </td>
-                    <td class="cursor-pointer">
+                    <td class="cursor-pointer" v-if="user.userinfo.role.role != 'University Admin'">
                       <b-badge :variant="post.status == 'Approved' ? 'success rounded-pill':'info rounded-pill'">{{post.status}}</b-badge>
                     </td>
                     <td class="text-nowrap">{{post.created_at | moment}}</td>

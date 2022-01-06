@@ -10,7 +10,7 @@
      <router-link v-if="$can('osa_permissions') && user.userinfo.role.role != 'University Admin'" to="/user/osa/post" ><i class="bi bi-megaphone me-2 bi-2x"></i> <span class="sidenav-sr">Posts</span></router-link>
      <router-link v-if="$can('osa_permissions')" to="/user/directory" class="w-100"><i class="bi bi-telephone bi-2x me-2"></i><span class="sidenav-sr">Tel Directory</span></router-link>
      <router-link v-if="$can('osa_permissions')" to="/user/faqs" class="w-100"><i class="bi bi-question-circle me-2 bi-2x"></i><span class="sidenav-sr">FAQs</span></router-link>
-     <router-link v-if="$can('osa_permissions')" to="/user/osa/organizations" class="w-100"><i class="bi bi-list-ul me-2 bi-2x"></i><span class="sidenav-sr">Organizations</span></router-link>
+     <router-link v-if="$can('osa_permissions') && user.userinfo.role.role != 'University Admin'" to="/user/osa/organizations" class="w-100"><i class="bi bi-list-ul me-2 bi-2x"></i><span class="sidenav-sr">Organizations</span></router-link>
      <router-link v-if="$can('osa_permissions')" to="/user/osa/archived" class="w-100"><i class="bi bi-archive me-2 bi-2x"></i><span class="sidenav-sr">Archived Post</span></router-link>
      <router-link to="/user/activity/log" class="w-100"><i class="bi bi-journal-text me-2 bi-2x"></i><span class="sidenav-sr">Activity Log</span></router-link>
      <router-link to="/user/settings"><i class="bi bi-tools me-2 bi-2x"></i> <span class="sidenav-sr">Settings</span></router-link>
