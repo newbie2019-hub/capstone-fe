@@ -7,7 +7,7 @@
      <router-link v-if="$can('orgunit_posts')" to="/user/post"><i class="bi bi-receipt me-2 bi-2x"></i> <span class="sidenav-sr">Posts</span></router-link>
      <router-link v-if="$can('orgunit_members')" to="/user/members"><i class="bi bi-person me-2 bi-2x"></i> <span class="sidenav-sr">Members</span></router-link>
      <router-link v-if="$can('access_organization')"  to="/user/department/organization"><i class="bi bi-people me-2 bi-2x"></i> <span class="sidenav-sr">Organization</span></router-link>
-     <router-link v-if="$can('osa_permissions')" to="/user/osa/post" ><i class="bi bi-megaphone me-2 bi-2x"></i> <span class="sidenav-sr">Posts</span></router-link>
+     <router-link v-if="$can('osa_permissions') && user.userinfo.role.role != 'University Admin'" to="/user/osa/post" ><i class="bi bi-megaphone me-2 bi-2x"></i> <span class="sidenav-sr">Posts</span></router-link>
      <router-link v-if="$can('osa_permissions')" to="/user/directory" class="w-100"><i class="bi bi-telephone bi-2x me-2"></i><span class="sidenav-sr">Tel Directory</span></router-link>
      <router-link v-if="$can('osa_permissions')" to="/user/faqs" class="w-100"><i class="bi bi-question-circle me-2 bi-2x"></i><span class="sidenav-sr">FAQs</span></router-link>
      <router-link v-if="$can('osa_permissions')" to="/user/osa/organizations" class="w-100"><i class="bi bi-list-ul me-2 bi-2x"></i><span class="sidenav-sr">Organizations</span></router-link>
@@ -19,12 +19,14 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 
 export default {
  computed: {
   getRoute: function(){
     return this.$route.path
-  }
- }
+  },
+  ...mapState('auth', ['user'])
+ },
 }
 </script>

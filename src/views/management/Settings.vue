@@ -3,43 +3,41 @@
   <div class="row justify-content-center mt-3">
    <div class="col-11 col-md-11 col-lg-11 col-xl-11">
     <div class="row justify-content-center">
-     <div class="col-11 col-md-12 col-lg-12 col-xl-12">
-       <h5>User Profile Image</h5>
-       <hr class="mt-2 mb-2"/>   
+     <div class="col-11 col-md-6 col-lg-6 col-xl-6">
+      <h5>Profile Image</h5>
+      <hr class="mt-2 mb-2"/>   
+        <div class="d-flex justify-content-center mt-2">
+          <b-avatar variant="secondary" v-if="user.admininfo.image" :src="`${imgURL}/${user.admininfo.image}`" size="12rem"></b-avatar>
+          <b-avatar v-else class="img-fluid" size="12rem"></b-avatar>
+        </div>
+        <label class="mt-3">Upload Image</label>
+        <VueFileAgent
+            ref="vueFileAgent"
+            @select="filesSelected($event)"
+            :multiple="false"
+            :maxSize="'3MB'"
+            :deletable="true"
+            :accept="'image/*,'"
+            :theme="'list'"
+            
+            @beforedelete="onBeforeDelete($event)"
+            @delete="fileDeleted($event)"
+            :errorText="{
+              type: 'Invalid file type. Only image file is allowed',
+              size: 'Image should not exceed 3MB in size',
+            }"
+            v-model="fileRecords"
+          ></VueFileAgent>
      </div>
      <div class="col-11 col-md-6 col-lg-6 col-xl-6">
-       <label>Upload Image</label>
-      <VueFileAgent
-          ref="vueFileAgent"
-          @select="filesSelected($event)"
-          :multiple="false"
-          :maxSize="'3MB'"
-          :deletable="true"
-          :accept="'image/*,'"
-          :theme="'list'"
-          @beforedelete="onBeforeDelete($event)"
-          @delete="fileDeleted($event)"
-          :errorText="{
-            type: 'Invalid file type. Only image file is allowed',
-            size: 'Image should not exceed 3MB in size',
-          }"
-          v-model="fileRecords"
-        ></VueFileAgent>
-     </div>
-     <div class="col-11 col-md-6 col-lg-6 col-xl-6"></div>
-     <div class="col-11 col-md-12 col-lg-12 col-xl-12 mt-4">
-       <h5>Basic Information</h5>
-       <hr class="mt-2 mb-4"/>   
-     </div>
-     <div class="col-11 col-md-6 col-lg-6 col-xl-6">
+      <h5>Basic Information</h5>
+      <hr class="mt-2 mb-4"/>   
       <label for="firstname">First Name</label>
       <input v-model="data.first_name" type="text" class="form-control" id="firstname">
       <label for="lastname">Last Name</label>
       <input v-model="data.last_name" type="text" class="form-control" id="lastname">
       <label for="contactnumber">Contact Number</label>
       <input v-model="data.contact_number" class="form-control" id="contactnumber">
-     </div>
-     <div class="col-11 col-md-6 col-lg-6 col-xl-6">
       <label for="middlename">Middle Name</label>
       <input v-model="data.middle_name" type="text" class="form-control" id="middlename">
       <label for="gender">Gender</label>
@@ -47,6 +45,8 @@
        <option value="Male">Male</option>
        <option value="Female">Female</option>
       </select>
+     </div>
+     <div class="col-11 col-md-6 col-lg-6 col-xl-6">
      </div>
     </div>
     <div class="row justify-content-center">
@@ -197,6 +197,8 @@ export default {
     }
     if(res.status == 200){
       this.$toast.success(res.data.msg)
+      this.fileRecordsForUpload = null
+      this.fileRecords = null
       this.$bvModal.hide('saveChangesModal')
       await this.$store.dispatch('auth/checkUser')
     }

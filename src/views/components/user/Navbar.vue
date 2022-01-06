@@ -15,6 +15,7 @@
       <h6 v-if="user.length != 0 && user.userinfo.organization"><small class="font-weight-400" >{{user.userinfo.organization.abbreviation ? user.userinfo.organization.abbreviation : user.userinfo.organization.name}} - {{user.userinfo.role.role}}</small></h6>
       <h6 v-if="user.length != 0 && user.userinfo.department"><small class="font-weight-400" >{{user.userinfo.role.role}}</small></h6>
       <h6 v-if="user.length != 0 && user.userinfo.role.role == 'OSA'"><small class="font-weight-400" >{{user.userinfo.role.role}}</small></h6>
+      <h6 v-if="user.length != 0 && user.userinfo.role.role == 'University Admin'"><small class="font-weight-400" >{{user.userinfo.role.role}}</small></h6>
      </div>
     </div>
     <!-- <div class="d-flex">
