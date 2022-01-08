@@ -6,7 +6,7 @@
      <div class="card p-5 mb-4">
       <div class="d-flex align-items-center">
        <div class="d-flex flex-column me-auto mt-2">
-        <h5 class="text-violet">UPDATES</h5>
+        <h5 class="text-violet">ALL UPDATES</h5>
         <p class="mb-4"><small>Manage your updates below</small></p>
        </div>
       </div>
@@ -39,34 +39,36 @@
         <caption>
          Showing
          {{
-          posts.from ?  posts.from : 0
+          allposts.from ?  allposts.from : 0
          }}
          to
          {{
-          posts.to ?  posts.to : 0
+          allposts.to ?  allposts.to : 0
          }}
          out of
          {{
-          posts.total
+          allposts.total
          }}
-         posts.
+         post.
         </caption>
         <thead>
          <tr>
           <th scope="col" class="text-nowrap">Image</th>
+          <th scope="col" class="text-nowrap">Added by</th>
           <th scope="col" class="text-nowrap">Title</th>
           <th scope="col" class="text-nowrap">Post Excerpt</th>
-          <th scope="col" class="text-nowrap" v-if="user.userinfo.role.role != 'University Admin' && user.userinfo.role.role != 'President' && user.userinfo.role.role != 'Unit Chair' && user.userinfo.role.role != 'OSA' ">Status</th>
+          <th scope="col" class="text-nowrap" v-if="user.userinfo.role.role != 'University Admin'">Status</th>
           <th scope="col" class="text-nowrap">Date Posted</th>
           <th scope="col">Actions</th>
          </tr>
         </thead>
         <tbody>
-         <tr v-if="posts.data == 0 && !initialLoading">
+         <tr v-if="allposts.data == 0 && !initialLoading">
           <td class="text-center pt-3 pb-3" colspan="6">No data available</td>
          </tr>
-         <tr v-else v-for="(post, i) in posts.data" :key="i">
+         <tr v-else v-for="(post, i) in allposts.data" :key="i">
           <td
+          class="text-nowrap"
            v-on:click.prevent="
             viewPost = post;
             $bvModal.show('viewPostModal');">
@@ -83,15 +85,17 @@
            class="text-nowrap cursor-pointer"
            v-on:click.prevent="
             viewPost = post;
+            $bvModal.show('viewPostModal');">
+           {{ post.useraccount.userinfo.first_name }} {{ post.useraccount.userinfo.last_name }}
+          </td>
+          <td
+           class="text-nowrap cursor-pointer"
+           v-on:click.prevent="
+            viewPost = post;
             $bvModal.show('viewPostModal');
            "
           >
            {{ post.postcontent.title }} <br />
-           <!-- <span class="text-muted"
-            ><small
-             >Added by: {{ post.useraccount.userinfo.first_name }} {{ post.useraccount.userinfo.last_name }}</small
-            ></span
-           > -->
           </td>
           <td
            class="cursor-pointer"
@@ -104,7 +108,7 @@
             {{ post.postcontent.post_excerpt }}
            </div>
           </td>
-          <td class="cursor-pointer" v-if="user.userinfo.role.role != 'University Admin' && user.userinfo.role.role != 'President' && user.userinfo.role.role != 'Unit Chair' && user.userinfo.role.role != 'OSA' ">
+          <td class="cursor-pointer" v-if="user.userinfo.role.role != 'University Admin'">
            <b-badge :variant="post.status == 'Approved' ? 'success rounded-pill' : 'info rounded-pill'">{{
             post.status
            }}</b-badge>
@@ -145,8 +149,8 @@
         </tbody>
        </table>
       </div>
-      <div class="row mt-3" v-if="posts.data">
-       <pagination :showDisabled="true" :align="'right'" :data="posts">
+      <div class="row mt-3" v-if="allposts.data">
+       <pagination :showDisabled="true" :align="'right'" :data="allposts">
         <span slot="prev-nav">&laquo;</span>
         <span slot="next-nav">&raquo;</span>
        </pagination>
@@ -240,13 +244,13 @@
   },
   computed: {
    ...mapState('auth', ['user']),
-   ...mapState('post', ['posts', 'post_types']),
+   ...mapState('post', ['allposts', 'post_types']),
   },
   async mounted() {
    document.title = 'Info Kiosk - Post Management';
    this.initialLoading = true;
    await this.checkAuthUser();
-   await this.$store.dispatch('post/getPost', 1);
+   await this.$store.dispatch('post/getAllPost', 1);
    this.initialLoading = false;
   },
   methods: {
@@ -285,7 +289,7 @@
     this.isSearching = false;
    },
    async getPost(page) {
-    await this.$store.dispatch('post/getPost', page);
+    await this.$store.dispatch('post/getAllPost', page);
    },
    postSearch(page = 1) {
     if (this.search_post == '') {

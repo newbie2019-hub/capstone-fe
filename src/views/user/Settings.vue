@@ -10,8 +10,8 @@
           <b-avatar variant="secondary" v-if="user.userinfo.image" :src="`${imgURL}/${user.userinfo.image}`" size="12rem"></b-avatar>
           <b-avatar v-else class="img-fluid" size="12rem"></b-avatar>
         </div>
-        <h5>Profile Image</h5>
-        <hr class="mt-2 mb-2"/>   
+        <!-- <h5>Profile Image</h5>
+        <hr class="mt-2 mb-2"/>    -->
         <label class="mt-3">Upload Image</label>
         <VueFileAgent
             ref="vueFileAgent"

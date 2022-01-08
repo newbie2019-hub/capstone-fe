@@ -35,6 +35,7 @@ const ArchiveAccounts = () => import('../views/management/ArchivedAccounts.vue')
 const Faqs = () => import('../views/management/Faqs.vue')
 const User = () => import('../views/user/Index.vue')
 const UserActivityLog = () => import('../views/user/ActivityLog.vue')
+const AllPost = () => import('../views/user/AllPost.vue')
 const Post = () => import('../views/user/Post.vue')
 const DepartmentOrganization = () => import('../views/user/organization/Organization.vue')
 const CreatePost = () => import('../views/user/post/NewPost.vue')
@@ -282,6 +283,13 @@ const routes = [
         name: 'post',
         components: {
           post: Post
+        }
+      },
+      {
+        path: 'posts/all',
+        name: 'allpost',
+        components: {
+          allpost: AllPost
         }
       },
       {

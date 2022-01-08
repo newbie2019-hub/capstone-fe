@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     posts: [],
+    allposts: [],
     post_types: [],
     updatepost: [],
   },
@@ -11,9 +12,9 @@ export default {
   },
   mutations: {
     APPROVE_POST(state, data) {
-      for(let i = 0; i < state.posts.data.length; i++){
-        if(state.posts.data[i].id == data.id){
-          state.posts.data[i].status = 'Approved'
+      for(let i = 0; i < state.allposts.data.length; i++){
+        if(state.allposts.data[i].id == data.id){
+          state.allposts.data[i].status = 'Approved'
         }
       }
     },
@@ -22,6 +23,9 @@ export default {
     },
     SET_POST(state, data) {
       state.posts = data
+    },
+    SET_ALL_POST(state, data) {
+      state.allposts = data
     },
     PUSH_NEW_POST(state, data){
       state.posts.data.push(data)
@@ -36,6 +40,17 @@ export default {
     async getPost({commit}, page){
       const res = await API.get(`/user/posts?page=${page}`).then(res => {
         commit('SET_POST', res.data)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
+    async getAllPost({commit}, page){
+      const res = await API.get(`/user/allposts?page=${page}`).then(res => {
+        commit('SET_ALL_POST', res.data)
 
         return res;
       }).catch(err => {
