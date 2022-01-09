@@ -7,6 +7,7 @@ export default {
     allposts: [],
     post_types: [],
     updatepost: [],
+    imageupdates: [],
   },
   getters: {
   },
@@ -20,6 +21,9 @@ export default {
     },
     SET_UPDATE_POST(state, data){
       state.updatepost = data
+    },
+    SET_IMAGE_POSTS(state, data) {
+      state.imageupdates = data
     },
     SET_POST(state, data) {
       state.posts = data
@@ -35,8 +39,35 @@ export default {
         return posts.id !== id;
       });
     },
+    DELETE_IMAGE_POST(state, id){
+      state.imageupdates = state.imageupdates.filter(imgpost => {
+        return imgpost.id !== id;
+      });
+    },
   },
   actions: {
+    async getImageUpdates({commit}, page){
+      const res = await API.get(`/user/posts/images?page=${page}`).then(res => {
+        commit('SET_IMAGE_POSTS', res.data)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
+    async deleteImagePost({commit}, id){
+      const res = await API.delete(`/user/posts/images/${id}`).then(res => {
+        commit('DELETE_IMAGE_POST', id)
+
+        return res;
+      }).catch(err => {
+       return err.response;
+      })
+
+      return res;
+    },
     async getPost({commit}, page){
       const res = await API.get(`/user/posts?page=${page}`).then(res => {
         commit('SET_POST', res.data)

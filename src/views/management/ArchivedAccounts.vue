@@ -21,8 +21,7 @@
           v-model="search_organization"
           class="form-control"
           id="floatingSearchDep"
-          placeholder="Search here"
-         />
+          placeholder="Search here"/>
          <label for="floatingSearchDep" class="">Search</label>
          <button @click.prevent="organizationSearch" class="btn btn-purple"><i class="bi bi-search"></i></button>
         </div>
