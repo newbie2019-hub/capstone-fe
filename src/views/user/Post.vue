@@ -1,5 +1,9 @@
 <template>
  <div>
+  <div class="img-selected" v-if="hasImgPopup" @click.prevent="hasImgPopup = false">
+    <div class="img-selected--close">Click anywhere to close</div>
+    <img :src="`http://127.0.0.1:8000/uploads/${imgPopup}`" alt="">
+  </div>
   <div class="container pe-0 pe-sm-0 pe-md-2 pe-lg-4 pe-xl-4">
    <div class="row justify-content-center mt-3">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -158,7 +162,7 @@
           </template>
           <template #cell(actions)="row">
            <div class="d-flex">
-              <b-button variant="success" size="sm" class="me-2">
+              <b-button @click.prevent="$bvModal.show('viewImageModal'); selectedImgs = row.item" variant="success" size="sm" class="me-2">
                 View
               </b-button>
               <b-button variant="danger" size="sm" class="" @click.prevent="deletePost = row.item.id; $bvModal.show('deleteImageUpdateModal')">
@@ -181,6 +185,17 @@
     </div>
    </div>
   </div>
+
+  <b-modal id="viewImageModal" scrollable centered title="Images">
+    <div class="row">
+      <div class="col-6" v-for="(img, i) in selectedImgs.images" :key="i">
+        <img @click.prevent="imgPopup = img.image; hasImgPopup = true" class="img-fluid me-2 cursor-pointer" height="200" width="200" :src="`http://127.0.0.1:8000/uploads/${img.image}`" />
+      </div>
+    </div>
+    <template #modal-footer="{cancel}">
+     <b-button variant="primary" @click="cancel()"> Cancel </b-button>
+    </template>
+  </b-modal>
 
   <b-modal id="deleteImageUpdateModal" centered title="Confirm Delete">
    <p class="">Are you sure to delete this post? This will delete all its images as well</p>
@@ -239,6 +254,11 @@
  export default {
   data() {
    return {
+    hasImgPopup: false,
+    imgPopup: '',
+    selectedImgs: {
+      image: '',
+    },
     currentPage: 1,
     selectedImageUpdate: '',
     viewPost: {
@@ -354,3 +374,33 @@
   },
  };
 </script>
+<style>
+.img-selected {
+  position: fixed;
+  display: flex;
+  inset: 0;
+  z-index: 99999;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: rgba(12, 12, 12, 0.822)
+}
+
+.img-selected img{
+  height: 100%;
+  width: auto;
+  padding: 2rem 0rem;
+  object-fit: contain;
+}
+
+.img-selected--close {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 2rem;
+  color: white;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+</style>
