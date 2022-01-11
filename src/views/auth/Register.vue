@@ -4,26 +4,24 @@
       <div class="row p-0 m-0 h-100 justify-content-center align-items-center">
         <div class="col-12 col-md-6 col-lg-7 col-xl-7 hero-bg">
           <div class="content-end">
-            <h3 class="fw-600">Touch-less</h3>
-            <p >Switching to touchless reduces common touchpoints, helping safeguard against the spread of viruses.</p>
+            <h3 class="fw-600">Information Kiosk Management</h3>
+            <p class="mt-3">Navigate the system without the need to touch. Explore what can be done with hand tracking technology. Everything is processed locally and no webcam data is being sent or stored to our server.</p>
           </div>
         </div>
         <div class="col-12 col-md-6 col-lg-5 col-xl-5">
           <div class="row h-100 justify-content-center ">
-            <div class="col-9 col-md-7 col-lg-8 col-xl-7">
-                <h6 class="fw-600 text-end mb-5"><a v-on:click.prevent="$router.push('/')" href="" class="btn-reg text-decoration-none">Login</a></h6>
-              
+            <div class="col-9 col-md-7 col-lg-8 col-xl-7">              
                 <h5 class="fw-600">Register</h5>
-                <p class="lh-r mt-4" v-if="currentStep != 3">Welcome, We need some of your informations.</p>
+                <p class="lh-r mt-3" v-if="currentStep != 3">Welcome, We need some of your informations.</p>
                 <div v-if="currentStep == 0">
-                  <div class="form-floating mb-4 mt-4">
+                  <div class="form-floating mb-3 mt-4">
                     <input v-model="data.first_name" :class="validated.first_name ? '' : 'is-invalid'" type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
                     <label for="floatingInput">First Name</label>
                     <div class="invalid-feedback">
                       First Name is required
                     </div>
                   </div>
-                  <div class="form-floating mb-4">
+                  <div class="form-floating mb-3">
                     <input v-model="data.middle_name" type="text" class="form-control" id="floatingMiddleName" placeholder="Password">
                     <label for="floatingPassword">Middle Name</label>
                   </div>
@@ -128,7 +126,7 @@
                   <button href="" class="btn btn-sm btn-purple me-2" v-on:click.prevent="prevStep" :disabled="currentStep == 0 || isLoading" >Previous</button>
                   <button href="" class="btn btn-sm btn-purple me-3 me-xl-5 me-md-3 me-lg-3 me-xl-4" v-on:click.prevent="nextStep" :disabled="currentStep == 3">Next</button>
                   <button class="btn btn-sm btn-purple me-3" v-on:click="create" v-if="currentStep == 3" :disabled="isLoading"><i class="bi bi-person-circle"></i> Sign-up</button>
-                  <a href="/" class="btn btn-sm btn-purple" v-if="currentStep == 0"><i class="bi bi-person-circle"></i> Login</a>
+                  <a href="/"  v-on:click.prevent="$router.push('/')" class="btn btn-sm btn-purple" v-if="currentStep == 0"><i class="bi bi-person-circle"></i> Login</a>
                 </div>
                 <step-progress :steps="mySteps" :active-color="'mediumslateblue'" :line-thickness="3" :active-thickness="3" :passive-thickness="3" :passive-color="'gray'" :current-step="currentStep" icon-class="bi bi-check"></step-progress>
             </div>
