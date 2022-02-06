@@ -14,14 +14,14 @@
                 <h5 class="fw-600">Register</h5>
                 <p class="lh-r mt-3" v-if="currentStep != 3">Welcome, We need some of your informations.</p>
                 <div v-if="currentStep == 0">
-                  <div class="form-floating mb-3 mt-4">
+                  <div class="form-floating mb-4 mt-4">
                     <input v-model="data.first_name" :class="validated.first_name ? '' : 'is-invalid'" type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
                     <label for="floatingInput">First Name</label>
                     <div class="invalid-feedback">
                       First Name is required
                     </div>
                   </div>
-                  <div class="form-floating mb-3">
+                  <div class="form-floating mb-4">
                     <input v-model="data.middle_name" type="text" class="form-control" id="floatingMiddleName" placeholder="Password">
                     <label for="floatingPassword">Middle Name</label>
                   </div>
@@ -122,7 +122,7 @@
                 <div class="mb-5" v-if="currentStep == 3">
                   <p class="mt-4">After signing up your account will still be on pending state. Please wait for the approval of the system administrator</p>
                 </div>
-                <div class="d-flex ">
+                <div class="d-flex">
                   <button href="" class="btn btn-sm btn-purple me-2" v-on:click.prevent="prevStep" :disabled="currentStep == 0 || isLoading" >Previous</button>
                   <button href="" class="btn btn-sm btn-purple me-3 me-xl-5 me-md-3 me-lg-3 me-xl-4" v-on:click.prevent="nextStep" :disabled="currentStep == 3">Next</button>
                   <button class="btn btn-sm btn-purple me-3" v-on:click="create" v-if="currentStep == 3" :disabled="isLoading"><i class="bi bi-person-circle"></i> Sign-up</button>
@@ -187,7 +187,7 @@ export default {
     ...mapState('auth', ['signup']),
     filteredRoles() {
       return this.signup.organization_roles.filter(role => {
-         return role.role != 'Organization Adviser' && role.role != 'OSA'
+         return role.role != 'Organization Adviser' && role.role != 'OSA' && role.role != 'University Admin'
       })
     }
   },

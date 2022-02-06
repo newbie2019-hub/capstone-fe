@@ -379,7 +379,7 @@
   position: fixed;
   display: flex;
   inset: 0;
-  z-index: 99999;
+  z-index: 99999 ;
   justify-content: center;
   align-items: center;
   width: 100%;

@@ -115,10 +115,10 @@
                     <td>{{role.created_at | moment}}</td>
                     <td>
                       <div class="d-flex">
-                        <button :disabled="isLoading" v-on:click.prevent="role_update = {...role}; $bvModal.show('updateRoleModal')" href="" v-b-tooltip.hover title="Update" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
+                        <button v-if="role.role != 'OSA'" :disabled="isLoading" v-on:click.prevent="role_update = {...role}; $bvModal.show('updateRoleModal')" href="" v-b-tooltip.hover title="Update" class="btn btn-sm btn-success rounded-pill btn-approve me-2" >
                           <i class="bi bi-pencil-square"></i>
                         </button>
-                        <button :disabled="isLoading" v-on:click.prevent="delete_id = role.id; $bvModal.show('deleteModal')" href="" v-b-tooltip.hover title="Delete" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
+                        <button v-if="role.role != 'OSA'" :disabled="isLoading" v-on:click.prevent="delete_id = role.id; $bvModal.show('deleteModal')" href="" v-b-tooltip.hover title="Delete" class="btn btn-sm btn-danger rounded-pill btn-approve me-2" >
                           <i class="bi bi-trash"></i>
                           <div v-if="isLoading" class="spinner-grow text-light spinner-grow-sm" role="status">
                             <span class="visually-hidden">Loading...</span>

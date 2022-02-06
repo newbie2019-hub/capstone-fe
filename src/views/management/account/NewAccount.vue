@@ -228,7 +228,7 @@ export default {
     this.initialLoading = true
     this.$store.dispatch('auth/checkUser')
     await this.getSignUpInfo();
-
+    document.title = "Create New Account"
     this.initialLoading = false
   },
   methods: {
@@ -257,6 +257,7 @@ export default {
      },
    async saveAccount(){
      this.validateFields()
+     console.log(this.isValid)
      if(this.isValid){
        this.isLoading = true
        this.data.emailNotif = this.emailNotif
@@ -282,7 +283,12 @@ export default {
          this.isLoading = false
       }
       else if(res.status == 422){
-        this.$toast.error(res.data.msg); 
+        if(res.data.msg[0]){
+          this.$toast.error(res.data.msg[0]); 
+        }
+        else {
+          this.$toast.error(res.data.msg); 
+        }
       }
       else {
         this.showError(res.data)
@@ -404,6 +410,8 @@ export default {
         }
       }
     }
+
+    console.log(errors)
     if(errors.length != 0){
       errors.forEach(err => {
         if(this.data.account_type == 'Department'){
