@@ -172,7 +172,7 @@ export default {
    },
    async saveChanges(){
     if(this.data.first_name.trim() == '') return this.$toast.error('First Name is required')
-    if(this.data.middle_name.trim() == '') return this.$toast.error('Middle Name is required')
+    // if(this.data.middle_name.trim() == '') return this.$toast.error('Middle Name is required')
     if(this.data.last_name.trim() == '') return this.$toast.error('Last Name is required')
     if(this.data.gender == '') return this.$toast.error('Gender is required')
     if(this.data.contact_number == '') return this.$toast.error('Contact Number is required')
